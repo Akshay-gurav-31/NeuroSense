@@ -161,16 +161,16 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
       <h2 className={`text-xs font-black uppercase tracking-[0.4em] mb-8 ${darkMode ? 'text-[#48c1cf]' : 'text-blue-600'}`}>Inbound Telemetry Requests</h2>
       {pendingRequests.length === 0 ? (
         <div className={`py-20 text-center rounded-[3rem] ${darkMode ? 'glass-medical' : 'bg-slate-50 border border-slate-200'}`}>
-          <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">No pending handshakes found.</p>
+          <p className="text-slate-400 dark:text-white font-bold uppercase tracking-widest text-xs">No pending handshakes found.</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {pendingRequests.map(req => (
-            <div key={req.id} className="bg-white dark:bg-[#0B1221] p-8 rounded-[2.5rem] border border-transparent dark:border-white/10 shadow-lg flex items-center justify-between transition-all">
+            <div key={req.id} className={`p-8 rounded-[2.5rem] border shadow-lg flex items-center justify-between transition-all ${darkMode ? 'bg-[#0B1221] border-white/10' : 'bg-white border-slate-200'}`}>
               <div>
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Patient Request</p>
+                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 dark:text-white mb-1">Patient Request</p>
                 <p className="text-xl font-black text-[#1a365d] dark:text-white mb-1">{getPatientName(req.patientId)}</p>
-                <p className="text-[8px] font-bold text-slate-400 uppercase tracking-widest opacity-50">ID: {req.patientId}</p>
+                <p className="text-[8px] font-bold text-slate-400 dark:text-white uppercase tracking-widest opacity-50 dark:opacity-100">ID: {req.patientId}</p>
               </div>
               <button
                 onClick={() => onAcceptConnection(req.id)}
@@ -187,22 +187,22 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
 
   const renderAuthorizedView = () => (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <h2 className={`text-xs font-black uppercase tracking-[0.4em] mb-8 ${darkMode ? 'text-[#48c1cf]' : 'text-blue-600'}`}>Managed Patient Cohort</h2>
+      <h2 className={`text-xs font-black uppercase tracking-[0.4em] mb-8 ${darkMode ? 'text-white' : 'text-blue-600'}`}>Managed Patient Cohort</h2>
       {authorizedPatients.length === 0 ? (
         <div className={`py-20 text-center rounded-[3rem] ${darkMode ? 'glass-medical' : 'bg-slate-50 border border-slate-200'}`}>
-          <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">No authorized patients linked yet.</p>
+          <p className="text-slate-400 dark:text-white font-bold uppercase tracking-widest text-xs">No authorized patients linked yet.</p>
         </div>
       ) : (
-        <div className="bg-white dark:bg-[#0B1221] rounded-[2.5rem] border border-transparent dark:border-white/10 overflow-hidden shadow-xl">
+        <div className={`rounded-[2.5rem] border overflow-hidden shadow-xl ${darkMode ? 'bg-[#0B1221] border-white/10' : 'bg-white border-slate-200'}`}>
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
                 <tr className="border-b border-slate-100 dark:border-white/5">
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Patient Identity</th>
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Patient ID</th>
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Handshake Date</th>
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400">Status</th>
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 text-right">Actions</th>
+                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white">Patient Identity</th>
+                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white">Patient ID</th>
+                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white">Handshake Date</th>
+                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white">Status</th>
+                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-white/5">
@@ -216,8 +216,8 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
                         <span className="text-sm font-black text-[#1a365d] dark:text-white uppercase tracking-tight">{getPatientName(p.patientId)}</span>
                       </div>
                     </td>
-                    <td className="px-8 py-5 text-[10px] clinical-mono font-bold text-slate-400 tracking-widest">{p.patientId}</td>
-                    <td className="px-8 py-5 text-xs text-slate-400 font-semibold">{new Date(p.timestamp).toLocaleDateString()}</td>
+                    <td className="px-8 py-5 text-[10px] clinical-mono font-bold text-slate-400 dark:text-white tracking-widest">{p.patientId}</td>
+                    <td className="px-8 py-5 text-xs text-slate-400 dark:text-white font-semibold">{new Date(p.timestamp).toLocaleDateString()}</td>
                     <td className="px-8 py-5">
                       <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest ${darkMode ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-500/10 text-emerald-600'}`}>ACTIVE PORTAL</span>
                     </td>
@@ -324,9 +324,9 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
             {activeTab === 'patients' && renderAuthorizedView()}
             {activeTab === 'alerts' && renderRequestsView()}
             {activeTab === 'reports' && (
-              <div className="p-10 rounded-[3rem] border border-transparent dark:border-white/10 bg-white dark:bg-[#0B1221] shadow-xl animate-in fade-in duration-500">
+              <div className={`p-10 rounded-[3rem] border shadow-xl animate-in fade-in duration-500 ${darkMode ? 'bg-[#0B1221] border-white/10' : 'bg-white border-slate-200'}`}>
                 <h2 className="text-2xl font-black mb-8 text-[#1a365d] dark:text-white uppercase tracking-tighter">Cohort Statistical Synthesis</h2>
-                <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed italic border-l-4 border-[#48c1cf] pl-6 py-2">
+                <p className="text-sm font-medium text-slate-500 dark:text-white leading-relaxed italic border-l-4 border-[#48c1cf] pl-6 py-2">
                   Aggregate reports for linked patients will appear here after kinematic data sync. System is currently analyzing 3 active recovery vectors.
                 </p>
               </div>
