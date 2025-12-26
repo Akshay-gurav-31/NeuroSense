@@ -96,7 +96,7 @@ High-precision monitoring tools for medical professionals.
         <div style="background-color: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 24px; width: 280px; min-height: 480px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <img src="./public/Images/Team/Akshay-Gurav.png" width="120" style="border-radius: 50%; border: 3px solid #58a6ff; margin-bottom: 16px;" alt="Akshay Gurav" />
           <h3 style="margin: 0; color: #f0f6fc;">Akshay Gurav</h3>
-          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">He/Him</p>
+          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">Developer</p>
           <p style="color: #8b949e; font-size: 0.85em; line-height: 1.6; text-align: center;">
             Ex–Intern@Curetopia (USA) | Data Science & AI/ML | Power BI & Excel | NEC (IIT-Bombay) E-Cell Finalist'25 | Hackathons (Dev & Leader) | Web Dev & SQL | LLM's-RAG | Ex-VP @ E-Cell | CA @ IIT-B '24 & '25 | Open Source
           </p>
