@@ -51,8 +51,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                                 <Icons.User size={24} />
                             </div>
                             <div className="flex flex-col items-start pr-4">
-                                <span className="text-white font-[950] uppercase tracking-[0.2em] text-[11px]">Start Recovery</span>
-                                <span className="text-white/30 text-[9px] font-bold uppercase tracking-widest mt-0.5">Patient Portal</span>
+                                <span className="text-white font-[950] uppercase tracking-[0.2em] text-sm">PATIENT</span>
+                                <span className="text-white/40 text-[10px] font-bold uppercase tracking-widest mt-0.5">Start Recovery Journey</span>
                             </div>
                         </button>
 
@@ -60,12 +60,12 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                             onClick={() => onSelectRole(UserRole.DOCTOR)}
                             className="group w-full sm:w-auto flex items-center gap-4 glass-ui p-2 pr-10 rounded-full border border-prism-text/5 hover:bg-white/10 hover:scale-[1.05] active:scale-95 transition-all shadow-lg"
                         >
-                            <div className="w-14 h-14 bg-white/10 dark:bg-white/5 border border-white/10 rounded-full flex items-center justify-center text-prism-text dark:text-white group-hover:rotate-12 transition-transform duration-500">
+                            <div className="w-14 h-14 bg-emerald-500/20 dark:bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:rotate-12 transition-transform duration-500">
                                 <Icons.Activity size={24} />
                             </div>
                             <div className="flex flex-col items-start pr-4">
-                                <span className="text-prism-text dark:text-white font-[950] uppercase tracking-[0.2em] text-[11px]">Clinician Hub</span>
-                                <span className="text-prism-text/30 dark:text-white/20 text-[9px] font-bold uppercase tracking-widest mt-0.5">Clinical Protocol</span>
+                                <span className="text-prism-text dark:text-white font-[950] uppercase tracking-[0.2em] text-sm">DOCTOR</span>
+                                <span className="text-prism-text/40 dark:text-white/30 text-[10px] font-bold uppercase tracking-widest mt-0.5">Clinical Dashboard</span>
                             </div>
                         </button>
                     </div>
