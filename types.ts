@@ -29,6 +29,7 @@ export interface UserAccount {
   id: string;
   name: string;
   email: string;
+  avatarUrl?: string;
   phone: string;
   password?: string;
   role: UserRole;
@@ -42,12 +43,14 @@ export interface UserAccount {
 }
 
 export interface PatientProfile extends UserAccount {
-  caseId: string;
+  // Specific fields guaranteed for patient
+  caseId?: string;
 }
 
 export interface DoctorProfile extends UserAccount {
-  licenseId: string;
-  isVerified: boolean;
+  // Specific fields guaranteed for doctor
+  licenseId?: string;
+  isVerified?: boolean;
 }
 
 export interface SessionResult {

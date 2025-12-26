@@ -97,6 +97,15 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                             <input name="email" required type="email" className="w-full pl-14 pr-8 py-3.5 rounded-xl outline-none font-bold text-sm bg-slate-50 dark:bg-white/5 border border-transparent focus:border-prism-accent transition-all dark:text-white" placeholder="Network ID / Email" />
                         </div>
 
+                        {authMode === 'REGISTER' && (
+                            <div className="relative group">
+                                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-prism-text/30 group-focus-within:text-prism-accent transition-colors">
+                                    <Icons.Phone size={18} />
+                                </div>
+                                <input name="phone" type="tel" className="w-full pl-14 pr-8 py-3.5 rounded-xl outline-none font-bold text-sm bg-slate-50 dark:bg-white/5 border border-transparent focus:border-prism-accent transition-all dark:text-white" placeholder="Contact Number (Optional)" />
+                            </div>
+                        )}
+
                         <div className="relative group">
                             <div className="absolute left-5 top-1/2 -translate-y-1/2 text-prism-text/30 group-focus-within:text-prism-accent transition-colors">
                                 <Icons.Lock size={18} />

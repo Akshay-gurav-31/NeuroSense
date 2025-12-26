@@ -83,6 +83,9 @@ const App: React.FC = () => {
       const interval = setInterval(fetchData, 5000); // 5s poll for mock real-time
       return () => clearInterval(interval);
     }
+  }, [user]);
+
+  useEffect(() => {
     localStorage.setItem('ns_theme', darkMode ? 'dark' : 'light');
 
     if (darkMode) {
@@ -90,7 +93,7 @@ const App: React.FC = () => {
     } else {
       document.documentElement.classList.remove('dark');
     }
-  }, [user, darkMode]);
+  }, [darkMode]);
 
   const handleAuthSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -102,26 +105,54 @@ const App: React.FC = () => {
 
     try {
       if (authMode === 'LOGIN') {
-        const foundUser = await dataService.login(email, password);
-        if (foundUser) {
-          if (foundUser.role === selectedRole) {
-            setUser(foundUser);
-            setRole(foundUser.role);
-            setAuthMode(null);
-          } else {
-            setAuthError(`This account is registered as a ${foundUser.role}, not a ${selectedRole}.`);
+        const result = await dataService.login(email, password);
+
+        // Handle error cases first
+        if (!result) {
+          setAuthError("Database connection error. Please try again.");
+        } else if ('error' in result) {
+          // Specific error types
+          if (result.error === 'EMAIL_NOT_FOUND') {
+            setAuthError("Account not found. Please check your email or register.");
+          } else if (result.error === 'WRONG_PASSWORD') {
+            setAuthError("Incorrect password. Please try again.");
           }
         } else {
-          setAuthError("Invalid email or password.");
+          // Now TypeScript knows result is definitely UserAccount
+          if (result.role === selectedRole) {
+            setUser(result);
+            setRole(result.role);
+            setAuthMode(null);
+          } else {
+            setAuthError(`This account is registered as a ${result.role}, not a ${selectedRole}.`);
+          }
         }
       } else {
+        const phoneInput = formData.get('phone') as string;
+        let validPhone = "N/A";
+
+        if (phoneInput) {
+          // Lazy import for util if needed, or better to top-level import. Doing inline given the context, 
+          // or assume top-level import added. I will add top-level import in next step or use require if safer.
+          // Using explicit logic here to be safe and fast without moving imports around too much:
+          const { validatePhoneNumber } = await import('./utils/validation');
+          const validation = validatePhoneNumber(phoneInput);
+
+          if (!validation.isValid) {
+            setAuthError(validation.error || "Invalid phone number");
+            setIsAuthenticating(false);
+            return;
+          }
+          validPhone = validation.value;
+        }
+
         const userId = `UID-${Math.random().toString(36).substr(2, 7).toUpperCase()}`;
         const newUser: UserAccount = {
           id: userId,
           name: formData.get('name') as string,
           email: email,
           password: password,
-          phone: formData.get('phone') as string || "N/A",
+          phone: validPhone,
           role: selectedRole!,
           startDate: new Date().toISOString(),
           licenseId: formData.get('licenseId') as string || undefined,
@@ -184,7 +215,8 @@ const App: React.FC = () => {
     return (
       <div className="fixed inset-0 z-[999] bg-white dark:bg-black flex flex-col items-center justify-center p-8 text-center transition-all duration-1000">
         <div className="w-16 h-16 border-[3px] border-prism-accent border-t-transparent rounded-full animate-spin mb-8"></div>
-        <h2 className="text-3xl font-[950] text-prism-dark dark:text-white tracking-tighter uppercase">Ending Session</h2>
+        <h2 className="text-3xl font-[950] text-prism-dark dark:text-white tracking-tighter uppercase mb-3">Ending Session</h2>
+        <p className="text-sm font-medium text-slate-500 dark:text-slate-400 tracking-wide">Securing your data and logging out safely...</p>
       </div>
     );
   }
@@ -222,6 +254,17 @@ const App: React.FC = () => {
 
   const renderView = () => {
     if (role === UserRole.DOCTOR) {
+      if (currentView === 'profile') {
+        return <ProfileView
+          profile={user as DoctorProfile}
+          onLogout={handleLogout}
+          darkMode={darkMode}
+          onUpdate={(updatedUser) => {
+            setUser(updatedUser);
+            localStorage.setItem('ns_user', JSON.stringify(updatedUser));
+          }}
+        />;
+      }
       return (
         <DoctorDashboard
           activeTab={currentView === 'dashboard' ? 'patients' : currentView}
@@ -257,7 +300,15 @@ const App: React.FC = () => {
       }} patientId={user?.id || ''} />;
       case 'therapy': return <TherapyLibrary onStartTherapy={(t: TherapyType) => setActiveExercise(t)} darkMode={darkMode} />;
       case 'progress': return <ProgressStats history={history} darkMode={darkMode} />;
-      case 'profile': return <ProfileView profile={user as PatientProfile} onLogout={handleLogout} darkMode={darkMode} />;
+      case 'profile': return <ProfileView
+        profile={user as PatientProfile}
+        onLogout={handleLogout}
+        darkMode={darkMode}
+        onUpdate={(updatedUser) => {
+          setUser(updatedUser);
+          localStorage.setItem('ns_user', JSON.stringify(updatedUser));
+        }}
+      />;
       default: return <PatientDashboard profile={user as PatientProfile} history={history} onStartTherapy={(t: TherapyType) => setActiveExercise(t)} darkMode={darkMode} />;
     }
   };

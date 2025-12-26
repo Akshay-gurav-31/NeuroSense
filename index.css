@@ -100,6 +100,16 @@ body {
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
+  .pill-header {
+    @apply bg-white border-slate-200 text-slate-900 shadow-2xl;
+  }
+
+  .dark .pill-header {
+    @apply border-transparent text-white;
+    background: linear-gradient(90deg, #020617 0%, #0F172A 10%, #172554 45%, #1d4ed8 50%, #172554 55%, #0F172A 90%, #020617 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
   .ambient-blue-glow {
     position: absolute;
     width: 600px;
@@ -113,7 +123,7 @@ body {
   .dashboard-card {
     @apply rounded-3xl p-6 relative overflow-hidden transition-all duration-300;
     @apply bg-white dark:bg-[#0B1221];
-    @apply border border-slate-200 dark:border-white/5;
+    @apply border border-slate-200 dark:border-white/10;
     @apply shadow-md dark:shadow-none;
   }
 

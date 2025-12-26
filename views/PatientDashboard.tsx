@@ -36,7 +36,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
         </div>
 
         <div className="flex gap-4 w-full lg:w-auto">
-          <div className="flex-1 lg:min-w-[160px] bg-white dark:bg-[#080808] border border-slate-200 dark:border-white/5 p-6 rounded-[2.5rem] text-center shadow-lg transition-colors duration-500">
+          <div className="flex-1 lg:min-w-[160px] bg-white dark:bg-[#080808] border border-slate-200 dark:border-white/10 p-6 rounded-[2.5rem] text-center shadow-lg transition-colors duration-500">
             <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-2">Stability</p>
             <p className="text-3xl font-black text-slate-900 dark:text-white">96.8%</p>
           </div>
@@ -48,7 +48,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
       </header>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
-        <section className="xl:col-span-2 bg-white dark:bg-[#080808] rounded-[3.5rem] p-8 lg:p-12 relative overflow-hidden border border-slate-200 dark:border-white/5 shadow-xl group transition-colors duration-500">
+        <section className="xl:col-span-2 bg-white dark:bg-[#080808] rounded-[3.5rem] p-8 lg:p-12 relative overflow-hidden border border-slate-200 dark:border-white/10 shadow-xl group transition-colors duration-500">
           <div className="relative z-10">
             <h2 className="text-[10px] font-[900] uppercase tracking-[0.4em] text-slate-400 mb-10">Historical Synthesis</h2>
 
@@ -62,12 +62,12 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-10 border-t border-slate-100 dark:border-white/5">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-10 border-t border-slate-100 dark:border-white/10">
               <div className="space-y-1">
                 <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Node Status</p>
                 <p className="text-2xl font-black text-emerald-500 uppercase tracking-tight">Optimal</p>
               </div>
-              <div className="md:col-span-3 p-6 bg-slate-50 dark:bg-white/[0.02] rounded-[2rem] border border-slate-100 dark:border-white/5">
+              <div className="md:col-span-3 p-6 bg-slate-50 dark:bg-white/[0.02] rounded-[2rem] border border-slate-100 dark:border-white/10">
                 <p className="text-base font-medium leading-[1.6] text-slate-600 dark:text-slate-300 italic">"Neural plasticity markers are trending high. Stage 3 progression recommended."</p>
               </div>
             </div>
@@ -75,7 +75,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
         </section>
 
         <section className="h-full">
-          <div className="bg-slate-900 dark:bg-[#0c0c0c] rounded-[3.5rem] p-10 text-white shadow-2xl relative overflow-hidden h-full flex flex-col justify-between border border-slate-800 dark:border-white/5 transition-colors duration-500">
+          <div className="bg-slate-900 dark:bg-[#0c0c0c] rounded-[3.5rem] p-10 text-white shadow-2xl relative overflow-hidden h-full flex flex-col justify-between border border-slate-800 dark:border-white/10 transition-colors duration-500">
             <div className="relative z-10">
               <div className="w-14 h-14 bg-white/10 rounded-2xl flex items-center justify-center mb-10 border border-white/10">
                 <Icons.Activity />
@@ -103,15 +103,15 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
             <div
               key={idx}
               onClick={() => onStartTherapy(task.type)}
-              className="group cursor-pointer bg-white dark:bg-[#080808] p-10 rounded-[3rem] border border-slate-200 dark:border-white/5 hover:border-[#BEF264] dark:hover:border-[#BEF264] transition-all flex flex-col items-start relative overflow-hidden shadow-md"
+              className="group cursor-pointer bg-white dark:bg-[#080808] p-10 rounded-[3rem] border border-slate-200 dark:border-white/10 hover:border-[#BEF264] dark:hover:border-[#BEF264] transition-all flex flex-col items-start relative overflow-hidden shadow-md"
             >
-              <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-[#BEF264] flex items-center justify-center mb-8 group-hover:bg-[#BEF264] group-hover:text-slate-900 transition-all border border-slate-100 dark:border-white/5">
+              <div className="w-16 h-16 rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-[#BEF264] flex items-center justify-center mb-8 group-hover:bg-[#BEF264] group-hover:text-slate-900 transition-all border border-slate-100 dark:border-white/10">
                 {task.icon}
               </div>
               <h3 className="text-2xl font-[1000] tracking-tighter mb-2 text-slate-900 dark:text-white leading-none transition-colors duration-500">{task.title}</h3>
               <p className="text-slate-500 dark:text-slate-400 text-xs font-medium mb-12 leading-relaxed max-w-[90%]">{task.desc}</p>
 
-              <div className="w-full pt-8 border-t border-slate-100 dark:border-white/5 flex items-center justify-between group-hover:text-[#BEF264] transition-colors">
+              <div className="w-full pt-8 border-t border-slate-100 dark:border-white/10 flex items-center justify-between group-hover:text-[#BEF264] transition-colors">
                 <span className="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">INITIALIZE</span>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" className="group-hover:translate-x-2 transition-transform"><path d="m9 18 6-6-6-6" /></svg>
               </div>
