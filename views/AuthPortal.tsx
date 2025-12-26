@@ -118,7 +118,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                             onClick={() => { setAuthMode(authMode === 'LOGIN' ? 'REGISTER' : 'LOGIN'); }}
                             className="text-[9px] font-black uppercase tracking-[0.2em] text-prism-text/30 dark:text-white/20 hover:text-prism-text dark:hover:text-white transition-colors"
                         >
-                            {authMode === 'LOGIN' ? "Create New Signature" : "Access Personal Portal"}
+                            {authMode === 'LOGIN' ? "Register" : "Login"}
                         </button>
 
                         <button
