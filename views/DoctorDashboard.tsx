@@ -158,9 +158,9 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
 
   const renderRequestsView = () => (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[#48c1cf] mb-8">Inbound Telemetry Requests</h2>
+      <h2 className={`text-xs font-black uppercase tracking-[0.4em] mb-8 ${darkMode ? 'text-[#48c1cf]' : 'text-blue-600'}`}>Inbound Telemetry Requests</h2>
       {pendingRequests.length === 0 ? (
-        <div className="py-20 text-center glass-medical rounded-[3rem]">
+        <div className={`py-20 text-center rounded-[3rem] ${darkMode ? 'glass-medical' : 'bg-slate-50 border border-slate-200'}`}>
           <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">No pending handshakes found.</p>
         </div>
       ) : (
@@ -187,9 +187,9 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
 
   const renderAuthorizedView = () => (
     <div className="space-y-8 animate-in fade-in duration-500">
-      <h2 className="text-xs font-black uppercase tracking-[0.4em] text-[#48c1cf] mb-8">Managed Patient Cohort</h2>
+      <h2 className={`text-xs font-black uppercase tracking-[0.4em] mb-8 ${darkMode ? 'text-[#48c1cf]' : 'text-blue-600'}`}>Managed Patient Cohort</h2>
       {authorizedPatients.length === 0 ? (
-        <div className="py-20 text-center glass-medical rounded-[3rem]">
+        <div className={`py-20 text-center rounded-[3rem] ${darkMode ? 'glass-medical' : 'bg-slate-50 border border-slate-200'}`}>
           <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">No authorized patients linked yet.</p>
         </div>
       ) : (
@@ -219,7 +219,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
                     <td className="px-8 py-5 text-[10px] clinical-mono font-bold text-slate-400 tracking-widest">{p.patientId}</td>
                     <td className="px-8 py-5 text-xs text-slate-400 font-semibold">{new Date(p.timestamp).toLocaleDateString()}</td>
                     <td className="px-8 py-5">
-                      <span className="px-3 py-1 bg-emerald-500/10 text-emerald-600 rounded-lg text-[8px] font-black uppercase tracking-widest">ACTIVE PORTAL</span>
+                      <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest ${darkMode ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-500/10 text-emerald-600'}`}>ACTIVE PORTAL</span>
                     </td>
                     <td className="px-8 py-5 text-right">
                       <button
@@ -240,44 +240,46 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
   );
 
   return (
-    <div className="fixed top-0 bottom-0 right-0 left-0 md:left-28 z-[100] flex flex-col bg-[#020617] text-slate-100 transition-colors duration-500 bg-[radial-gradient(circle_at_center,_#0f172a_0%,_#020617_100%)] relative overflow-hidden">
-      {/* Ambient Blue Light Source */}
-      <div className="ambient-blue-glow top-[-20%] left-[20%] opacity-60"></div>
-      <div className="ambient-blue-glow bottom-[-20%] right-[10%] opacity-40"></div>
+    <div className={`fixed top-0 bottom-0 right-0 left-0 md:left-28 z-[100] flex flex-col transition-colors duration-500 relative overflow-hidden ${darkMode ? 'bg-[#020617] text-slate-100 bg-[radial-gradient(circle_at_center,_#0f172a_0%,_#020617_100%)]' : 'bg-white text-slate-900'}`}>
+      {/* Ambient Blue Light Source - Only in dark mode */}
+      {darkMode && (
+        <>
+          <div className="ambient-blue-glow top-[-20%] left-[20%] opacity-60"></div>
+          <div className="ambient-blue-glow bottom-[-20%] right-[10%] opacity-40"></div>
+        </>
+      )}
 
       <div className="flex-none z-10 p-6 pb-0">
-        <div className="flex-none z-10 p-6 pb-0">
-          <header className="flex items-center justify-between bio-gradient-header py-4 px-8 rounded-full shadow-2xl text-white relative overflow-hidden">
-            {/* Left: Branding */}
-            <div className="flex items-center gap-6 relative z-10">
-              <div className="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center border border-blue-400/30 shadow-[0_0_15px_rgba(59,130,246,0.5)]">
-                <Activity size={20} className="text-blue-400" />
-              </div>
-              <div>
-                <h1 className="text-3xl font-black tracking-tighter uppercase leading-none text-white drop-shadow-md">Clinical Command</h1>
-                <p className="font-mono text-[9px] font-bold uppercase tracking-[0.3em] mt-1 text-blue-200 opacity-80">CENTRAL TELEMETRY UNIT v4.0</p>
+        <header className={`flex items-center justify-between py-3 px-8 rounded-full shadow-2xl relative overflow-hidden transition-all duration-300 ${darkMode ? 'bio-gradient-header text-white' : 'bg-white text-slate-900 border border-slate-200'}`}>
+          {/* Left: Branding */}
+          <div className="flex items-center gap-6 relative z-10">
+            <div className={`w-10 h-10 rounded-full flex items-center justify-center border shadow-lg ${darkMode ? 'bg-blue-500/10 border-blue-400/20' : 'bg-blue-50 border-blue-100'}`}>
+              <Activity size={20} className={darkMode ? "text-blue-400" : "text-blue-600"} />
+            </div>
+            <div>
+              <h1 className={`text-3xl tracking-tighter uppercase leading-none drop-shadow-md ${darkMode ? 'font-[800] text-white' : 'font-[900] text-slate-800'}`}>Clinical Command</h1>
+              <p className={`font-mono text-[9px] font-bold uppercase tracking-[0.3em] mt-1 opacity-80 ${darkMode ? 'text-blue-200' : 'text-slate-500'}`}>CENTRAL TELEMETRY UNIT v4.0</p>
+            </div>
+          </div>
+
+          {/* Right: Physician Status */}
+          <div className="hidden md:flex items-center gap-12 relative z-10">
+            <div className="flex flex-col items-center">
+              <span className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${darkMode ? 'text-blue-200/60' : 'text-slate-400'}`}>System Status</span>
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
+                <span className={`text-xs font-bold font-mono tracking-wider uppercase text-shadow-sm ${darkMode ? 'text-emerald-300' : 'text-slate-700'}`}>Online</span>
               </div>
             </div>
-
-            {/* Right: Physician Status */}
-            <div className="hidden md:flex items-center gap-12 relative z-10">
-              <div className="flex flex-col items-center">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-blue-300 mb-1">System Status</span>
-                <div className="flex items-center gap-2">
-                  <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
-                  <span className="text-xs font-bold font-mono tracking-wider uppercase text-white text-shadow-sm">Online</span>
-                </div>
-              </div>
-              <div className="flex flex-col items-end">
-                <span className="text-[9px] font-bold uppercase tracking-widest text-blue-300 mb-1">Authorized Physician</span>
-                <span className="text-lg font-black tracking-tight text-white drop-shadow-md">Dr. {currentUser.name}</span>
-              </div>
+            <div className="flex flex-col items-end">
+              <span className={`text-[9px] font-bold uppercase tracking-widest mb-1 ${darkMode ? 'text-blue-200/60' : 'text-slate-400'}`}>Authorized Physician</span>
+              <span className={`text-lg font-black tracking-tight drop-shadow-md ${darkMode ? 'text-white' : 'text-slate-800'}`}>Dr. {currentUser.name}</span>
             </div>
+          </div>
 
-            {/* Subtle overlay gradient */}
-            <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>
-          </header>
-        </div>
+          {/* Subtle overlay gradient - Only in Dark Mode */}
+          {darkMode && <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>}
+        </header>
       </div>
 
       <div className="flex-grow overflow-y-auto p-6 pt-6">
@@ -287,19 +289,19 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
               <div className="absolute -bottom-6 -right-6 text-blue-500 opacity-10 group-hover:rotate-12 transition-transform duration-500">
                 <User size={100} />
               </div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-blue-300 mb-2 relative z-10">Total Linked Cohort</p>
-              <p className="text-4xl font-black text-white relative z-10 drop-shadow-md">{authorizedPatients.length}</p>
+              <p className={`text-[10px] font-black uppercase tracking-widest mb-2 relative z-10 ${darkMode ? 'text-blue-300' : 'text-blue-600'}`}>Total Linked Cohort</p>
+              <p className={`text-4xl font-black relative z-10 drop-shadow-md ${darkMode ? 'text-white' : 'text-slate-900'}`}>{authorizedPatients.length}</p>
             </div>
             <div className="dashboard-card group border-cyan-500/30 hover:border-cyan-400/60">
               <div className="absolute -bottom-6 -right-6 text-cyan-500 opacity-10 group-hover:rotate-12 transition-transform duration-500">
                 <Activity size={100} />
               </div>
-              <p className="text-[10px] font-black uppercase tracking-widest text-cyan-300 mb-2 relative z-10">Pending Inbound Handshake</p>
-              <p className="text-4xl font-black text-white relative z-10 drop-shadow-md">{pendingRequests.length}</p>
+              <p className={`text-[10px] font-black uppercase tracking-widest mb-2 relative z-10 ${darkMode ? 'text-cyan-300' : 'text-cyan-600'}`}>Pending Inbound Handshake</p>
+              <p className={`text-4xl font-black relative z-10 drop-shadow-md ${darkMode ? 'text-white' : 'text-slate-900'}`}>{pendingRequests.length}</p>
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-4 border-b border-slate-100 dark:border-white/10 pb-4">
+          <div className={`flex flex-wrap gap-4 pb-4 ${darkMode ? 'border-b border-white/10' : 'border-b border-slate-200'}`}>
             {[
               { id: 'patients', label: 'Patient Cohort', icon: <User size={14} /> },
               { id: 'alerts', label: 'Handshake Queue', icon: <Activity size={14} />, count: pendingRequests.length },
@@ -308,12 +310,12 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
               <button
                 key={tab.id}
                 onClick={() => setView(tab.id)}
-                className={`px-8 py-3 rounded-full font-black uppercase tracking-widest text-[10px] transition-all duration-300 flex items-center gap-3 relative overflow-hidden group border ${activeTab === tab.id ? 'bg-blue-600 text-white border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-105' : 'text-slate-400 border-transparent hover:text-white hover:bg-white/5 hover:border-blue-500/30'}`}
+                className={`px-8 py-3 rounded-full font-black uppercase tracking-widest text-[10px] transition-all duration-300 flex items-center gap-3 relative overflow-hidden group border ${activeTab === tab.id ? 'bg-blue-600 text-white border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-105' : `${darkMode ? 'text-slate-400/80 hover:text-white hover:bg-white/5' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'} border-transparent hover:border-blue-500/30`}`}
               >
                 {activeTab === tab.id && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 animate-shimmer"></div>}
                 {tab.icon}
                 <span className="relative z-10">{tab.label}</span>
-                {tab.count !== undefined && tab.count > 0 && <span className="absolute -top-1 -right-1 w-5 h-5 bg-cyan-500 rounded-full text-[9px] flex items-center justify-center text-black font-black border-2 border-[#020617] shadow-lg">{tab.count}</span>}
+                {tab.count !== undefined && tab.count > 0 && <span className={`absolute -top-1 -right-1 w-5 h-5 bg-cyan-500 rounded-full text-[9px] flex items-center justify-center text-black font-black border-2 shadow-lg ${darkMode ? 'border-[#020617]' : 'border-white'}`}>{tab.count}</span>}
               </button>
             ))}
           </div>

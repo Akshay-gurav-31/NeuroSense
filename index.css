@@ -96,35 +96,34 @@ body {
 
   /* Bio-Telemetry Theme Styles */
   .bio-gradient-header {
-    background: linear-gradient(90deg, #020617 0%, #0F172A 10%, #1e40af 45%, #2563eb 50%, #1e40af 55%, #0F172A 90%, #020617 100%);
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    background: linear-gradient(90deg, #020617 0%, #0F172A 10%, #172554 45%, #1d4ed8 50%, #172554 55%, #0F172A 90%, #020617 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   }
 
   .ambient-blue-glow {
     position: absolute;
     width: 600px;
     height: 600px;
-    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(2, 6, 23, 0) 70%);
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, rgba(2, 6, 23, 0) 70%);
     pointer-events: none;
     z-index: 0;
     mix-blend-mode: screen;
   }
 
   .dashboard-card {
-    @apply rounded-sm p-5 relative overflow-hidden transition-all duration-300;
-    background: rgba(15, 23, 42, 0.85);
-    border: 1px solid rgba(30, 64, 175, 0.3);
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+    @apply rounded-3xl p-6 relative overflow-hidden transition-all duration-300;
+    @apply bg-white dark:bg-[#0B1221];
+    @apply border border-slate-200 dark:border-white/5;
+    @apply shadow-md dark:shadow-none;
   }
 
   .dashboard-card:hover {
-    border-color: rgba(59, 130, 246, 0.8);
-    /* Intense bright blue on hover */
+    @apply dark:border-blue-500/30 border-slate-300;
     box-shadow:
-      0 0 30px rgba(37, 99, 235, 0.3),
-      /* Outer blue glow */
-      inset 0 0 20px rgba(37, 99, 235, 0.1);
-    /* Inner blue wash */
+      0 0 20px rgba(37, 99, 235, 0.15),
+      /* Outer blue glow - Reduced */
+      inset 0 0 15px rgba(37, 99, 235, 0.05);
+    /* Inner blue wash - Reduced */
     transform: translateY(-2px);
   }
 
@@ -156,6 +155,10 @@ body {
   .neon-text-blue {
     color: #60a5fa;
     text-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+  }
+
+  .glass-medical {
+    @apply bg-white/5 backdrop-blur-md border border-white/10;
   }
 }
 
