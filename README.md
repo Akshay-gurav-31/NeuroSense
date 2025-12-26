@@ -96,9 +96,9 @@ High-precision monitoring tools for medical professionals.
         <div style="background-color: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 24px; width: 280px; min-height: 480px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <img src="./public/Images/Team/Akshay-Gurav.png" width="120" style="border-radius: 50%; border: 3px solid #58a6ff; margin-bottom: 16px;" alt="Akshay Gurav" />
           <h3 style="margin: 0; color: #f0f6fc;">Akshay Gurav</h3>
-          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">Team Leader & Full-Stack Developer</p>
+          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">He/Him</p>
           <p style="color: #8b949e; font-size: 0.85em; line-height: 1.6; text-align: center;">
-            Led the Team (Leadership) || Executed End-to-End Frontend and Backend Development || Deployed the Web Application || Oversaw Research, Team Coordination, and UI/UX Design || Produced the Project Demonstration Video.
+            Ex–Intern@Curetopia (USA) | Data Science & AI/ML | Power BI & Excel | NEC (IIT-Bombay) E-Cell Finalist'25 | Hackathons (Dev & Leader) | Web Dev & SQL | LLM's-RAG | Ex-VP @ E-Cell | CA @ IIT-B '24 & '25 | Open Source
           </p>
           <div style="margin-top: 20px;">
             <a href="https://www.linkedin.com/in/akshay---gurav/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
@@ -110,9 +110,9 @@ High-precision monitoring tools for medical professionals.
         <div style="background-color: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 24px; width: 280px; min-height: 480px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <img src="./public/Images/Team/Shreyash-Kumar.png" width="120" style="border-radius: 50%; border: 3px solid #58a6ff; margin-bottom: 16px;" alt="Shreyash Kumar" />
           <h3 style="margin: 0; color: #f0f6fc;">Shreyash Kumar</h3>
-          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">Project Operations Lead</p>
+          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">He/Him</p>
           <p style="color: #8b949e; font-size: 0.85em; line-height: 1.6; text-align: center;">
-            Idea Selection || Project Management || Visual Suggestions || Final Devofolio Submission || Info Compilation & Updates || Including basic works.
+            AI Project Intern at @Infosys Springboard | CA @GSSoC'25 and @E-cell IIT Bombay | NIT Patna | DSA in C++ | Web designing at @Incubation Centre NIT Patna | Data Analyst at @NxtWave | AI/ML | Fellow at @NxtWave CCBP4.0
           </p>
           <div style="margin-top: 20px;">
             <a href="https://www.linkedin.com/in/shreyash-kumar-9774b622a/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
@@ -126,9 +126,9 @@ High-precision monitoring tools for medical professionals.
         <div style="background-color: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 24px; width: 280px; min-height: 400px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <img src="./public/Images/Team/Mudit-Vij.png" width="120" style="border-radius: 50%; border: 3px solid #30363d; margin-bottom: 16px;" alt="Mudit Vij" />
           <h3 style="margin: 0; color: #f0f6fc;">Mudit Vij</h3>
-          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">Developer</p>
+          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">He/Him</p>
           <p style="color: #8b949e; font-size: 0.85em; line-height: 1.6; text-align: center;">
-            [Description to be added]
+            Winner @Google Cloud GenAI Exchange Hackathon | B.Tech | Dayalbagh Educational Institute | Student Intern @VLabs | Training & Placement Cell Coordinator
           </p>
           <div style="margin-top: 20px;">
             <a href="https://www.linkedin.com/in/muditvij/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
@@ -140,9 +140,9 @@ High-precision monitoring tools for medical professionals.
         <div style="background-color: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 24px; width: 280px; min-height: 400px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <img src="./public/Images/Team/Shreyansh-Jain.png" width="120" style="border-radius: 50%; border: 3px solid #30363d; margin-bottom: 16px;" alt="Shreyansh Jain" />
           <h3 style="margin: 0; color: #f0f6fc;">Shreyansh Jain</h3>
-          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">Developer</p>
+          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">He/Him</p>
           <p style="color: #8b949e; font-size: 0.85em; line-height: 1.6; text-align: center;">
-            [Description to be added]
+            Intern@Virtual Labs | B.Tech | Dayalbagh Educational Institute | Training & Placement Cell @FOE DEI, Agra
           </p>
           <div style="margin-top: 20px;">
             <a href="https://www.linkedin.com/in/shreyansh-jain-7511a232a/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
