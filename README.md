@@ -110,7 +110,7 @@ High-precision monitoring tools for medical professionals.
         <div style="background-color: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 24px; width: 280px; min-height: 480px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <img src="./public/Images/Team/Shreyash-Kumar.png" width="120" style="border-radius: 50%; border: 3px solid #58a6ff; margin-bottom: 16px;" alt="Shreyash Kumar" />
           <h3 style="margin: 0; color: #f0f6fc;">Shreyash Kumar</h3>
-          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">He/Him</p>
+          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">Developer</p>
           <p style="color: #8b949e; font-size: 0.85em; line-height: 1.6; text-align: center;">
             AI Project Intern at @Infosys Springboard | CA @GSSoC'25 and @E-cell IIT Bombay | NIT Patna | DSA in C++ | Web designing at @Incubation Centre NIT Patna | Data Analyst at @NxtWave | AI/ML | Fellow at @NxtWave CCBP4.0
           </p>
@@ -126,7 +126,7 @@ High-precision monitoring tools for medical professionals.
         <div style="background-color: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 24px; width: 280px; min-height: 400px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <img src="./public/Images/Team/Mudit-Vij.png" width="120" style="border-radius: 50%; border: 3px solid #30363d; margin-bottom: 16px;" alt="Mudit Vij" />
           <h3 style="margin: 0; color: #f0f6fc;">Mudit Vij</h3>
-          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">He/Him</p>
+          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">Developer</p>
           <p style="color: #8b949e; font-size: 0.85em; line-height: 1.6; text-align: center;">
             Winner @Google Cloud GenAI Exchange Hackathon | B.Tech | Dayalbagh Educational Institute | Student Intern @VLabs | Training & Placement Cell Coordinator
           </p>
@@ -140,7 +140,7 @@ High-precision monitoring tools for medical professionals.
         <div style="background-color: #0d1117; border: 1px solid #30363d; border-radius: 12px; padding: 24px; width: 280px; min-height: 400px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
           <img src="./public/Images/Team/Shreyansh-Jain.png" width="120" style="border-radius: 50%; border: 3px solid #30363d; margin-bottom: 16px;" alt="Shreyansh Jain" />
           <h3 style="margin: 0; color: #f0f6fc;">Shreyansh Jain</h3>
-          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">He/Him</p>
+          <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">Developer</p>
           <p style="color: #8b949e; font-size: 0.85em; line-height: 1.6; text-align: center;">
             Intern@Virtual Labs | B.Tech | Dayalbagh Educational Institute | Training & Placement Cell @FOE DEI, Agra
           </p>
@@ -155,26 +155,64 @@ High-precision monitoring tools for medical professionals.
 
 ---
 
-## 🚀 Getting Started
+## � Repository
 
-### 1. Installation
+**GitHub:** [https://github.com/Akshay-gurav-31/NeuroSense.git](https://github.com/Akshay-gurav-31/NeuroSense.git)
+
+---
+
+## �🚀 Getting Started
+
+### 1. Clone the Repository
 ```bash
-git clone https://github.com/[Your-Username]/neurosense.git
-cd neurosense
+git clone https://github.com/Akshay-gurav-31/NeuroSense.git
+cd NeuroSense
 npm install
 ```
 
-### 2. Environment Configuration
-Create a `.env.local`:
+### 2. Supabase Setup
+
+#### Step 2.1: Create a Supabase Project
+1. Go to [supabase.com](https://supabase.com) and sign in
+2. Click **"New Project"**
+3. Fill in your project details:
+   - **Name:** NeuroSense (or your preferred name)
+   - **Database Password:** Create a strong password (save this!)
+   - **Region:** Choose closest to your location
+4. Click **"Create new project"** and wait for setup to complete
+
+#### Step 2.2: Get Your API Credentials
+1. In your Supabase project dashboard, go to **Settings** → **API**
+2. Copy the following:
+   - **Project URL** (under "Project URL")
+   - **anon/public key** (under "Project API keys")
+
+#### Step 2.3: Configure Environment Variables
+Create a `.env.local` file in the project root:
 ```env
-VITE_SUPABASE_URL=your_supabase_url
-VITE_SUPABASE_ANON_KEY=your_supabase_anon_key
+VITE_SUPABASE_URL=your_project_url_here
+VITE_SUPABASE_ANON_KEY=your_anon_key_here
 ```
 
-### 3. Launch
+#### Step 2.4: Run the Database Schema
+1. In your Supabase dashboard, go to **SQL Editor**
+2. Click **"New query"**
+3. Copy the entire contents of `schema.sql` from this repository
+4. Paste it into the SQL editor
+5. Click **"Run"** to execute the schema
+
+The schema will create the following tables:
+- `users` - User accounts (patients & doctors)
+- `profiles` - Extended user profile information
+- `sessions` - Therapy session records
+- `connections` - Patient-doctor relationships
+
+### 3. Launch the Application
 ```bash
 npm run dev
 ```
+
+The app will be available at `http://localhost:5173`
 
 ---
 
