@@ -207,7 +207,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-white/5">
                 {authorizedPatients.map((p, i) => (
-                  <tr key={i} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
+                  <tr key={i} className={`transition-colors group ${darkMode ? '' : 'hover:bg-slate-50'}`}>
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-3">
                         <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs ${darkMode ? 'bg-white/10 text-white' : 'bg-[#48c1cf]/10 text-[#48c1cf]'}`}>
