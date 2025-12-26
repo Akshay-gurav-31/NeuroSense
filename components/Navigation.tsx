@@ -31,7 +31,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
   const tabs = role === UserRole.PATIENT ? patientTabs : doctorTabs;
 
   return (
-    <nav className="fixed bottom-6 left-6 right-6 z-[100] bg-white dark:bg-[#050B14] border border-slate-200 dark:border-white/5 rounded-[2.5rem] md:top-0 md:bottom-auto md:left-0 md:w-28 md:h-full md:py-14 md:flex-col md:rounded-none md:border-t-0 md:border-r shadow-2xl safe-nav transition-colors duration-300">
+    <nav className="fixed bottom-6 left-6 right-6 z-[100] bg-white/80 backdrop-blur-xl dark:bg-[#050B14] dark:backdrop-blur-none border border-white/20 dark:border-white/5 rounded-[2.5rem] md:top-0 md:bottom-auto md:left-0 md:w-28 md:h-full md:py-14 md:flex-col md:rounded-none md:border-t-0 md:border-r shadow-2xl safe-nav transition-colors duration-300">
       {/* Desktop Identity */}
       <div className="hidden md:flex flex-col items-center gap-14 mb-16">
         <div className="cursor-pointer hover:scale-110 active:scale-90 transition-all" onClick={() => setView('dashboard')}>
