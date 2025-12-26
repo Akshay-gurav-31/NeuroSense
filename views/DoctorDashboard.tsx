@@ -240,7 +240,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
   );
 
   return (
-    <div className={`fixed top-0 bottom-0 right-0 left-0 md:left-28 z-[100] flex flex-col transition-colors duration-500 relative overflow-hidden ${darkMode ? 'bg-[#020617] text-slate-100 bg-[radial-gradient(circle_at_center,_#0f172a_0%,_#020617_100%)]' : 'bg-white text-slate-900'}`}>
+    <div className={`fixed top-0 bottom-0 right-0 left-0 md:left-28 z-[100] flex flex-col transition-colors duration-500 overflow-hidden ${darkMode ? 'bg-[#0B1121] text-slate-100 bg-[radial-gradient(circle_at_center,_#151e32_0%,_#0B1121_100%)]' : 'bg-white text-slate-900'}`}>
       {/* Ambient Blue Light Source - Only in dark mode */}
       {darkMode && (
         <>
@@ -310,7 +310,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
               <button
                 key={tab.id}
                 onClick={() => setView(tab.id)}
-                className={`px-8 py-3 rounded-full font-black uppercase tracking-widest text-[10px] transition-all duration-300 flex items-center gap-3 relative overflow-hidden group border ${activeTab === tab.id ? 'bg-blue-600 text-white border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.4)] scale-105' : `${darkMode ? 'text-slate-400/80 hover:text-white hover:bg-white/5' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'} border-transparent hover:border-blue-500/30`}`}
+                className={`px-8 py-3 rounded-full font-black uppercase tracking-widest text-[10px] transition-all duration-300 flex items-center gap-3 relative overflow-hidden group border ${activeTab === tab.id ? `${darkMode ? 'bg-blue-600/90 text-white border-blue-500/50 shadow-[0_0_15px_rgba(37,99,235,0.2)]' : 'bg-blue-600 text-white border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.4)]'} scale-105` : `${darkMode ? 'text-slate-400/80 hover:text-white hover:bg-white/5' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100'} border-transparent hover:border-blue-500/30`}`}
               >
                 {activeTab === tab.id && <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12 animate-shimmer"></div>}
                 {tab.icon}
