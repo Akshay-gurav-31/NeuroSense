@@ -142,7 +142,7 @@ High-precision monitoring tools for medical professionals.
           <h3 style="margin: 0; color: #f0f6fc;">Shreyansh Jain</h3>
           <p style="color: #58a6ff; font-size: 0.9em; margin: 4px 0 16px 0; font-weight: 600;">Developer</p>
           <p style="color: #8b949e; font-size: 0.85em; line-height: 1.6; text-align: center;">
-            Intern@Virtual Labs | B.Tech | Dayalbagh Educational Institute | Training & Placement Cell @FOE DEI, Agra
+            First Runners-Up @Refcold India Global Poster Design Competition 2025 | Intern@Virtual Labs | B.Tech | Dayalbagh Educational Institute | Training & Placement Cell @FOE DEI, Agra
           </p>
           <div style="margin-top: 20px;">
             <a href="https://www.linkedin.com/in/shreyansh-jain-7511a232a/"><img src="https://img.shields.io/badge/LinkedIn-0077B5?style=flat&logo=linkedin&logoColor=white" alt="LinkedIn" /></a>
