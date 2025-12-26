@@ -166,7 +166,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
       ) : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {pendingRequests.map(req => (
-            <div key={req.id} className="bg-white dark:bg-[#050505] p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/5 shadow-lg flex items-center justify-between transition-all">
+            <div key={req.id} className="bg-white dark:bg-[#0B1221] p-8 rounded-[2.5rem] border border-slate-200 dark:border-white/10 shadow-lg flex items-center justify-between transition-all">
               <div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1">Patient Request</p>
                 <p className="text-xl font-black text-[#1a365d] dark:text-white mb-1">{getPatientName(req.patientId)}</p>
@@ -193,7 +193,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
           <p className="text-slate-400 font-bold uppercase tracking-widest text-xs">No authorized patients linked yet.</p>
         </div>
       ) : (
-        <div className="bg-white dark:bg-[#050505] rounded-[2.5rem] border border-slate-200 dark:border-white/5 overflow-hidden shadow-xl">
+        <div className="bg-white dark:bg-[#0B1221] rounded-[2.5rem] border border-slate-200 dark:border-white/10 overflow-hidden shadow-xl">
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
@@ -324,9 +324,9 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
             {activeTab === 'patients' && renderAuthorizedView()}
             {activeTab === 'alerts' && renderRequestsView()}
             {activeTab === 'reports' && (
-              <div className="p-10 rounded-[3rem] border border-slate-200 dark:border-white/5 bg-white dark:bg-[#050505] shadow-xl animate-in fade-in duration-500">
+              <div className="p-10 rounded-[3rem] border border-slate-200 dark:border-white/10 bg-white dark:bg-[#0B1221] shadow-xl animate-in fade-in duration-500">
                 <h2 className="text-2xl font-black mb-8 text-[#1a365d] dark:text-white uppercase tracking-tighter">Cohort Statistical Synthesis</h2>
-                <p className="text-sm font-medium text-slate-500 leading-relaxed italic border-l-4 border-[#48c1cf] pl-6 py-2">
+                <p className="text-sm font-medium text-slate-500 dark:text-slate-400 leading-relaxed italic border-l-4 border-[#48c1cf] pl-6 py-2">
                   Aggregate reports for linked patients will appear here after kinematic data sync. System is currently analyzing 3 active recovery vectors.
                 </p>
               </div>
