@@ -286,14 +286,14 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
         <div className="space-y-12 resolve-ui">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="dashboard-card group border-blue-500/30 hover:border-blue-400/60 relative overflow-hidden">
-              <div className="absolute -bottom-4 -right-4 text-blue-500 opacity-5 group-hover:opacity-10 group-hover:rotate-12 transition-all duration-500 pointer-events-none">
+              <div className="absolute -bottom-4 -right-4 text-slate-200 dark:text-white/10 pointer-events-none">
                 <User size={80} />
               </div>
               <p className={`text-[10px] font-black uppercase tracking-widest mb-2 relative z-10 ${darkMode ? 'text-blue-300' : 'text-blue-600'}`}>Total Linked Cohort</p>
               <p className={`text-4xl font-black relative z-10 drop-shadow-md ${darkMode ? 'text-white' : 'text-slate-900'}`}>{authorizedPatients.length}</p>
             </div>
             <div className="dashboard-card group border-cyan-500/30 hover:border-cyan-400/60 relative overflow-hidden">
-              <div className="absolute -bottom-4 -right-4 text-cyan-500 opacity-5 group-hover:opacity-10 group-hover:rotate-12 transition-all duration-500 pointer-events-none">
+              <div className="absolute -bottom-4 -right-4 text-slate-200 dark:text-white/10 pointer-events-none">
                 <Activity size={80} />
               </div>
               <p className={`text-[10px] font-black uppercase tracking-widest mb-2 relative z-10 ${darkMode ? 'text-cyan-300' : 'text-cyan-600'}`}>Pending Inbound Handshake</p>
