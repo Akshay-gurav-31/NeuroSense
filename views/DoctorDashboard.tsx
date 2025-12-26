@@ -197,12 +197,12 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
           <div className="overflow-x-auto">
             <table className="w-full text-left">
               <thead>
-                <tr className="border-b border-slate-100 dark:border-white/5">
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white">Patient Identity</th>
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white">Patient ID</th>
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white">Handshake Date</th>
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white">Status</th>
-                  <th className="px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-white text-right">Actions</th>
+                <tr className={`border-b ${darkMode ? 'border-white/5' : 'border-slate-100'}`}>
+                  <th className={`px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] ${darkMode ? 'text-white' : 'text-slate-400'}`}>Patient Identity</th>
+                  <th className={`px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] ${darkMode ? 'text-white' : 'text-slate-400'}`}>Patient ID</th>
+                  <th className={`px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] ${darkMode ? 'text-white' : 'text-slate-400'}`}>Handshake Date</th>
+                  <th className={`px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] ${darkMode ? 'text-white' : 'text-slate-400'}`}>Status</th>
+                  <th className={`px-8 py-5 text-[9px] font-black uppercase tracking-[0.4em] text-right ${darkMode ? 'text-white' : 'text-slate-400'}`}>Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 dark:divide-white/5">
@@ -210,14 +210,14 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
                   <tr key={i} className="hover:bg-slate-50 dark:hover:bg-white/5 transition-colors group">
                     <td className="px-8 py-5">
                       <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-xl bg-[#48c1cf]/10 flex items-center justify-center text-[#48c1cf] font-black text-xs">
+                        <div className={`w-8 h-8 rounded-xl flex items-center justify-center font-black text-xs ${darkMode ? 'bg-white/10 text-white' : 'bg-[#48c1cf]/10 text-[#48c1cf]'}`}>
                           {getPatientName(p.patientId).charAt(0)}
                         </div>
-                        <span className="text-sm font-black text-[#1a365d] dark:text-white uppercase tracking-tight">{getPatientName(p.patientId)}</span>
+                        <span className={`text-sm font-black uppercase tracking-tight ${darkMode ? 'text-white' : 'text-[#1a365d]'}`}>{getPatientName(p.patientId)}</span>
                       </div>
                     </td>
-                    <td className="px-8 py-5 text-[10px] clinical-mono font-bold text-slate-400 dark:text-white tracking-widest">{p.patientId}</td>
-                    <td className="px-8 py-5 text-xs text-slate-400 dark:text-white font-semibold">{new Date(p.timestamp).toLocaleDateString()}</td>
+                    <td className={`px-8 py-5 text-[10px] clinical-mono font-bold tracking-widest ${darkMode ? 'text-white' : 'text-slate-400'}`}>{p.patientId}</td>
+                    <td className={`px-8 py-5 text-xs font-semibold ${darkMode ? 'text-white' : 'text-slate-400'}`}>{new Date(p.timestamp).toLocaleDateString()}</td>
                     <td className="px-8 py-5">
                       <span className={`px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest ${darkMode ? 'bg-emerald-500/20 text-emerald-400' : 'bg-emerald-500/10 text-emerald-600'}`}>ACTIVE PORTAL</span>
                     </td>
