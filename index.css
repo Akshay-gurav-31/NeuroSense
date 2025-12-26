@@ -1,0 +1,171 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --prism-accent: #BEF264;
+
+  /* Exact NEUROSENSE deep navy blue theme */
+  --background: 222 47% 7%;
+  --foreground: 210 40% 98%;
+
+  --card: 222 45% 11%;
+  --card-foreground: 210 40% 98%;
+
+  --popover: 222 45% 11%;
+  --popover-foreground: 210 40% 98%;
+
+  --primary: 199 89% 48%;
+  --primary-foreground: 222 47% 7%;
+
+  --secondary: 222 40% 15%;
+  --secondary-foreground: 210 40% 98%;
+
+  --muted: 222 35% 18%;
+  --muted-foreground: 215 20% 65%;
+
+  --accent: 199 89% 48%;
+  --accent-foreground: 210 40% 98%;
+
+  --destructive: 0 84% 60%;
+  --destructive-foreground: 210 40% 98%;
+
+  --border: 220 50% 25%;
+  --input: 222 40% 15%;
+  --ring: 199 89% 48%;
+
+  --radius: 0.75rem;
+
+  /* Dashboard specific colors */
+  --dashboard-bg: 222 50% 5%;
+  --dashboard-card: 222 45% 11%;
+  --dashboard-card-border: 220 55% 28%;
+  --dashboard-sidebar: 222 48% 9%;
+  --dashboard-sidebar-active: 199 89% 48%;
+
+  /* Status colors */
+  --status-good: 142 71% 45%;
+  --status-warning: 38 92% 50%;
+  --status-critical: 0 84% 60%;
+
+  /* Chart colors */
+  --chart-cyan: 199 89% 48%;
+  --chart-blue: 217 91% 60%;
+  --chart-green: 142 71% 45%;
+  --chart-orange: 38 92% 50%;
+  --chart-red: 0 84% 60%;
+  --chart-purple: 271 81% 56%;
+  --chart-yellow: 48 96% 53%;
+
+
+  /* Glow colors */
+  --glow-cyan: 199 89% 48%;
+  --glow-blue: 217 91% 60%;
+}
+
+.dark {
+  --background: 222 47% 7%;
+  --foreground: 210 40% 98%;
+  --card: 222 45% 11%;
+  --card-foreground: 210 40% 98%;
+  --popover: 222 45% 11%;
+  --popover-foreground: 210 40% 98%;
+  --primary: 199 89% 48%;
+  --primary-foreground: 222 47% 7%;
+  --secondary: 222 40% 15%;
+  --secondary-foreground: 210 40% 98%;
+  --muted: 222 35% 18%;
+  --muted-foreground: 215 20% 65%;
+  --accent: 199 89% 48%;
+  --accent-foreground: 210 40% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 210 40% 98%;
+  --border: 220 50% 25%;
+  --input: 222 40% 15%;
+  --ring: 199 89% 48%;
+}
+
+body {
+  @apply bg-white dark:bg-[#050505] text-slate-900 dark:text-white transition-colors duration-500 font-sans antialiased;
+  font-family: 'Inter', sans-serif;
+}
+
+@layer components {
+
+  /* Bio-Telemetry Theme Styles */
+  .bio-gradient-header {
+    background: linear-gradient(90deg, #020617 0%, #0F172A 10%, #1e40af 45%, #2563eb 50%, #1e40af 55%, #0F172A 90%, #020617 100%);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  }
+
+  .ambient-blue-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, rgba(2, 6, 23, 0) 70%);
+    pointer-events: none;
+    z-index: 0;
+    mix-blend-mode: screen;
+  }
+
+  .dashboard-card {
+    @apply rounded-sm p-5 relative overflow-hidden transition-all duration-300;
+    background: rgba(15, 23, 42, 0.85);
+    border: 1px solid rgba(30, 64, 175, 0.3);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+  }
+
+  .dashboard-card:hover {
+    border-color: rgba(59, 130, 246, 0.8);
+    /* Intense bright blue on hover */
+    box-shadow:
+      0 0 30px rgba(37, 99, 235, 0.3),
+      /* Outer blue glow */
+      inset 0 0 20px rgba(37, 99, 235, 0.1);
+    /* Inner blue wash */
+    transform: translateY(-2px);
+  }
+
+  .dashboard-card-header {
+    @apply flex items-center gap-3 mb-6 text-sm font-bold tracking-widest uppercase text-slate-400 relative z-10;
+  }
+
+  .premium-glass {
+    background: rgba(15, 23, 42, 0.7);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+  }
+
+  .neon-text-cyan {
+    color: #48c1cf;
+    text-shadow: 0 0 10px rgba(72, 193, 207, 0.4), 0 0 20px rgba(72, 193, 207, 0.2);
+  }
+
+  .neon-border {
+    box-shadow: 0 0 10px rgba(72, 193, 207, 0.3);
+    border: 1px solid rgba(72, 193, 207, 0.4);
+  }
+
+  .header-glow {
+    box-shadow: 0 10px 40px -10px rgba(72, 193, 207, 0.15);
+  }
+
+  .neon-text-blue {
+    color: #60a5fa;
+    text-shadow: 0 0 15px rgba(59, 130, 246, 0.8);
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-clip-text text-transparent;
+    background-image: linear-gradient(90deg, hsl(var(--chart-cyan)), hsl(var(--chart-blue)));
+  }
+
+  .card-content {
+    @apply relative z-10;
+  }
+}
