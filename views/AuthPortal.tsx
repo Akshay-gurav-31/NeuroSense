@@ -48,7 +48,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                         </div>
                         <div className="space-y-1">
                             <h2 className="text-3xl font-[1000] tracking-[-0.06em] uppercase">
-                                {isDoctor ? 'Clinical' : 'Patient'}
+                                {isDoctor ? 'Doctor' : 'Patient'}
                             </h2>
                             <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60">
                                 Access Portal
