@@ -1,6 +1,7 @@
 
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Icons } from '../components/Icons';
+import { azureSpeechService } from '../services/azure-speech.service';
 
 interface SpeechTherapyProps {
   onComplete: (score: number, feedback: string) => void;
@@ -16,16 +17,43 @@ const SpeechTherapy: React.FC<SpeechTherapyProps> = ({ onComplete, onAbort, dark
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const isDark = darkMode;
+  const [recordingTime, setRecordingTime] = useState(0);
 
   const targetPhrase = "Neural rehabilitation requires consistent articulation practice";
+  const streamRef = useRef<MediaStream | null>(null);
+
+  useEffect(() => {
+    let interval: any;
+    if (isRecording) {
+      interval = setInterval(() => {
+        setRecordingTime(prev => prev + 1);
+      }, 1000);
+    } else {
+      setRecordingTime(0);
+    }
+    return () => clearInterval(interval);
+  }, [isRecording]);
+
+  useEffect(() => {
+    return () => {
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+      }
+    };
+  }, []);
 
   const toggleRecording = async () => {
     if (isRecording) {
       mediaRecorderRef.current?.stop();
+      if (streamRef.current) {
+        streamRef.current.getTracks().forEach(track => track.stop());
+        streamRef.current = null;
+      }
       setIsRecording(false);
     } else {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+        streamRef.current = stream;
         const recorder = new MediaRecorder(stream);
         chunksRef.current = [];
 
@@ -33,17 +61,26 @@ const SpeechTherapy: React.FC<SpeechTherapyProps> = ({ onComplete, onAbort, dark
         recorder.onstop = async () => {
           setLoading(true);
 
-          // Simulate Local Speech Analysis
-          await new Promise(r => setTimeout(r, 2000));
+          try {
+            // 1. Compile audio chunks into bio-phonetic stream
+            const audioBlob = new Blob(chunksRef.current, { type: 'audio/wav' });
 
-          const mockAnalysis = [
-            { clarityScore: 88, accuracyScore: 92, feedback: "Excellent articulation of 'rehabilitation'. Phrasing is natural and consistent." },
-            { clarityScore: 74, accuracyScore: 68, feedback: "Noticeable struggle with multisyllabic transitions. Slow down the 'consistent' cadence." },
-            { clarityScore: 95, accuracyScore: 94, feedback: "Superior clinical accuracy. Motor control over speech nodes is fully recovered." }
-          ];
+            // 2. Initiate Azure Articulatory Precision Assessment
+            const result = await azureSpeechService.analyzeSpeech(audioBlob, targetPhrase);
 
-          setResult(mockAnalysis[Math.floor(Math.random() * mockAnalysis.length)]);
-          setLoading(false);
+            // 3. Map Azure AI outputs to Clinical Metrics
+            setResult({
+              clarityScore: result.clarityScore,
+              accuracyScore: result.pronunciationScore,
+              feedback: result.clarityScore > 75
+                ? "Excellent phonemic resonance. Linguistic motor nodes are stabilizing."
+                : "Phonetic elision detected in multi-syllabic transitions. Focus on articulation clarity."
+            });
+          } catch (err) {
+            console.error('Speech analysis failure:', err);
+          } finally {
+            setLoading(false);
+          }
         };
 
         mediaRecorderRef.current = recorder;
@@ -94,6 +131,14 @@ const SpeechTherapy: React.FC<SpeechTherapyProps> = ({ onComplete, onAbort, dark
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="w-48 h-48 bg-emerald-500/20 rounded-full animate-ping"></div>
                 <div className="absolute w-56 h-56 border border-emerald-500/10 rounded-full"></div>
+              </div>
+            )}
+            {isRecording && (
+              <div className="absolute -top-16 left-1/2 -translate-x-1/2 whitespace-nowrap">
+                <div className={`px-4 py-2 rounded-full border backdrop-blur-md flex items-center gap-2 ${isDark ? 'bg-rose-500/10 border-rose-500/20' : 'bg-rose-50/50 border-rose-200'}`}>
+                  <div className="w-2 h-2 bg-rose-500 rounded-full animate-pulse"></div>
+                  <span className="text-xs font-black clinical-mono text-rose-500">00:{recordingTime < 10 ? `0${recordingTime}` : recordingTime}</span>
+                </div>
               </div>
             )}
             <button

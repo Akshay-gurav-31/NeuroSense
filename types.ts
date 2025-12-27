@@ -61,8 +61,55 @@ export interface SessionResult {
   feedback: string;
 }
 
+
 export interface PatientStats {
   recoveryScore: number;
   sessionsCompleted: number;
   activeStreak: number;
+}
+
+// --- AZURE AI & SCORING TYPES ---
+
+export interface BodyLandmark {
+  name: string;
+  x: number;
+  y: number;
+  z?: number;
+}
+
+export interface PoseAnalysisResult {
+  landmarks: BodyLandmark[];
+  stability: number;
+  tremor: number;
+  balance: number;
+  confidence: number;
+}
+
+export interface SpeechAnalysisResult {
+  transcription: string;
+  pronunciationScore: number;
+  accuracyScore: number;
+  fluencyScore: number;
+  completenessScore: number;
+  clarityScore: number;
+}
+
+export interface MentalHealthAssessment {
+  type: 'STRESS' | 'MOOD' | 'ANXIETY' | 'DEPRESSION';
+  score: number;
+  severity: 'LOW' | 'MODERATE' | 'HIGH';
+  timestamp: string;
+  responses: Record<string, any>;
+}
+
+export interface RecoveryPrediction {
+  currentScore: number;
+  predictedScore: number;
+  trend: 'IMPROVING' | 'STABLE' | 'DECLINING';
+  confidence: number;
+}
+
+export interface RiskLevel {
+  level: 'LOW' | 'MODERATE' | 'HIGH' | 'CRITICAL';
+  factors: string[];
 }

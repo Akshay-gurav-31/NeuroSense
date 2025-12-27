@@ -2,6 +2,7 @@
 import React from 'react';
 import { TherapyType, PatientProfile, SessionResult } from '../types';
 import { Icons } from '../components/Icons';
+import { aiScoringService } from '../services/ai-scoring.service';
 
 interface DashboardProps {
   profile: PatientProfile;
@@ -11,9 +12,9 @@ interface DashboardProps {
 }
 
 const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartTherapy, darkMode }) => {
-  const avgScore = history.length > 0
-    ? Math.round(history.reduce((acc, curr) => acc + curr.score, 0) / history.length)
-    : 0;
+  const recoveryData = aiScoringService.predictRecovery(history);
+  const riskData = aiScoringService.assessRisk(history);
+  const avgScore = recoveryData.currentScore;
 
   const dailyTasks = [
     { title: 'Motor Sync', type: TherapyType.BODY, icon: <Icons.Body />, desc: 'Biomechanical kinematic assessment' },
@@ -57,7 +58,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
               <div className="sm:mb-8">
                 <span className="text-4xl font-black text-slate-200 dark:text-white/5 block mb-4 tracking-tighter">/ 100</span>
                 <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-500/20">
-                  +6.2% Velocity
+                  {recoveryData.trend === 'IMPROVING' ? '+' : ''}{recoveryData.predictedScore - recoveryData.currentScore}% Predicted Velocity
                 </div>
               </div>
             </div>
@@ -65,10 +66,12 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-10 border-t border-slate-100 dark:border-white/10">
               <div className="space-y-1">
                 <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Node Status</p>
-                <p className="text-2xl font-black text-emerald-500 uppercase tracking-tight">Optimal</p>
+                <p className={`text-2xl font-black uppercase tracking-tight ${riskData.level === 'LOW' ? 'text-emerald-500' : riskData.level === 'MODERATE' ? 'text-amber-500' : 'text-rose-500'}`}>
+                  {riskData.level}
+                </p>
               </div>
               <div className="md:col-span-3 p-6 bg-slate-50 dark:bg-white/[0.02] rounded-[2rem] border border-slate-100 dark:border-white/10">
-                <p className="text-base font-medium leading-[1.6] text-slate-600 dark:text-slate-300 italic">"Neural plasticity markers are trending high. Stage 3 progression recommended."</p>
+                <p className="text-base font-medium leading-[1.6] text-slate-600 dark:text-slate-300 italic">"{history.length > 0 ? history[0].feedback : "No active telemetry detected. Initialize laboratory protocol."}"</p>
               </div>
             </div>
           </div>

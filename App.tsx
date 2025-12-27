@@ -15,6 +15,7 @@ import DoctorConnect from './views/DoctorConnect';
 // New Modular Views
 import LandingPage from './views/LandingPage';
 import AuthPortal from './views/AuthPortal';
+import MentalHealthView from './views/MentalHealthView';
 
 import { dataService } from './services/supabase.service';
 
@@ -45,6 +46,7 @@ const App: React.FC = () => {
   const [authMode, setAuthMode] = useState<'LOGIN' | 'REGISTER' | null>(null);
   const [selectedRole, setSelectedRole] = useState<UserRole | null>(null);
   const [isAuthenticating, setIsAuthenticating] = useState(false);
+  const [activeGameMode, setActiveGameMode] = useState<string | null>(null);
   const [authError, setAuthError] = useState<string | null>(null);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
@@ -224,7 +226,8 @@ const App: React.FC = () => {
   // Active Therapy Flow
   if (activeExercise === TherapyType.BODY) return <BodyTherapy onComplete={handleCompleteExercise} darkMode={darkMode} />;
   if (activeExercise === TherapyType.SPEECH) return <SpeechTherapy onComplete={handleCompleteExercise} onAbort={() => setActiveExercise(null)} darkMode={darkMode} />;
-  if (activeExercise === TherapyType.BRAIN) return <BrainGames onComplete={(score: number) => handleCompleteExercise(score, "Cognitive assessment finalized.")} darkMode={darkMode} />;
+  if (activeExercise === TherapyType.BRAIN) return <BrainGames onComplete={(score: number) => handleCompleteExercise(score, "Cognitive assessment finalized.")} darkMode={darkMode} mode={activeGameMode || 'Memory Game'} />;
+  if (activeExercise === TherapyType.MENTAL) return <MentalHealthView onComplete={handleCompleteExercise} darkMode={darkMode} />;
 
   // Separate Landing Page
   if (!role && !authMode) {
@@ -298,7 +301,7 @@ const App: React.FC = () => {
           setAllConnections([...allConnections, newC]);
         }
       }} patientId={user?.id || ''} />;
-      case 'therapy': return <TherapyLibrary onStartTherapy={(t: TherapyType) => setActiveExercise(t)} darkMode={darkMode} />;
+      case 'therapy': return <TherapyLibrary onStartTherapy={(t: TherapyType, name?: string) => { setActiveExercise(t); setActiveGameMode(name || null); }} darkMode={darkMode} />;
       case 'progress': return <ProgressStats history={history} darkMode={darkMode} />;
       case 'profile': return <ProfileView
         profile={user as PatientProfile}
@@ -309,7 +312,7 @@ const App: React.FC = () => {
           localStorage.setItem('ns_user', JSON.stringify(updatedUser));
         }}
       />;
-      default: return <PatientDashboard profile={user as PatientProfile} history={history} onStartTherapy={(t: TherapyType) => setActiveExercise(t)} darkMode={darkMode} />;
+      default: return <PatientDashboard profile={user as PatientProfile} history={history} onStartTherapy={(t: TherapyType, name?: string) => { setActiveExercise(t); setActiveGameMode(name || null); }} darkMode={darkMode} />;
     }
   };
 

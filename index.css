@@ -181,4 +181,8 @@ body {
   .card-content {
     @apply relative z-10;
   }
+
+  .mirror {
+    transform: scaleX(-1);
+  }
 }
