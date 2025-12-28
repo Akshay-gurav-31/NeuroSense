@@ -19,17 +19,25 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
     const scrollRef = useRef<HTMLDivElement>(null);
     const blockPollRef = useRef<boolean>(false);
     const blockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
+    const stickyEditsRef = useRef<Record<string, { content: string, expiry: number }>>({});
 
     const fetchMessages = async () => {
-        if (blockPollRef.current) return; // Block trigger check
-
         try {
             const data = await dataService.getMessages(currentUser.id, otherUser.id);
-            // RACE CONDITION FIX: After the await, check again if we are currently blocking.
-            // If we are, it means an edit/delete happened while this fetch was in flight.
-            // We must discard this stale server data to keep the UI's fresh state.
+
+            // Apply STICKY EDITS: If we recently edited something, don't let the poll revert it
+            const now = Date.now();
+            const syncedData = data.map(m => {
+                const sticky = stickyEditsRef.current[m.id];
+                if (sticky && now < sticky.expiry) {
+                    console.log(`Poll returned old data for msg ${m.id}, applying sticky local edit.`);
+                    return { ...m, content: sticky.content };
+                }
+                return m;
+            });
+
             if (!blockPollRef.current) {
-                setMessages(data);
+                setMessages(syncedData);
             }
         } catch (err) {
             console.error('Failed to fetch messages:', err);
@@ -59,10 +67,13 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
         try {
             if (editingId) {
-                // Block polling IMMEDIATELY to prevent race condition during server roundtrip
+                // Block polling IMMEDIATELY
                 blockPollRef.current = true;
                 if (blockTimeoutRef.current) clearTimeout(blockTimeoutRef.current);
                 blockTimeoutRef.current = setTimeout(() => { blockPollRef.current = false; }, 5000);
+
+                // Add to sticky edits for 10 seconds to survive polling lag
+                stickyEditsRef.current[editingId] = { content, expiry: Date.now() + 10000 };
 
                 // Optimistic Update
                 const oldMessages = [...messages];
@@ -73,10 +84,14 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                     const updatedMsg = await dataService.editMessage(editingId, content);
                     // Use the server's confirmed record immediately
                     setMessages(prev => prev.map(m => m.id === editingId ? updatedMsg : m));
+
+                    // Update sticky with authoritative server record if needed
+                    stickyEditsRef.current[editingId].content = updatedMsg.content;
                 } catch (err) {
+                    delete stickyEditsRef.current[editingId]; // Remove sticky on failure
                     setMessages(oldMessages); // Rollback
                     console.error('Edit failed:', err);
-                    alert('Server rejected the edit. Please verify you ran the SQL policies for UPDATE.');
+                    alert('Server rejected the edit. Please check your internet or SQL policies.');
                 }
             } else {
                 await dataService.sendMessage(currentUser.id, otherUser.id, content);

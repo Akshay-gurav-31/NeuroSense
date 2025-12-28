@@ -212,10 +212,12 @@ DROP POLICY IF EXISTS "Anyone can view messages for now" ON messages;
 DROP POLICY IF EXISTS "Anyone can insert messages for now" ON messages;
 DROP POLICY IF EXISTS "Anyone can update messages for now" ON messages;
 DROP POLICY IF EXISTS "Anyone can delete messages for now" ON messages;
+DROP POLICY IF EXISTS "Messages full access" ON messages;
 
 CREATE POLICY "Messages full access"
     ON messages FOR ALL
-    USING (true);
+    USING (true)
+    WITH CHECK (true);
 
 -- 7.4 PERFORMANCE: Indices for common lookups
 CREATE INDEX IF NOT EXISTS idx_messages_sender ON messages (sender_id);
