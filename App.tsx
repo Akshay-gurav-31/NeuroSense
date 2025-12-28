@@ -324,7 +324,7 @@ const App: React.FC = () => {
       );
     }
     switch (currentView) {
-      case 'dashboard': return <PatientDashboard profile={user as PatientProfile} history={history} onStartTherapy={(t: TherapyType, name?: string) => { setActiveExercise(t); setActiveGameMode(name || null); }} darkMode={darkMode} connections={allConnections} accounts={accounts} />;
+      case 'dashboard': return <PatientDashboard profile={user as PatientProfile} history={history} onStartTherapy={(t: TherapyType, name?: string) => { setActiveExercise(t); setActiveGameMode(name || null); }} darkMode={darkMode} />;
       case 'chat': return <PatientChatView profile={user as PatientProfile} connections={allConnections} accounts={accounts} darkMode={darkMode} />;
       case 'connect': return <DoctorConnect doctors={globalDoctors} connections={allConnections} onRequest={async (dId: string) => {
         const newC: Connection = { id: `C-${Date.now()}`, patientId: user!.id, doctorId: dId, status: ConnectionStatus.PENDING, timestamp: new Date().toISOString() };
@@ -348,7 +348,7 @@ const App: React.FC = () => {
           localStorage.setItem('ns_user', JSON.stringify(updatedUser));
         }}
       />;
-      default: return <PatientDashboard profile={user as PatientProfile} history={history} onStartTherapy={(t: TherapyType, name?: string) => { setActiveExercise(t); setActiveGameMode(name || null); }} darkMode={darkMode} connections={allConnections} accounts={accounts} />;
+      default: return <PatientDashboard profile={user as PatientProfile} history={history} onStartTherapy={(t: TherapyType, name?: string) => { setActiveExercise(t); setActiveGameMode(name || null); }} darkMode={darkMode} />;
     }
   };
 

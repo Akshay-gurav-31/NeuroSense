@@ -4,19 +4,15 @@ import { Icons } from '../components/Icons';
 import { aiScoringService } from '../services/ai-scoring.service';
 import DailyTracker from '../components/DailyTracker';
 import { isToday } from '../utils/date-helpers';
-import ChatSystem from '../components/ChatSystem';
 
 interface DashboardProps {
   profile: PatientProfile;
   history: SessionResult[];
   onStartTherapy: (type: TherapyType) => void;
   darkMode: boolean;
-  connections: Connection[];
-  accounts: UserAccount[];
 }
 
-const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartTherapy, darkMode, connections, accounts }) => {
-  const [chatOpen, setChatOpen] = React.useState(false);
+const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartTherapy, darkMode }) => {
   const recoveryData = aiScoringService.predictRecovery(history);
   const riskData = aiScoringService.assessRisk(history);
   const avgScore = recoveryData.currentScore;
@@ -137,42 +133,6 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
         </div>
       </section>
 
-      {/* Floating Chat System */}
-      {connections.some(c => c.status === ConnectionStatus.CONNECTED) && (
-        <div className="fixed bottom-32 right-8 z-[150] flex flex-col items-end gap-4">
-          {chatOpen && (
-            <div className="w-[350px] sm:w-[400px] h-[550px] shadow-2xl animate-in slide-in-from-bottom-5 duration-500">
-              {(() => {
-                const conn = connections.find(c => c.status === ConnectionStatus.CONNECTED);
-                const doctor = accounts.find(a => a.id === conn?.doctorId);
-                if (doctor) {
-                  return (
-                    <ChatSystem
-                      currentUser={profile as any}
-                      otherUser={doctor}
-                      darkMode={darkMode}
-                      onClose={() => setChatOpen(false)}
-                    />
-                  );
-                }
-                return null;
-              })()}
-            </div>
-          )}
-
-          <button
-            onClick={() => setChatOpen(!chatOpen)}
-            className={`w-16 h-16 rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 hover:scale-110 active:scale-95 shimmer ${chatOpen ? 'bg-rose-500 rotate-90' : 'bg-blue-600'
-              }`}
-          >
-            {chatOpen ? (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18M6 6l12 12" /></svg>
-            ) : (
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
-            )}
-          </button>
-        </div>
-      )}
     </div>
   );
 };
