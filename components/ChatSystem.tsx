@@ -56,9 +56,9 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                 setEditingId(null);
 
                 try {
-                    await dataService.editMessage(editingId, content);
-                    // Wait a bit before next fetch to let Supabase propagate
-                    setTimeout(fetchMessages, 500);
+                    const updatedMsg = await dataService.editMessage(editingId, content);
+                    // Use the server's confirmed record immediately
+                    setMessages(prev => prev.map(m => m.id === editingId ? updatedMsg : m));
                 } catch (err) {
                     setMessages(oldMessages); // Rollback
                     console.error('Edit failed:', err);

@@ -334,17 +334,24 @@ export const dataService = {
         if (error) throw error;
     },
 
-    async editMessage(messageId: string, newContent: string): Promise<void> {
+    async editMessage(messageId: string, newContent: string): Promise<ChatMessage> {
         const { data, error } = await supabase
             .from('messages')
             .update({ content: newContent })
             .eq('id', messageId)
-            .select();
+            .select()
+            .single();
 
         if (error) throw error;
+        if (!data) throw new Error('Update failed: No data returned.');
 
-        if (!data || data.length === 0) {
-            throw new Error('Update failed: No rows affected. Possible RLS policy issue.');
-        }
+        return {
+            id: data.id,
+            senderId: data.sender_id,
+            receiverId: data.receiver_id,
+            content: data.content,
+            timestamp: data.timestamp,
+            isRead: data.is_read
+        };
     }
 };
