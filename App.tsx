@@ -16,6 +16,7 @@ import DoctorConnect from './views/DoctorConnect';
 import LandingPage from './views/LandingPage';
 import AuthPortal from './views/AuthPortal';
 import MentalHealthView from './views/MentalHealthView';
+import PatientChatView from './views/PatientChatView';
 
 import { dataService } from './services/supabase.service';
 
@@ -320,6 +321,7 @@ const App: React.FC = () => {
     }
     switch (currentView) {
       case 'dashboard': return <PatientDashboard profile={user as PatientProfile} history={history} onStartTherapy={(t: TherapyType, name?: string) => { setActiveExercise(t); setActiveGameMode(name || null); }} darkMode={darkMode} connections={allConnections} accounts={accounts} />;
+      case 'chat': return <PatientChatView profile={user as PatientProfile} connections={allConnections} accounts={accounts} darkMode={darkMode} />;
       case 'connect': return <DoctorConnect doctors={globalDoctors} connections={allConnections} onRequest={async (dId: string) => {
         const newC: Connection = { id: `C-${Date.now()}`, patientId: user!.id, doctorId: dId, status: ConnectionStatus.PENDING, timestamp: new Date().toISOString() };
         try {

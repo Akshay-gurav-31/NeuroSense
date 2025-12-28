@@ -201,6 +201,11 @@ CREATE POLICY "Users can insert their own messages"
     ON messages FOR INSERT
     WITH CHECK (auth.uid()::text = sender_id);
 
+-- 7.4 PERFORMANCE: Indices for common lookups
+CREATE INDEX IF NOT EXISTS idx_messages_sender ON messages (sender_id);
+CREATE INDEX IF NOT EXISTS idx_messages_receiver ON messages (receiver_id);
+CREATE INDEX IF NOT EXISTS idx_messages_timestamp ON messages (timestamp DESC);
+
 
 -- 8. STORAGE CONFIGURATION (Avatars)
 -- Create a public bucket for profile images
