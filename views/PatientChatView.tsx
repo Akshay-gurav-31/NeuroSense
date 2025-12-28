@@ -53,8 +53,8 @@ const PatientChatView: React.FC<PatientChatViewProps> = ({ profile, connections,
                                 key={doctor.id}
                                 onClick={() => setSelectedDoctorId(doctor.id)}
                                 className={`w-full flex items-center gap-4 p-4 rounded-3xl transition-all duration-300 group ${selectedDoctorId === doctor.id
-                                        ? 'bg-blue-600 text-white shadow-lg'
-                                        : 'hover:bg-slate-50 dark:hover:bg-white/5 text-slate-600 dark:text-white'
+                                    ? 'bg-blue-600 text-white shadow-lg'
+                                    : 'hover:bg-slate-50 dark:hover:bg-white/5 text-slate-600 dark:text-white'
                                     }`}
                             >
                                 <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-md overflow-hidden flex-shrink-0 ${selectedDoctorId === doctor.id ? 'bg-white text-blue-600' : 'bg-blue-600 text-white'
@@ -92,7 +92,7 @@ const PatientChatView: React.FC<PatientChatViewProps> = ({ profile, connections,
                 ) : (
                     <div className={`h-full flex flex-col items-center justify-center text-center rounded-[3rem] border-2 border-dashed transition-all duration-300 ${darkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-100 shadow-inner'
                         }`}>
-                        <div className="w-24 h-24 bg-white dark:bg-[#050505] rounded-[2.5rem] flex items-center justify-center text-[#48c1cf] shadow-2xl mb-8 animate-bounce transition-all">
+                        <div className="w-24 h-24 bg-white dark:bg-[#050505] rounded-[2.5rem] flex items-center justify-center text-[#48c1cf] shadow-2xl mb-8 transition-all">
                             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
                         </div>
                         <h3 className="text-3xl font-black text-slate-800 dark:text-white tracking-tighter mb-4">Secure Messaging Portal</h3>

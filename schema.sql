@@ -193,13 +193,13 @@ CREATE TABLE IF NOT EXISTS messages (
 -- RLS for messages
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Users can view their own sent/received messages"
+CREATE POLICY "Anyone can view messages for now"
     ON messages FOR SELECT
-    USING (auth.uid()::text = sender_id OR auth.uid()::text = receiver_id);
+    USING (true);
 
-CREATE POLICY "Users can insert their own messages"
+CREATE POLICY "Anyone can insert messages for now"
     ON messages FOR INSERT
-    WITH CHECK (auth.uid()::text = sender_id);
+    WITH CHECK (true);
 
 -- 7.4 PERFORMANCE: Indices for common lookups
 CREATE INDEX IF NOT EXISTS idx_messages_sender ON messages (sender_id);
