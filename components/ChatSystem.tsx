@@ -215,8 +215,23 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                                         }`}
                                         style={isMe ? { backgroundColor: accentColor } : {}}>
                                         {m.content}
-                                        <div className={`text-[8px] font-bold uppercase tracking-tighter mt-1 opacity-50 ${isMe ? 'text-right' : 'text-left'}`}>
-                                            {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        <div className="flex items-center justify-end gap-1 mt-1">
+                                            <span className={`text-[8px] font-bold uppercase tracking-tighter opacity-50 ${isMe ? 'text-white' : 'text-slate-400'}`}>
+                                                {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                            </span>
+                                            {isMe && (
+                                                <div className="flex items-center">
+                                                    {m.isRead ? (
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="3" className="drop-shadow-sm">
+                                                            <path d="M2 12l5 5L22 4M7 12l5 5L22 7" strokeLinecap="round" strokeLinejoin="round" />
+                                                        </svg>
+                                                    ) : (
+                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="opacity-50">
+                                                            <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+                                                        </svg>
+                                                    )}
+                                                </div>
+                                            )}
                                         </div>
                                     </div>
 
