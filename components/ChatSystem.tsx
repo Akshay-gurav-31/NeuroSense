@@ -21,11 +21,16 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
     const blockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const fetchMessages = async () => {
-        if (blockPollRef.current) return; // Prevent polling from overwriting local changes during sync
+        if (blockPollRef.current) return; // Block trigger check
 
         try {
             const data = await dataService.getMessages(currentUser.id, otherUser.id);
-            setMessages(data);
+            // RACE CONDITION FIX: After the await, check again if we are currently blocking.
+            // If we are, it means an edit/delete happened while this fetch was in flight.
+            // We must discard this stale server data to keep the UI's fresh state.
+            if (!blockPollRef.current) {
+                setMessages(data);
+            }
         } catch (err) {
             console.error('Failed to fetch messages:', err);
         } finally {
