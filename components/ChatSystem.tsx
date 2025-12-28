@@ -50,8 +50,18 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
         try {
             if (editingId) {
-                await dataService.editMessage(editingId, content);
+                // Optimistic Update
+                const oldMessages = [...messages];
+                setMessages(prev => prev.map(m => m.id === editingId ? { ...m, content } : m));
                 setEditingId(null);
+
+                try {
+                    await dataService.editMessage(editingId, content);
+                } catch (err) {
+                    setMessages(oldMessages); // Rollback
+                    console.error('Failed to edit message:', err);
+                    alert('Failed to save edit. Please check if the 5-minute window has passed.');
+                }
             } else {
                 await dataService.sendMessage(currentUser.id, otherUser.id, content);
             }
