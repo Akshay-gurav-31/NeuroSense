@@ -46,7 +46,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
         </div>
 
         {/* Navigation Tabs */}
-        <div className="flex md:flex-col items-center justify-around md:justify-start w-full px-2 py-3 md:py-0 gap-1 md:gap-3">
+        <div className="flex md:flex-col items-center justify-around md:justify-start w-full px-2 py-3 md:py-0 gap-1 md:gap-1.5">
           {tabs.map((tab) => {
             const isActive = activeId === tab.id;
             return (
@@ -76,7 +76,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
       </div>
 
       {/* Bottom Section: Theme & Profile/Logout */}
-      <div className="flex md:flex-col items-center gap-2 md:gap-4 px-4 md:px-0 md:pb-8">
+      <div className="flex md:flex-col items-center gap-2 md:gap-2 px-4 md:px-0 md:pb-8">
         {/* Profile */}
         <button
           onClick={() => setView('profile')}
@@ -108,7 +108,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
           title="Logout"
         >
           <Icons.Logout size={20} />
-          <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5">Exit</span>
+          <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5">Logout</span>
         </button>
       </div>
     </nav>
