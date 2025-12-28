@@ -38,7 +38,6 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         return m;
                     } else {
                         // Server is still stale, keep local edit visible
-                        console.log(`[Sync] Server return stale data for ${m.id}. Applying sticky fix.`);
                         return { ...m, content: stickyContent };
                     }
                 }
@@ -103,7 +102,7 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                     delete stickyEditsRef.current[editingId]; // Remove sticky on failure
                     setMessages(oldMessages); // Rollback
                     console.error('Edit failed:', err);
-                    alert(`Server rejected the edit. Reason: ${err.message || 'Unknown Error'}`);
+                    alert('Failed to save edit. Please try again or check your connection.');
                 }
             } else {
                 await dataService.sendMessage(currentUser.id, otherUser.id, content);

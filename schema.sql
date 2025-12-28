@@ -179,7 +179,7 @@ EXCEPTION
     WHEN duplicate_column THEN RAISE NOTICE 'Column already exists in doctor_profiles.';
 END $$;
 
--- 7.3 MIGRATION: Create messages table
+-- 7.3 MIGRATION: Create messages table with update tracking
 CREATE TABLE IF NOT EXISTS messages (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     sender_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
@@ -191,7 +191,7 @@ CREATE TABLE IF NOT EXISTS messages (
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
--- Trigger for updated_at
+-- Trigger Function for auto-updating updated_at
 CREATE OR REPLACE FUNCTION update_updated_at_column()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -200,26 +200,33 @@ BEGIN
 END;
 $$ language 'plpgsql';
 
+-- Re-set Trigger (Drop first for idempotency)
+DROP TRIGGER IF EXISTS update_messages_updated_at ON messages;
 CREATE TRIGGER update_messages_updated_at
     BEFORE UPDATE ON messages
     FOR EACH ROW
     EXECUTE FUNCTION update_updated_at_column();
 
--- RLS for messages
+-- RLS & Security Policies
+-- Force enable RLS
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 
-DROP POLICY IF EXISTS "Anyone can view messages for now" ON messages;
-DROP POLICY IF EXISTS "Anyone can insert messages for now" ON messages;
-DROP POLICY IF EXISTS "Anyone can update messages for now" ON messages;
-DROP POLICY IF EXISTS "Anyone can delete messages for now" ON messages;
-DROP POLICY IF EXISTS "Messages full access" ON messages;
+-- Clean existing policies & set Full Access for development
+DO $$ 
+DECLARE pol record;
+BEGIN 
+    FOR pol IN SELECT policyname FROM pg_policies WHERE tablename = 'messages' 
+    LOOP
+        EXECUTE format('DROP POLICY IF EXISTS %I ON messages', pol.policyname);
+    END LOOP;
+END $$;
 
 CREATE POLICY "Messages full access"
     ON messages FOR ALL
     USING (true)
     WITH CHECK (true);
 
--- 7.4 PERFORMANCE: Indices for common lookups
+-- 7.4 PERFORMANCE: Indices
 CREATE INDEX IF NOT EXISTS idx_messages_sender ON messages (sender_id);
 CREATE INDEX IF NOT EXISTS idx_messages_receiver ON messages (receiver_id);
 CREATE INDEX IF NOT EXISTS idx_messages_timestamp ON messages (timestamp DESC);
