@@ -201,6 +201,14 @@ CREATE POLICY "Anyone can insert messages for now"
     ON messages FOR INSERT
     WITH CHECK (true);
 
+CREATE POLICY "Anyone can update messages for now"
+    ON messages FOR UPDATE
+    USING (true);
+
+CREATE POLICY "Anyone can delete messages for now"
+    ON messages FOR DELETE
+    USING (true);
+
 -- 7.4 PERFORMANCE: Indices for common lookups
 CREATE INDEX IF NOT EXISTS idx_messages_sender ON messages (sender_id);
 CREATE INDEX IF NOT EXISTS idx_messages_receiver ON messages (receiver_id);
