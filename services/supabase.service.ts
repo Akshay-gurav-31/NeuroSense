@@ -324,5 +324,21 @@ export const dataService = {
             .update({ is_read: true })
             .eq('id', messageId);
         if (error) throw error;
+    },
+
+    async deleteMessage(messageId: string): Promise<void> {
+        const { error } = await supabase
+            .from('messages')
+            .delete()
+            .eq('id', messageId);
+        if (error) throw error;
+    },
+
+    async editMessage(messageId: string, newContent: string): Promise<void> {
+        const { error } = await supabase
+            .from('messages')
+            .update({ content: newContent })
+            .eq('id', messageId);
+        if (error) throw error;
     }
 };

@@ -15,6 +15,7 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [loading, setLoading] = useState(true);
+    const [editingId, setEditingId] = useState<string | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
@@ -48,12 +49,36 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
         setNewMessage('');
 
         try {
-            await dataService.sendMessage(currentUser.id, otherUser.id, content);
+            if (editingId) {
+                await dataService.editMessage(editingId, content);
+                setEditingId(null);
+            } else {
+                await dataService.sendMessage(currentUser.id, otherUser.id, content);
+            }
             const data = await dataService.getMessages(currentUser.id, otherUser.id);
             setMessages(data);
         } catch (err) {
-            console.error('Failed to send message:', err);
+            console.error('Failed to process message:', err);
         }
+    };
+
+    const handleDelete = async (messageId: string) => {
+        try {
+            await dataService.deleteMessage(messageId);
+            setMessages(prev => prev.filter(m => m.id !== messageId));
+        } catch (err) {
+            console.error('Failed to delete message:', err);
+        }
+    };
+
+    const startEdit = (message: ChatMessage) => {
+        setEditingId(message.id);
+        setNewMessage(message.content);
+    };
+
+    const cancelEdit = () => {
+        setEditingId(null);
+        setNewMessage('');
     };
 
     const isDoctor = currentUser.role === UserRole.DOCTOR;
@@ -107,17 +132,33 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                 ) : (
                     messages.map((m, idx) => {
                         const isMe = m.senderId === currentUser.id;
+                        const timeDiff = new Date().getTime() - new Date(m.timestamp).getTime();
+                        const canModify = isMe && timeDiff < 5 * 60 * 1000;
+
                         return (
-                            <div key={m.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'} animate-in slide-in-from-bottom-2 duration-300`}>
-                                <div className={`max-w-[80%] p-4 rounded-3xl text-sm font-medium shadow-md ${isMe
+                            <div key={m.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'} group animate-in slide-in-from-bottom-2 duration-300`}>
+                                <div className={`flex items-center gap-2 max-w-[85%] ${isMe ? 'flex-row-reverse' : 'flex-row'}`}>
+                                    <div className={`p-4 rounded-3xl text-sm font-medium shadow-md relative ${isMe
                                         ? `bg-[${accentColor}] text-white rounded-br-none shadow-[${accentColor}]/20`
                                         : `${darkMode ? 'bg-white/10 text-white' : 'bg-slate-100 text-[#1a365d]'} rounded-bl-none`
-                                    }`}
-                                    style={isMe ? { backgroundColor: accentColor } : {}}>
-                                    {m.content}
-                                    <div className={`text-[8px] font-bold uppercase tracking-tighter mt-1 opacity-50 ${isMe ? 'text-right' : 'text-left'}`}>
-                                        {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        }`}
+                                        style={isMe ? { backgroundColor: accentColor } : {}}>
+                                        {m.content}
+                                        <div className={`text-[8px] font-bold uppercase tracking-tighter mt-1 opacity-50 ${isMe ? 'text-right' : 'text-left'}`}>
+                                            {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                        </div>
                                     </div>
+
+                                    {canModify && !editingId && (
+                                        <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                            <button onClick={() => startEdit(m)} className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-400 dark:text-white transition-colors" title="Edit">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                                            </button>
+                                            <button onClick={() => handleDelete(m.id)} className="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 transition-colors" title="Delete">
+                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                                            </button>
+                                        </div>
+                                    )}
                                 </div>
                             </div>
                         );
@@ -127,15 +168,21 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
             {/* Input Area */}
             <div className={`p-6 border-t ${darkMode ? 'border-white/5' : 'border-slate-50'}`}>
+                {editingId && (
+                    <div className="flex items-center justify-between mb-3 px-2">
+                        <span className="text-[10px] font-black uppercase tracking-widest text-[#48c1cf]">Editing Message</span>
+                        <button onClick={cancelEdit} className="text-[10px] font-black uppercase tracking-widest text-rose-500 hover:underline">Cancel</button>
+                    </div>
+                )}
                 <form onSubmit={handleSend} className="flex items-center gap-3">
                     <input
                         type="text"
                         value={newMessage}
                         onChange={(e) => setNewMessage(e.target.value)}
-                        placeholder="Type your message..."
+                        placeholder={editingId ? "Update your message..." : "Type your message..."}
                         className={`flex-grow px-6 py-4 rounded-2xl text-sm font-medium transition-all outline-none border-2 ${darkMode
-                                ? 'bg-white/5 border-white/5 focus:border-[#48c1cf]/30 text-white'
-                                : 'bg-slate-50 border-slate-50 focus:border-[#48c1cf]/30 text-[#1a365d]'
+                            ? 'bg-white/5 border-white/5 focus:border-[#48c1cf]/30 text-white'
+                            : 'bg-slate-50 border-slate-50 focus:border-[#48c1cf]/30 text-[#1a365d]'
                             }`}
                     />
                     <button
@@ -143,7 +190,11 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         className="w-14 h-14 rounded-2xl flex items-center justify-center text-white shadow-lg active:scale-90 transition-all shimmer"
                         style={{ backgroundColor: accentColor }}
                     >
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="rotate-45 -translate-x-0.5 translate-y-0.5"><path d="m22 2-7 20-4-9-9-4 20-7z" /><path d="M22 2 11 13" /></svg>
+                        {editingId ? (
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M20 6L9 17l-5-5" /></svg>
+                        ) : (
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="rotate-45 -translate-x-0.5 translate-y-0.5"><path d="m22 2-7 20-4-9-9-4 20-7z" /><path d="M22 2 11 13" /></svg>
+                        )}
                     </button>
                 </form>
             </div>
