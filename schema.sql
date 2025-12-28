@@ -193,20 +193,13 @@ CREATE TABLE IF NOT EXISTS messages (
 -- RLS for messages
 ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Anyone can view messages for now"
-    ON messages FOR SELECT
-    USING (true);
+DROP POLICY IF EXISTS "Anyone can view messages for now" ON messages;
+DROP POLICY IF EXISTS "Anyone can insert messages for now" ON messages;
+DROP POLICY IF EXISTS "Anyone can update messages for now" ON messages;
+DROP POLICY IF EXISTS "Anyone can delete messages for now" ON messages;
 
-CREATE POLICY "Anyone can insert messages for now"
-    ON messages FOR INSERT
-    WITH CHECK (true);
-
-CREATE POLICY "Anyone can update messages for now"
-    ON messages FOR UPDATE
-    USING (true);
-
-CREATE POLICY "Anyone can delete messages for now"
-    ON messages FOR DELETE
+CREATE POLICY "Messages full access"
+    ON messages FOR ALL
     USING (true);
 
 -- 7.4 PERFORMANCE: Indices for common lookups

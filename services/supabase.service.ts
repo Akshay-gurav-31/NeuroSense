@@ -335,6 +335,7 @@ export const dataService = {
     },
 
     async editMessage(messageId: string, newContent: string): Promise<ChatMessage> {
+        console.log('Editing message:', messageId, 'to:', newContent);
         const { data, error } = await supabase
             .from('messages')
             .update({ content: newContent })
@@ -342,8 +343,13 @@ export const dataService = {
             .select()
             .single();
 
-        if (error) throw error;
+        if (error) {
+            console.error('Supabase update error:', error);
+            throw error;
+        }
         if (!data) throw new Error('Update failed: No data returned.');
+
+        console.log('Update result from server:', data);
 
         return {
             id: data.id,
