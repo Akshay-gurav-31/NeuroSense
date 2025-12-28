@@ -32,13 +32,13 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
   const tabs = role === UserRole.PATIENT ? patientTabs : doctorTabs;
 
   return (
-    <nav className={`fixed bottom-0 left-0 right-0 z-[100] md:top-0 md:h-screen md:w-24 flex md:flex-col items-center justify-between border-t md:border-t-0 md:border-r transition-all duration-300 backdrop-blur-3xl 
+    <nav className={`fixed bottom-0 left-0 right-0 z-[100] md:top-0 md:h-screen md:w-20 flex md:flex-col items-center justify-between border-t md:border-t-0 md:border-r transition-all duration-300 backdrop-blur-3xl 
       ${darkMode ? 'bg-black/95 border-white/5' : 'bg-white/95 border-slate-200 shadow-2xl'}
     `}>
       {/* Top Section: Logo & Primary Nav */}
       <div className="flex md:flex-col items-center w-full">
         {/* Desktop Logo */}
-        <div className="hidden md:flex items-center justify-center h-24 w-full mb-4">
+        <div className="hidden md:flex items-center justify-center h-20 w-full mb-2">
           <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/10 to-emerald-500/10 border border-blue-500/20 shadow-lg cursor-pointer hover:scale-105 transition-transform"
             onClick={() => setView('dashboard')}>
             <Icons.Logo size={32} className="text-blue-500" />
