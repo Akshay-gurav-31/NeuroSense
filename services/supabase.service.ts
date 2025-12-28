@@ -2,7 +2,10 @@ import { supabase } from '../lib/supabase';
 import { UserAccount, SessionResult, Connection, UserRole, ConnectionStatus, TherapyType, ChatMessage } from '../types';
 
 export const dataService = {
-    // --- USER AUTHENTICATION & PROFILES ---
+    /**
+     * @section User Authentication & Clinical Profile Management
+     * Handles identity verification, registration, and role-specific profile updates.
+     */
 
     async uploadAvatar(file: File): Promise<string> {
         const fileExt = file.name.split('.').pop();
@@ -23,7 +26,8 @@ export const dataService = {
     },
 
     async register(user: UserAccount) {
-        // 1. Insert into users table
+        // Operational Strategy: Atomic insertion across core user and role-specific profile tables
+        // 1. Core Identity Persistence
         const { error: userError } = await supabase
             .from('users')
             .insert({
@@ -39,7 +43,7 @@ export const dataService = {
 
         if (userError) throw userError;
 
-        // 2. Insert into appropriate profile table
+        // 2. Profile Specialization: Map user to clinical role structures
         if (user.role === UserRole.PATIENT) {
             const { error: patientError } = await supabase
                 .from('patient_profiles')
@@ -88,7 +92,7 @@ export const dataService = {
         if (user.role === UserRole.PATIENT) {
             const { error: patientError } = await supabase
                 .from('patient_profiles')
-                .upsert({ // Upsert ensures if profile was missing (legacy), it's created
+                .upsert({ // Idempotent update: Ensures profile existence for legacy or migrated accounts
                     user_id: user.id,
                     diagnosis: user.diagnosis,
                     case_id: user.caseId,
@@ -114,7 +118,7 @@ export const dataService = {
     },
 
     async login(email: string, password: string): Promise<UserAccount | { error: 'EMAIL_NOT_FOUND' | 'WRONG_PASSWORD' }> {
-        // Fetch user with both potential profiles (Supabase handles left joins on FKs)
+        // Secure Ingress: Fetch identity with polymorphic profile resolution
         const { data: userByEmail, error: emailError } = await supabase
             .from('users')
             .select(`
@@ -135,8 +139,7 @@ export const dataService = {
             return { error: 'WRONG_PASSWORD' };
         }
 
-        // Map data based on role
-        // Supabase returns arrays for relations usually
+        // Data Normalization: Reconcile role-specific database fields into a unified UserAccount object
         const patientData = Array.isArray(userByEmail.patient_profiles) ? userByEmail.patient_profiles[0] : userByEmail.patient_profiles;
         const doctorData = Array.isArray(userByEmail.doctor_profiles) ? userByEmail.doctor_profiles[0] : userByEmail.doctor_profiles;
 
@@ -159,7 +162,10 @@ export const dataService = {
         };
     },
 
-    // --- THERAPY SESSIONS ---
+    /**
+     * @section Laboratory & Therapy Session Telemetry
+     * Captures and retrieves high-fidelity performance data from clinical exercises.
+     */
 
     async saveSession(result: SessionResult) {
         const { error } = await supabase
@@ -212,7 +218,10 @@ export const dataService = {
         }));
     },
 
-    // --- CLINICAL CONNECTIONS ---
+    /**
+     * @section Clinical Interoperability & Connections
+     * Manages handshakes and data-sharing permissions between patients and verified clinicians.
+     */
 
     async requestConnection(conn: Connection) {
         const { error } = await supabase
@@ -264,7 +273,7 @@ export const dataService = {
         if (error) throw error;
 
         return users.map(u => {
-            // Handle Supabase relation results (can be array or object depending on query/client version)
+            // Polymorphic Mapping: Resolve many-to-one profile relationships
             const docProfile = Array.isArray(u.doctor_profiles) ? u.doctor_profiles[0] : u.doctor_profiles;
             const patProfile = Array.isArray(u.patient_profiles) ? u.patient_profiles[0] : u.patient_profiles;
 
@@ -287,7 +296,10 @@ export const dataService = {
         });
     },
 
-    // --- CHAT METHODS ---
+    /**
+     * @section Clinical Communications (Chat)
+     * Facilitates encrypted, real-time messaging between care nodes.
+     */
     async sendMessage(senderId: string, receiverId: string, content: string): Promise<void> {
         const { error } = await supabase
             .from('messages')
@@ -335,7 +347,7 @@ export const dataService = {
     },
 
     async getChatPreview(userId1: string, userId2: string): Promise<{ lastMessage: string, timestamp: string, unreadCount: number } | null> {
-        // Get last message
+        // Telemetry Synthesis: Aggregate latest message metadata and unread indicators
         const { data: lastMsgData, error: lastMsgError } = await supabase
             .from('messages')
             .select('content, timestamp')
@@ -347,7 +359,7 @@ export const dataService = {
         if (lastMsgError) throw lastMsgError;
         if (!lastMsgData) return null;
 
-        // Get unread count for current user (userId1 is assumed to be the observer)
+        // Metadata Aggregation: Determine unread saturation for the active observer
         const { count, error: countError } = await supabase
             .from('messages')
             .select('*', { count: 'exact', head: true })

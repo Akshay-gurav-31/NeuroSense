@@ -35,9 +35,9 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
     <nav className={`fixed bottom-0 left-0 right-0 z-[100] md:top-0 md:h-screen md:w-20 flex md:flex-col items-center justify-between border-t md:border-t-0 md:border-r transition-all duration-300 backdrop-blur-3xl 
       ${darkMode ? 'bg-black/95 border-white/5' : 'bg-white/95 border-slate-200 shadow-2xl'}
     `}>
-      {/* Top Section: Logo & Primary Nav */}
+      {/* Primary Navigation & Identity Section */}
       <div className="flex md:flex-col items-center w-full">
-        {/* Desktop Logo */}
+        {/* Brand Logo - Navigates to default dashboard */}
         <div className="hidden md:flex items-center justify-center h-20 w-full mb-2">
           <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/10 to-emerald-500/10 border border-blue-500/20 shadow-lg cursor-pointer hover:scale-105 transition-transform"
             onClick={() => setView('dashboard')}>
@@ -45,7 +45,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
           </div>
         </div>
 
-        {/* Navigation Tabs */}
+        {/* Main Navigation Tabs - Stacked vertically on desktop */}
         <div className="flex md:flex-col items-center justify-around md:justify-start w-full px-2 py-3 md:py-0 gap-1 md:gap-1.5">
           {tabs.map((tab) => {
             const isActive = activeId === tab.id;
@@ -73,7 +73,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
             );
           })}
 
-          {/* Integrated Profile Tab */}
+          {/* Dedicated Profile Tab - Aligned with primary navigation flow */}
           <button
             onClick={() => setView('profile')}
             className={`flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] transition-all duration-300 group relative
@@ -88,7 +88,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
             </span>
           </button>
 
-          {/* Integrated Theme Toggle */}
+          {/* System Utility: Theme Toggle */}
           <button
             onClick={toggleTheme}
             className="flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] text-slate-400 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus:outline-none"
@@ -99,7 +99,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
             <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 text-slate-500 dark:text-slate-400">Mode</span>
           </button>
 
-          {/* Integrated Logout Button */}
+          {/* Core Action: Session Logout */}
           <button
             onClick={onLogout}
             className="flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] bg-rose-500/5 text-rose-500 hover:bg-rose-500 hover:text-white transition-all active:scale-95 border border-rose-500/10"

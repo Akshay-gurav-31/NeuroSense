@@ -12,7 +12,7 @@ import TherapyLibrary from './views/TherapyLibrary';
 import ProfileView from './views/ProfileView';
 import DoctorConnect from './views/DoctorConnect';
 
-// New Modular Views
+// Core Framework & Component Architecture
 import LandingPage from './views/LandingPage';
 import AuthPortal from './views/AuthPortal';
 import MentalHealthView from './views/MentalHealthView';
@@ -56,7 +56,7 @@ const App: React.FC = () => {
   const [allConnections, setAllConnections] = useState<Connection[]>([]);
   const [history, setHistory] = useState<SessionResult[]>([]);
 
-  // Periodically fetch data to simulate "real-time" if not using subscriptions yet
+  // Background Data Sync: Maintains real-time state consistency
   const fetchData = async () => {
     if (!user) return;
     try {
@@ -84,7 +84,7 @@ const App: React.FC = () => {
       localStorage.setItem('ns_user', JSON.stringify(user));
       localStorage.setItem('ns_role', user.role);
       fetchData();
-      const interval = setInterval(fetchData, 5000); // 5s poll for mock real-time
+      const interval = setInterval(fetchData, 5000); // Poll server every 5 seconds for telemetry updates
       return () => clearInterval(interval);
     }
   }, [user]);
@@ -111,7 +111,7 @@ const App: React.FC = () => {
       if (authMode === 'LOGIN') {
         const result = await dataService.login(email, password);
 
-        // Handle error cases first
+        // Logic-driven authentication handling
         if (!result) {
           setAuthError("Database connection error. Please try again.");
         } else if ('error' in result) {
@@ -122,7 +122,7 @@ const App: React.FC = () => {
             setAuthError("Incorrect password. Please try again.");
           }
         } else {
-          // Now TypeScript knows result is definitely UserAccount
+          // Valid credential set: Apply role-based access control
           if (result.role === selectedRole) {
             setUser(result);
             setRole(result.role);
@@ -253,7 +253,7 @@ const App: React.FC = () => {
     );
   }
 
-  // Active Therapy Flow
+  // Main Application Router: Conditional view rendering based on state
   if (activeGameMode === 'Speak & Score') return <SpeechTherapy onComplete={handleCompleteExercise} onAbort={() => { setActiveExercise(null); setActiveGameMode(null); }} darkMode={darkMode} mode="speak-score" />;
   if (activeExercise === TherapyType.BODY) return <BodyTherapy onComplete={handleCompleteExercise} darkMode={darkMode} />;
   if (activeExercise === TherapyType.SPEECH) return <SpeechTherapy onComplete={handleCompleteExercise} onAbort={() => { setActiveExercise(null); setActiveGameMode(null); }} darkMode={darkMode} mode="articulation" />;

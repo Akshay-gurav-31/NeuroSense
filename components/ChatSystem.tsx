@@ -19,7 +19,7 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
     const scrollRef = useRef<HTMLDivElement>(null);
     const blockPollRef = useRef<boolean>(false);
     const blockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const stickyEditsRef = useRef<Record<string, string>>({}); // Maps msg ID to content
+    const stickyEditsRef = useRef<Record<string, string>>({}); // Tracks unconfirmed local edits
 
     const fetchMessages = async () => {
         try {
@@ -31,10 +31,8 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                 dataService.markAllAsRead(currentUser.id, otherUser.id).catch(console.error);
             }
 
-            // SERVER-CONFIRMATION-SYNC:
-            // For each message, check if we have a "sticky" local edit.
-            // If the server's content matches our edit, the server is synced -> clear sticky.
-            // If the server's content is still old, keep showing the sticky content.
+            // State Reconciliation: Sync local "sticky" edits with server confirmation.
+            // This prevents UI flickering during high-latency polling intervals.
             const syncedData = data.map(m => {
                 const stickyContent = stickyEditsRef.current[m.id];
                 if (stickyContent) {
@@ -62,7 +60,7 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
     useEffect(() => {
         fetchMessages();
-        const interval = setInterval(fetchMessages, 3000); // Polling for real-time feel
+        const interval = setInterval(fetchMessages, 3000); // Standard polling for secure data retrieval
         return () => clearInterval(interval);
     }, [currentUser.id, otherUser.id]);
 
@@ -81,7 +79,7 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
         try {
             if (editingId) {
-                // Block polling IMMEDIATELY
+                // Suspend polling to maintain input focus and prevent race conditions
                 blockPollRef.current = true;
                 if (blockTimeoutRef.current) clearTimeout(blockTimeoutRef.current);
                 blockTimeoutRef.current = setTimeout(() => { blockPollRef.current = false; }, 5000);
@@ -121,7 +119,7 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
     const handleDelete = async (messageId: string) => {
         try {
-            // Block polling immediately for delete too
+            // Suspend polling to ensure UI reflects deletion immediately
             blockPollRef.current = true;
             if (blockTimeoutRef.current) clearTimeout(blockTimeoutRef.current);
             blockTimeoutRef.current = setTimeout(() => { blockPollRef.current = false; }, 5000);
@@ -206,7 +204,7 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         const timeDiff = new Date().getTime() - new Date(m.timestamp).getTime();
                         const canModify = isMe && timeDiff < 5 * 60 * 1000;
 
-                        // Date Separator Logic
+                        // Chronological UI: Group messages by session dates
                         const mDate = new Date(m.timestamp);
                         const prevM = idx > 0 ? messages[idx - 1] : null;
                         const showDateSeparator = !prevM ||

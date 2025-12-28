@@ -58,7 +58,7 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
   return (
     <div className="fixed inset-0 z-[200] flex flex-col transition-colors duration-300 bg-[#f4f7f9] text-[#1a365d] dark:bg-black dark:text-white">
 
-      {/* Header Layout Item (Non-overlapping) */}
+      {/* Clinical Hub Header: Navigation and Telemetry Persistence */}
       <div className="flex-none z-50 p-6 pb-0">
         <header className="flex items-center justify-between bio-gradient-header py-4 px-8 rounded-full shadow-2xl text-white relative overflow-hidden">
           {/* Left: Return Button */}
@@ -98,10 +98,10 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
       <div className="flex-grow overflow-y-auto p-4 lg:p-6 pt-6">
         <div className="max-w-[1800px] mx-auto space-y-8 h-full">
 
-          {/* THE GRID DASHBOARD */}
+          {/* Clinical Telemetry Grid: Comparative Recovery Analytics */}
           <div className="flex flex-col lg:flex-row gap-8 pb-20">
             <div className="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 grid-flow-dense auto-rows-auto">
-              {/* Row 1 */}
+              {/* Primary Analytics Cluster */}
               <OverallRecoveryCard history={patientHistory} />
               <div className="md:col-span-2">
                 <WeeklyProgressCard history={patientHistory} />
@@ -109,7 +109,7 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
               <ExerciseCompletionCard history={patientHistory} />
               <RiskStatusCard history={patientHistory} />
 
-              {/* Row 2 */}
+              {/* Peripheral Recovery Vectors */}
               <HandAccuracyCard history={patientHistory} />
               <TremorIntensityCard history={patientHistory} />
               <SpeechClarityCard history={patientHistory} />
@@ -119,7 +119,7 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
                 <RecoveryPredictionCard history={patientHistory} />
               </div>
 
-              {/* rows 3 & 4 mixed */}
+              {/* Clinical Stability & Predictive Models */}
               <div className="row-span-2">
                 <BalanceStabilityCard history={patientHistory} />
               </div>
@@ -264,7 +264,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
 
   return (
     <div className="fixed top-0 bottom-0 right-0 left-0 md:left-28 z-[100] flex flex-col transition-colors duration-300 overflow-hidden bg-white text-slate-900 dark:bg-[#0B1121] dark:text-slate-100 dark:bg-[radial-gradient(circle_at_center,_#151e32_0%,_#0B1121_100%)]">
-      {/* Ambient Blue Light Source - Only in dark mode */}
+      {/* Ambient Atmospheric Visuals */}
       <div className="hidden dark:block ambient-blue-glow top-[-20%] left-[20%] opacity-60"></div>
       <div className="hidden dark:block ambient-blue-glow bottom-[-20%] right-[10%] opacity-40"></div>
 

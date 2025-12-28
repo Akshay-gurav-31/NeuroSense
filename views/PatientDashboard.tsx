@@ -29,6 +29,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
 
   return (
     <div className="space-y-6 sm:space-y-8 resolve-ui">
+      {/* Header Section: Clinical Status & Identity */}
       <header className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 pb-8 border-b border-slate-200 dark:border-white/10">
         <div className="w-full">
           <div className="inline-flex items-center gap-3 px-5 py-2 bg-slate-100 dark:bg-blue-500/10 text-slate-600 dark:text-blue-400 rounded-full text-[9px] font-black uppercase tracking-[0.3em] mb-8 border border-slate-200 dark:border-white/5">
@@ -54,9 +55,10 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
       </header>
 
       <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+        {/* Recovery Analytics & Historical Synthesis */}
         <section className="xl:col-span-2 bg-white dark:bg-[#080808] rounded-[3.5rem] p-8 lg:p-12 relative overflow-hidden border border-slate-200 dark:border-white/10 shadow-xl group transition-colors duration-300">
           <div className="relative z-10">
-            <h2 className="text-[10px] font-[900] uppercase tracking-[0.4em] text-slate-400 mb-10">Historical Synthesis</h2>
+            <h2 className="text-[10px] font-[900] uppercase tracking-[0.4em] text-slate-400 mb-10">Recovery Intelligence</h2>
 
             <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 mb-12">
               <span className="text-8xl lg:text-[10rem] font-[1000] tracking-[-0.08em] leading-none text-black dark:text-white transition-colors duration-300">{avgScore}</span>
@@ -83,6 +85,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
           </div>
         </section>
 
+        {/* Daily Compliance & Activity Tracking */}
         <section className="h-full">
           <DailyTracker
             history={history}
@@ -96,9 +99,10 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
         <div className="flex items-center justify-between mb-12 px-2">
           <h2 className="text-3xl font-[1000] tracking-tight text-slate-900 dark:text-white transition-colors duration-300">Active Labs.</h2>
           <div className="h-[0.5px] bg-slate-200 dark:bg-white/10 flex-grow mx-10"></div>
-          <span className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 clinical-mono">CORE V5.2</span>
+          <span className="text-[9px] font-black uppercase tracking-[0.4em] text-slate-400 clinical-mono">Clinical Protocol Core V5.2</span>
         </div>
 
+        {/* Laboratory Modules: Interactive Recovery Exercises */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {dailyTasks.map((task, idx) => {
             const completed = checkCompleted(task.type);

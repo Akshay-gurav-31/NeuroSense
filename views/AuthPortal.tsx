@@ -28,7 +28,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
 
     return (
         <div className={`cosmic-auth-background ${darkMode ? 'dark' : 'light'}`}>
-            {/* Pro Gradient Background */}
+            {/* Dynamic System Theme Backgrounds */}
             <div className={`fixed inset-0 -z-10 transition-all duration-700 ${darkMode
                 ? (isDoctor
                     ? 'bg-gradient-to-br from-[#0a1f1c] via-[#1a4d47] via-[#2d7a6e] via-[#8b6f47] to-[#c9a961]'
@@ -36,7 +36,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                 : 'bg-gradient-to-r from-[#dcfce7] via-white to-[#dbeafe]'
                 }`}></div>
 
-            {/* Floating Particles */}
+            {/* Atmospheric Visual Effects: Particle Field */}
             <div className="fixed inset-0 opacity-60 -z-10 animate-particle-float" style={{
                 backgroundImage: `radial-gradient(2px 2px at 20% 30%, white, transparent),
                                   radial-gradient(2px 2px at 60% 70%, white, transparent),
@@ -63,7 +63,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                     }`}>
 
 
-                    {/* Left Panel - Visual Branding */}
+                    {/* Brand Identity & Visual Indicators */}
                     <div className={`relative flex-[0_0_45%] bg-gradient-to-br flex flex-col items-center justify-center p-16 overflow-hidden transition-all duration-700 ${darkMode
                         ? (isDoctor
                             ? 'from-[rgba(10,31,28,0.95)] via-[rgba(26,77,71,0.9)] to-[rgba(45,122,110,0.85)]'
@@ -122,7 +122,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                         </div>
                     </div>
 
-                    {/* Right Panel - Login Form */}
+                    {/* Authentication Feedback & Input Ingress */}
                     <div className="relative flex-[0_0_55%] bg-gradient-to-br from-[#ffffff] to-[#f3f5f7] flex items-center justify-center p-12 lg:p-16">
                         {/* Design Space / Top Pill */}
                         <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-48 h-10 border-b border-x rounded-b-3xl hidden md:flex items-center justify-center ${isDoctor ? 'bg-[#BEF264]/10 border-[#BEF264]/20' : 'bg-[#38bdf8]/10 border-[#38bdf8]/20'

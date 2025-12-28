@@ -13,11 +13,11 @@ interface LandingPageProps {
 const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSelectRole }) => {
     return (
         <div className="min-h-screen w-full transition-all duration-700 overflow-hidden relative flex flex-col lg:flex-row bg-gradient-to-r from-[#dcfce7] via-white to-[#dbeafe] dark:from-[#0a1f1c] dark:via-[#020617] dark:to-[#0a192f]">
-            {/* Pro Ambient Glows */}
+            {/* Ambient Background Visuals: High-fidelity clinical aesthetic */}
             <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/5 dark:bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
             <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 dark:bg-blue-500/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
-            {/* Top Integrated Nav */}
+            {/* Header Navigation: Branding and System Controls */}
             <div className="absolute top-8 left-8 lg:top-12 lg:left-12 flex items-center gap-4 z-50">
                 <Icons.Logo size={40} className="text-prism-text dark:text-white" />
                 <div className="h-6 w-[0.5px] bg-prism-text/20 dark:bg-white/20"></div>
@@ -33,7 +33,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                 </button>
             </div>
 
-            {/* Left Hero */}
+            {/* Primary Content Area: Value Proposition & Access Control */}
             <div className="w-full lg:w-[55%] p-8 md:p-12 lg:p-20 flex flex-col justify-center relative z-20 resolve-ui">
                 <div className="max-w-[800px] space-y-12 lg:space-y-16">
                     <div className="space-y-6">
@@ -75,7 +75,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                 </div>
             </div>
 
-            {/* Right Visual */}
+            {/* Secondary Visual Container: Neural Architecture Visualization */}
             <div className="hidden lg:flex w-full lg:w-[45%] relative items-center justify-center overflow-hidden">
                 <div className="w-full h-full absolute flex items-center justify-center">
                     <NeuralBrain darkMode={darkMode} />
