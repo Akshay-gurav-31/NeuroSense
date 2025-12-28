@@ -17,8 +17,12 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState<string | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
+    const blockPollRef = useRef<boolean>(false);
+    const blockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
     const fetchMessages = async () => {
+        if (blockPollRef.current) return; // Prevent polling from overwriting local changes during sync
+
         try {
             const data = await dataService.getMessages(currentUser.id, otherUser.id);
             setMessages(data);
@@ -59,6 +63,11 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                     const updatedMsg = await dataService.editMessage(editingId, content);
                     // Use the server's confirmed record immediately
                     setMessages(prev => prev.map(m => m.id === editingId ? updatedMsg : m));
+
+                    // Block polling for 5 seconds to let server state stabilize
+                    blockPollRef.current = true;
+                    if (blockTimeoutRef.current) clearTimeout(blockTimeoutRef.current);
+                    blockTimeoutRef.current = setTimeout(() => { blockPollRef.current = false; }, 5000);
                 } catch (err) {
                     setMessages(oldMessages); // Rollback
                     console.error('Edit failed:', err);
@@ -75,6 +84,11 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
     const handleDelete = async (messageId: string) => {
         try {
+            // Block polling immediately for delete too
+            blockPollRef.current = true;
+            if (blockTimeoutRef.current) clearTimeout(blockTimeoutRef.current);
+            blockTimeoutRef.current = setTimeout(() => { blockPollRef.current = false; }, 5000);
+
             await dataService.deleteMessage(messageId);
             setMessages(prev => prev.filter(m => m.id !== messageId));
         } catch (err) {
