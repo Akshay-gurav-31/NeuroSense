@@ -179,6 +179,28 @@ EXCEPTION
     WHEN duplicate_column THEN RAISE NOTICE 'Column already exists in doctor_profiles.';
 END $$;
 
+-- 7.3 MIGRATION: Create messages table
+CREATE TABLE IF NOT EXISTS messages (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    sender_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    receiver_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    content TEXT NOT NULL,
+    timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    is_read BOOLEAN DEFAULT FALSE,
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- RLS for messages
+ALTER TABLE messages ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Users can view their own sent/received messages"
+    ON messages FOR SELECT
+    USING (auth.uid()::text = sender_id OR auth.uid()::text = receiver_id);
+
+CREATE POLICY "Users can insert their own messages"
+    ON messages FOR INSERT
+    WITH CHECK (auth.uid()::text = sender_id);
+
 
 -- 8. STORAGE CONFIGURATION (Avatars)
 -- Create a public bucket for profile images

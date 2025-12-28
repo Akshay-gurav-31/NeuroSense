@@ -21,6 +21,7 @@ import MoodTrendCard from '../components/dashboard/MoodTrendCard';
 import SessionComplianceCard from '../components/dashboard/SessionComplianceCard';
 import RecoveryPredictionCard from '../components/dashboard/RecoveryPredictionCard';
 import AIRecommendationsCard from '../components/dashboard/AIRecommendationsCard';
+import ChatSystem from '../components/ChatSystem';
 
 
 interface DoctorProps {
@@ -51,7 +52,7 @@ const DashboardWidget: React.FC<{ title: string, icon: React.ReactNode, children
   </div>
 );
 
-const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[], onBack: () => void, isDark: boolean }> = ({ patient, history, onBack }) => {
+const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[], onBack: () => void, isDark: boolean, currentUser: UserAccount }> = ({ patient, history, onBack, isDark, currentUser }) => {
   const patientHistory = history.filter(h => h.patientId === patient.id);
 
   return (
@@ -96,39 +97,50 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
       {/* Scrollable Content Area */}
       <div className="flex-grow overflow-y-auto p-4 lg:p-6 pt-6">
         <div className="max-w-[1800px] mx-auto space-y-8 h-full">
+
           {/* THE GRID DASHBOARD */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-4 pb-20 grid-flow-dense auto-rows-auto">
-            {/* Row 1 */}
-            <OverallRecoveryCard history={patientHistory} />
-            <div className="md:col-span-2">
-              <WeeklyProgressCard history={patientHistory} />
+          <div className="flex flex-col lg:flex-row gap-8 pb-20">
+            <div className="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 grid-flow-dense auto-rows-auto">
+              {/* Row 1 */}
+              <OverallRecoveryCard history={patientHistory} />
+              <div className="md:col-span-2">
+                <WeeklyProgressCard history={patientHistory} />
+              </div>
+              <ExerciseCompletionCard history={patientHistory} />
+              <RiskStatusCard history={patientHistory} />
+
+              {/* Row 2 */}
+              <HandAccuracyCard history={patientHistory} />
+              <TremorIntensityCard history={patientHistory} />
+              <SpeechClarityCard history={patientHistory} />
+              <MemoryScoreCard history={patientHistory} />
+
+              <div className="row-span-3">
+                <RecoveryPredictionCard history={patientHistory} />
+              </div>
+
+              {/* rows 3 & 4 mixed */}
+              <div className="row-span-2">
+                <BalanceStabilityCard history={patientHistory} />
+              </div>
+
+              <AIRecommendationsCard history={patientHistory} />
+
+              <div className="md:col-span-2 row-span-2">
+                <SessionComplianceCard history={patientHistory} />
+              </div>
+
+              <MoodTrendCard history={patientHistory} />
             </div>
-            <ExerciseCompletionCard history={patientHistory} />
-            <RiskStatusCard history={patientHistory} />
 
-            {/* Row 2 */}
-            <HandAccuracyCard history={patientHistory} />
-            <TremorIntensityCard history={patientHistory} />
-            <SpeechClarityCard history={patientHistory} />
-            <MemoryScoreCard history={patientHistory} />
-            {/* Row 2 - Continue */}
-            <div className="row-span-3">
-              <RecoveryPredictionCard history={patientHistory} />
+            {/* Side Chat - Integrated Propetly */}
+            <div className="w-full lg:w-[400px] h-[600px] lg:h-auto lg:sticky lg:top-0">
+              <ChatSystem
+                currentUser={currentUser}
+                otherUser={patient}
+                darkMode={isDark}
+              />
             </div>
-
-            {/* rows 3 & 4 mixed */}
-            <div className="row-span-2">
-              <BalanceStabilityCard history={patientHistory} />
-            </div>
-
-            <AIRecommendationsCard history={patientHistory} />
-
-            <div className="md:col-span-2 row-span-2">
-              <SessionComplianceCard history={patientHistory} />
-            </div>
-
-            <MoodTrendCard history={patientHistory} />
-
           </div>
         </div>
       </div>
@@ -153,7 +165,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
 
   if (selectedPatientId) {
     const patient = getPatientAccount(selectedPatientId);
-    if (patient) return <PatientMonitor patient={patient} history={history} onBack={() => setSelectedPatientId(null)} isDark={darkMode} />;
+    if (patient) return <PatientMonitor patient={patient} history={history} onBack={() => setSelectedPatientId(null)} isDark={darkMode} currentUser={currentUser as any} />;
   }
 
   const renderRequestsView = () => (
@@ -246,7 +258,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
                           onClick={() => setSelectedPatientId(p.patientId)}
                           className="px-5 py-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-600 hover:text-white dark:text-emerald-400 dark:hover:text-white text-[9px] font-[1000] uppercase tracking-widest transition-all shadow-sm hover:shadow-emerald-500/20 hover:scale-105 border border-emerald-500/20"
                         >
-                          VIEW TELEMETRY
+                          VIEW DASHBOARD
                         </button>
                       </td>
                     </tr>

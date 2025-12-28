@@ -1,13 +1,13 @@
 import { supabase } from '../lib/supabase';
-import { UserAccount, SessionResult, Connection, UserRole, ConnectionStatus, TherapyType } from '../types';
+import { UserAccount, SessionResult, Connection, UserRole, ConnectionStatus, TherapyType, ChatMessage } from '../types';
 
 export const dataService = {
     // --- USER AUTHENTICATION & PROFILES ---
 
     async uploadAvatar(file: File): Promise<string> {
         const fileExt = file.name.split('.').pop();
-        const fileName = `${Math.random()}.${fileExt}`;
-        const filePath = `${fileName}`;
+        const fileName = `${Math.random()}.${fileExt} `;
+        const filePath = `${fileName} `;
 
         const { error: uploadError } = await supabase.storage
             .from('avatars')
@@ -118,10 +118,10 @@ export const dataService = {
         const { data: userByEmail, error: emailError } = await supabase
             .from('users')
             .select(`
-                *,
-                patient_profiles (*),
-                doctor_profiles (*)
-            `)
+    *,
+    patient_profiles(*),
+    doctor_profiles(*)
+        `)
             .eq('email', email)
             .single();
 
@@ -256,10 +256,10 @@ export const dataService = {
         const { data: users, error } = await supabase
             .from('users')
             .select(`
-        *,
-        patient_profiles (*),
-        doctor_profiles (*)
-      `);
+    *,
+    patient_profiles(*),
+    doctor_profiles(*)
+        `);
 
         if (error) throw error;
 
@@ -285,5 +285,44 @@ export const dataService = {
                 isVerified: docProfile?.is_verified
             };
         });
+    },
+
+    // --- CHAT METHODS ---
+    async sendMessage(senderId: string, receiverId: string, content: string): Promise<void> {
+        const { error } = await supabase
+            .from('messages')
+            .insert({
+                sender_id: senderId,
+                receiver_id: receiverId,
+                content: content,
+                timestamp: new Date().toISOString()
+            });
+        if (error) throw error;
+    },
+
+    async getMessages(userId1: string, userId2: string): Promise<ChatMessage[]> {
+        const { data, error } = await supabase
+            .from('messages')
+            .select('*')
+            .or(`and(sender_id.eq.${userId1}, receiver_id.eq.${userId2}), and(sender_id.eq.${userId2}, receiver_id.eq.${userId1})`)
+            .order('timestamp', { ascending: true });
+
+        if (error) throw error;
+        return (data || []).map(m => ({
+            id: m.id,
+            senderId: m.sender_id,
+            receiverId: m.receiver_id,
+            content: m.content,
+            timestamp: m.timestamp,
+            isRead: m.is_read
+        }));
+    },
+
+    async markAsRead(messageId: string): Promise<void> {
+        const { error } = await supabase
+            .from('messages')
+            .update({ is_read: true })
+            .eq('id', messageId);
+        if (error) throw error;
     }
 };
