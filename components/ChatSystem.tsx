@@ -19,19 +19,28 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
     const scrollRef = useRef<HTMLDivElement>(null);
     const blockPollRef = useRef<boolean>(false);
     const blockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
-    const stickyEditsRef = useRef<Record<string, { content: string, expiry: number }>>({});
+    const stickyEditsRef = useRef<Record<string, string>>({}); // Maps msg ID to content
 
     const fetchMessages = async () => {
         try {
             const data = await dataService.getMessages(currentUser.id, otherUser.id);
 
-            // Apply STICKY EDITS: If we recently edited something, don't let the poll revert it
-            const now = Date.now();
+            // SERVER-CONFIRMATION-SYNC:
+            // For each message, check if we have a "sticky" local edit.
+            // If the server's content matches our edit, the server is synced -> clear sticky.
+            // If the server's content is still old, keep showing the sticky content.
             const syncedData = data.map(m => {
-                const sticky = stickyEditsRef.current[m.id];
-                if (sticky && now < sticky.expiry) {
-                    console.log(`Poll returned old data for msg ${m.id}, applying sticky local edit.`);
-                    return { ...m, content: sticky.content };
+                const stickyContent = stickyEditsRef.current[m.id];
+                if (stickyContent) {
+                    if (m.content === stickyContent) {
+                        // Server has caught up!
+                        delete stickyEditsRef.current[m.id];
+                        return m;
+                    } else {
+                        // Server is still stale, keep local edit visible
+                        console.log(`[Sync] Server return stale data for ${m.id}. Applying sticky fix.`);
+                        return { ...m, content: stickyContent };
+                    }
                 }
                 return m;
             });
@@ -72,21 +81,24 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                 if (blockTimeoutRef.current) clearTimeout(blockTimeoutRef.current);
                 blockTimeoutRef.current = setTimeout(() => { blockPollRef.current = false; }, 5000);
 
-                // Add to sticky edits for 10 seconds to survive polling lag
-                stickyEditsRef.current[editingId] = { content, expiry: Date.now() + 10000 };
-
                 // Optimistic Update
                 const oldMessages = [...messages];
                 setMessages(prev => prev.map(m => m.id === editingId ? { ...m, content } : m));
                 setEditingId(null);
 
                 try {
+                    // Start sticky immediately
+                    stickyEditsRef.current[editingId] = content;
+
                     const updatedMsg = await dataService.editMessage(editingId, content);
-                    // Use the server's confirmed record immediately
+
+                    // Update state with confirmed message
                     setMessages(prev => prev.map(m => m.id === editingId ? updatedMsg : m));
 
-                    // Update sticky with authoritative server record if needed
-                    stickyEditsRef.current[editingId].content = updatedMsg.content;
+                    // If server confirmation matches exactly, clear sticky
+                    if (updatedMsg.content === content) {
+                        delete stickyEditsRef.current[editingId];
+                    }
                 } catch (err) {
                     delete stickyEditsRef.current[editingId]; // Remove sticky on failure
                     setMessages(oldMessages); // Rollback
