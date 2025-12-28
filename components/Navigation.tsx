@@ -16,96 +16,93 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
   const patientTabs = [
     { id: 'dashboard', icon: <Icons.Home />, label: 'Hub' },
     { id: 'therapy', icon: <Icons.Therapy />, label: 'Labs' },
-    { id: 'chat', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>, label: 'Chat' },
+    { id: 'chat', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>, label: 'Chat' },
     { id: 'connect', icon: <Icons.Activity />, label: 'Link' },
     { id: 'progress', icon: <Icons.Stats />, label: 'Data' },
-    { id: 'profile', icon: <Icons.User />, label: 'Profile' }
   ];
 
   const doctorTabs = [
     { id: 'patients', icon: <Icons.User />, label: 'Cohort' },
-    { id: 'chat', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>, label: 'Chat' },
+    { id: 'chat', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>, label: 'Chat' },
     { id: 'alerts', icon: <Icons.Activity />, label: 'Alerts' },
     { id: 'reports', icon: <Icons.Stats />, label: 'Reports' },
-    { id: 'profile', icon: <Icons.User />, label: 'Profile' }
   ];
 
   const activeId = (role === UserRole.DOCTOR && currentView === 'dashboard') ? 'patients' : currentView;
   const tabs = role === UserRole.PATIENT ? patientTabs : doctorTabs;
 
   return (
-    <nav className="fixed bottom-6 left-6 right-6 z-[100] border rounded-[2.5rem] md:top-0 md:bottom-auto md:left-0 md:w-28 md:h-full md:py-8 md:flex-col md:rounded-none md:border-t-0 md:border-r shadow-2xl safe-nav transition-colors duration-300 bg-white/90 backdrop-blur-2xl border-slate-200 dark:border-white/10"
-      style={{
-        backgroundColor: darkMode ? 'var(--sidebar-bg)' : undefined,
-        borderColor: darkMode ? 'var(--sidebar-border)' : undefined
-      }}
-    >
-      {/* Desktop Identity */}
-      <div className="hidden md:flex flex-col items-center gap-14 mb-10">
-        <div className="cursor-pointer hover:scale-110 active:scale-90 transition-all" onClick={() => setView('dashboard')}>
-          <Icons.Logo size={44} className="text-prism-dark dark:text-white" />
+    <nav className={`fixed bottom-0 left-0 right-0 z-[100] md:top-0 md:h-screen md:w-24 flex md:flex-col items-center justify-between border-t md:border-t-0 md:border-r transition-all duration-300 backdrop-blur-3xl 
+      ${darkMode ? 'bg-black/95 border-white/5' : 'bg-white/95 border-slate-200 shadow-2xl'}
+    `}>
+      {/* Top Section: Logo & Primary Nav */}
+      <div className="flex md:flex-col items-center w-full">
+        {/* Desktop Logo */}
+        <div className="hidden md:flex items-center justify-center h-24 w-full mb-4">
+          <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/10 to-emerald-500/10 border border-blue-500/20 shadow-lg cursor-pointer hover:scale-105 transition-transform"
+            onClick={() => setView('dashboard')}>
+            <Icons.Logo size={32} className="text-blue-500" />
+          </div>
+        </div>
+
+        {/* Navigation Tabs */}
+        <div className="flex md:flex-col items-center justify-around md:justify-start w-full px-2 py-3 md:py-0 gap-1 md:gap-3">
+          {tabs.map((tab) => {
+            const isActive = activeId === tab.id;
+            return (
+              <button
+                key={tab.id}
+                onClick={() => setView(tab.id)}
+                className={`flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] transition-all duration-300 group relative
+                  ${isActive
+                    ? 'text-blue-500 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.15)] scale-105'
+                    : 'text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}
+                `}
+              >
+                <div className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
+                  {tab.icon}
+                </div>
+                <span className={`text-[7px] font-black uppercase tracking-[0.2em] mt-1.5 md:hidden lg:block transition-opacity ${isActive ? 'opacity-100' : 'opacity-0 md:group-hover:opacity-100'}`}>
+                  {tab.label}
+                </span>
+
+                {isActive && (
+                  <div className="hidden md:block absolute -left-0.5 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-500 rounded-r-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
+                )}
+              </button>
+            );
+          })}
         </div>
       </div>
 
-      {/* Dynamic Nav Control */}
-      <div className="flex md:flex-col items-center justify-around w-full md:w-auto px-1 py-3 md:p-0 gap-1 md:overflow-y-auto md:no-scrollbar">
-        {tabs.map((tab) => {
-          const isActive = activeId === tab.id;
-          return (
-            <button
-              key={tab.id}
-              onClick={() => setView(tab.id)}
-              className={`flex flex-col items-center space-y-1.5 px-3 py-4 rounded-[1.8rem] md:my-1 group relative transition-all duration-300 ${isActive
-                ? 'text-white shadow-xl scale-105'
-                : 'text-slate-500 dark:text-white hover:bg-slate-50 dark:hover:bg-white/5'
-                }`}
-              style={isActive ? { backgroundColor: 'var(--role-accent)', boxShadow: '0 20px 25px -5px var(--role-accent-glow)' } : {}}
-            >
-              <div className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
-                {tab.icon}
-              </div>
+      {/* Bottom Section: Theme & Profile/Logout */}
+      <div className="flex md:flex-col items-center gap-3 md:gap-5 px-4 md:px-0 md:pb-10">
+        {/* Profile/Profile Icon - Direct Access */}
+        <button
+          onClick={() => setView('profile')}
+          className={`flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-3xl transition-all duration-300 group
+            ${currentView === 'profile'
+              ? 'text-emerald-500 bg-emerald-500/10'
+              : 'text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}
+          `}
+        >
+          <Icons.User size={22} />
+        </button>
 
-              <span className={`text-[8px] font-[1000] uppercase tracking-[0.3em] clinical-mono transition-opacity duration-300 md:opacity-100 ${isActive ? 'opacity-100' : 'opacity-0'}`}>
-                {tab.label}
-              </span>
+        <div className="hidden md:block w-8 h-[1px] bg-slate-200 dark:bg-white/5"></div>
 
-              {isActive && (
-                <div className="hidden md:block absolute -left-0 top-1/2 -translate-y-1/2 w-1.5 h-10 rounded-r-full"
-                  style={{ backgroundColor: 'var(--role-accent)' }}
-                ></div>
-              )}
-            </button>
-          );
-        })}
-
-        {/* Mobile Dark Mode Toggle */}
+        {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="flex md:hidden flex-col items-center justify-center w-12 h-12 rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white"
+          className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white hover:text-blue-500 hover:bg-blue-500/5 transition-all"
         >
           {darkMode ? <Icons.Sun size={18} /> : <Icons.Moon size={18} />}
         </button>
 
-        {/* Mobile Logout */}
+        {/* Logout Button */}
         <button
           onClick={onLogout}
-          className="flex md:hidden flex-col items-center justify-center w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-500"
-        >
-          <Icons.Logout size={18} />
-        </button>
-      </div>
-
-      {/* Utility Actions */}
-      <div className="hidden md:flex flex-col items-center gap-6 mt-auto mb-10 pb-4">
-        <button
-          onClick={toggleTheme}
-          className="w-12 h-12 flex items-center justify-center rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white hover:text-prism-accent transition-all hover:rotate-90 shadow-sm border border-slate-100 dark:border-white/5"
-        >
-          {darkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
-        </button>
-        <button
-          onClick={onLogout}
-          className="w-12 h-12 flex items-center justify-center rounded-2xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-all active:scale-90 shadow-md border border-rose-500/20"
+          className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-2xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-all active:scale-90 shadow-sm border border-rose-500/20"
           title="Logout"
         >
           <Icons.Logout size={20} />
