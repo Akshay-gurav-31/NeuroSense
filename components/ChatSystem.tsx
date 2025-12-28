@@ -206,47 +206,75 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         const timeDiff = new Date().getTime() - new Date(m.timestamp).getTime();
                         const canModify = isMe && timeDiff < 5 * 60 * 1000;
 
-                        return (
-                            <div key={m.id} className={`flex flex-col ${isMe ? 'items-end' : 'items-start'} group animate-in slide-in-from-bottom-2 duration-300`}>
-                                <div className={`flex items-center gap-2 max-w-[85%] ${isMe ? 'flex-row-reverse' : 'flex-row'}`}>
-                                    <div className={`p-4 rounded-3xl text-sm font-medium shadow-md relative ${isMe
-                                        ? `bg-[${accentColor}] text-white rounded-br-none shadow-[${accentColor}]/20`
-                                        : `${darkMode ? 'bg-white/10 text-white' : 'bg-slate-100 text-[#1a365d]'} rounded-bl-none`
-                                        }`}
-                                        style={isMe ? { backgroundColor: accentColor } : {}}>
-                                        {m.content}
-                                        <div className="flex items-center justify-end gap-1 mt-1">
-                                            <span className={`text-[8px] font-bold uppercase tracking-tighter opacity-50 ${isMe ? 'text-white' : 'text-slate-400'}`}>
-                                                {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                            </span>
-                                            {isMe && (
-                                                <div className="flex items-center">
-                                                    {m.isRead ? (
-                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="3" className="drop-shadow-sm">
-                                                            <path d="M2 12l5 5L22 4M7 12l5 5L22 7" strokeLinecap="round" strokeLinejoin="round" />
-                                                        </svg>
-                                                    ) : (
-                                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="opacity-50">
-                                                            <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
-                                                        </svg>
-                                                    )}
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
+                        // Date Separator Logic
+                        const mDate = new Date(m.timestamp);
+                        const prevM = idx > 0 ? messages[idx - 1] : null;
+                        const showDateSeparator = !prevM ||
+                            new Date(prevM.timestamp).toLocaleDateString() !== mDate.toLocaleDateString();
 
-                                    {canModify && !editingId && (
-                                        <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <button onClick={() => startEdit(m)} className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-400 dark:text-white transition-colors" title="Edit">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
-                                            </button>
-                                            <button onClick={() => handleDelete(m.id)} className="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 transition-colors" title="Delete">
-                                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
-                                            </button>
+                        const getDateLabel = (date: Date) => {
+                            const today = new Date();
+                            const yesterday = new Date();
+                            yesterday.setDate(today.getDate() - 1);
+
+                            if (date.toLocaleDateString() === today.toLocaleDateString()) return 'Today';
+                            if (date.toLocaleDateString() === yesterday.toLocaleDateString()) return 'Yesterday';
+                            return date.toLocaleDateString(undefined, { day: 'numeric', month: 'long', year: 'numeric' });
+                        };
+
+                        return (
+                            <React.Fragment key={m.id}>
+                                {showDateSeparator && (
+                                    <div className="flex justify-center my-6 sticky top-0 z-10">
+                                        <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-sm border ${darkMode
+                                            ? 'bg-white/5 border-white/10 text-slate-400'
+                                            : 'bg-slate-100 border-slate-200 text-slate-500 shadow-inner'
+                                            }`}>
+                                            {getDateLabel(mDate)}
+                                        </span>
+                                    </div>
+                                )}
+                                <div className={`flex flex-col ${isMe ? 'items-end' : 'items-start'} group animate-in slide-in-from-bottom-2 duration-300`}>
+                                    <div className={`flex items-center gap-2 max-w-[85%] ${isMe ? 'flex-row-reverse' : 'flex-row'}`}>
+                                        <div className={`p-4 rounded-3xl text-sm font-medium shadow-md relative ${isMe
+                                            ? `bg-[${accentColor}] text-white rounded-br-none shadow-[${accentColor}]/20`
+                                            : `${darkMode ? 'bg-white/10 text-white' : 'bg-slate-100 text-[#1a365d]'} rounded-bl-none`
+                                            }`}
+                                            style={isMe ? { backgroundColor: accentColor } : {}}>
+                                            {m.content}
+                                            <div className="flex items-center justify-end gap-1 mt-1">
+                                                <span className={`text-[8px] font-bold uppercase tracking-tighter opacity-50 ${isMe ? 'text-white' : 'text-slate-400'}`}>
+                                                    {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </span>
+                                                {isMe && (
+                                                    <div className="flex items-center">
+                                                        {m.isRead ? (
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="3" className="drop-shadow-sm">
+                                                                <path d="M2 12l5 5L22 4M7 12l5 5L22 7" strokeLinecap="round" strokeLinejoin="round" />
+                                                            </svg>
+                                                        ) : (
+                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="opacity-50">
+                                                                <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
+                                                            </svg>
+                                                        )}
+                                                    </div>
+                                                )}
+                                            </div>
                                         </div>
-                                    )}
+
+                                        {canModify && !editingId && (
+                                            <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                                                <button onClick={() => startEdit(m)} className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-400 dark:text-white transition-colors" title="Edit">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                                                </button>
+                                                <button onClick={() => handleDelete(m.id)} className="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 transition-colors" title="Delete">
+                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                                                </button>
+                                            </div>
+                                        )}
+                                    </div>
                                 </div>
-                            </div>
+                            </React.Fragment>
                         );
                     })
                 )}
