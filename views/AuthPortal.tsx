@@ -25,118 +25,231 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
     const isDoctor = role === UserRole.DOCTOR;
 
     return (
-        <div className="min-h-screen bg-prism-bg dark:bg-black flex items-center justify-center p-4 lg:p-10 transition-all duration-300 relative overflow-hidden">
-            {/* Abstract Background Element */}
-            <div className={`absolute top-[-10%] right-[-10%] w-[50%] h-[50%] rounded-full blur-[120px] opacity-20 pointer-events-none transition-colors duration-300 ${isDoctor ? 'bg-emerald-400' : 'bg-prism-accent'}`}></div>
-            <div className={`absolute bottom-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full blur-[120px] opacity-10 pointer-events-none transition-colors duration-300 ${isDoctor ? 'bg-blue-400' : 'bg-lime-400'}`}></div>
+        <div className="cosmic-auth-background">
+            {/* Cosmic Gradient Background */}
+            <div className={`fixed inset-0 bg-gradient-to-br -z-10 transition-colors duration-700 ${isDoctor
+                ? 'from-[#0a1f1c] via-[#1a4d47] via-[#2d7a6e] via-[#8b6f47] to-[#c9a961]'
+                : 'from-[#0a192f] via-[#112240] via-[#1e40af] via-[#3b82f6] to-[#93c5fd]'
+                }`}></div>
 
-            <div className={`w-full max-w-[900px] flex flex-col md:flex-row rounded-[3rem] bg-white dark:bg-[#0A0A0A] hairline shadow-2xl relative z-10 overflow-hidden transition-all duration-700 resolve-ui`}>
+            {/* Floating Particles */}
+            <div className="fixed inset-0 opacity-60 -z-10 animate-particle-float" style={{
+                backgroundImage: `radial-gradient(2px 2px at 20% 30%, white, transparent),
+                                  radial-gradient(2px 2px at 60% 70%, white, transparent),
+                                  radial-gradient(1px 1px at 50% 50%, white, transparent),
+                                  radial-gradient(1px 1px at 80% 10%, white, transparent),
+                                  radial-gradient(2px 2px at 90% 60%, white, transparent)`,
+                backgroundSize: '200% 200%'
+            }}></div>
 
-                {/* Left Side: Branding/Visual */}
-                <div className={`md:w-[40%] p-10 flex flex-col items-center justify-center text-center relative overflow-hidden transition-colors duration-700 ${isDoctor ? 'bg-emerald-500 text-white' : 'bg-prism-accent text-prism-dark'}`}>
-                    {/* Minimal back button for left side */}
-                    <button
-                        onClick={() => setAuthMode(null)}
-                        className={`absolute top-6 left-6 p-2 rounded-xl transition-all hover:scale-110 ${isDoctor ? 'bg-white/10 hover:bg-white/20' : 'bg-black/5 hover:bg-black/10'}`}
-                    >
-                        <Icons.Logout size={18} className="rotate-180" />
-                    </button>
+            {/* Glow Overlay */}
+            <div className="fixed inset-0 -z-10 mix-blend-screen" style={{
+                background: isDoctor
+                    ? `radial-gradient(ellipse at 30% 50%, rgba(26, 155, 142, 0.3) 0%, transparent 50%),
+                       radial-gradient(ellipse at 70% 50%, rgba(201, 169, 97, 0.2) 0%, transparent 50%)`
+                    : `radial-gradient(ellipse at 30% 50%, rgba(37, 99, 235, 0.3) 0%, transparent 50%),
+                       radial-gradient(ellipse at 70% 50%, rgba(147, 197, 253, 0.2) 0%, transparent 50%)`
+            }}></div>
 
-                    <div className="relative z-10 space-y-6">
-                        <div className={`inline-flex items-center justify-center p-5 rounded-[2rem] shadow-2xl bg-white/10 backdrop-blur-md`}>
-                            <Icons.Logo size={64} />
+            {/* Main Container */}
+            <div className="min-h-screen flex items-center justify-center p-6 md:p-10 py-8 lg:py-16">
+                <div className="flex flex-col md:flex-row w-full max-w-[1000px] md:min-h-[660px] rounded-[40px] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6),0_0_1px_rgba(255,255,255,0.3)_inset,0_0_120px_rgba(26,155,142,0.25)] backdrop-blur-xl bg-white/[0.03] border border-white/[0.08]">
+
+
+                    {/* Left Panel - Visual Branding */}
+                    <div className={`relative flex-[0_0_45%] bg-gradient-to-br flex flex-col items-center justify-center p-16 overflow-hidden transition-all duration-700 ${isDoctor
+                        ? 'from-[rgba(10,31,28,0.95)] via-[rgba(26,77,71,0.9)] to-[rgba(45,122,110,0.85)]'
+                        : 'from-[rgba(10,25,47,0.95)] via-[rgba(17,34,64,0.9)] to-[rgba(30,64,175,0.85)]'
+                        }`}>
+                        {/* Radial Glow */}
+                        <div className={`absolute inset-0 pointer-events-none ${isDoctor
+                            ? 'bg-[radial-gradient(circle_at_50%_50%,rgba(26,155,142,0.15)_0%,transparent_70%)]'
+                            : 'bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.15)_0%,transparent_70%)]'
+                            }`}></div>
+
+                        {/* Back Button */}
+                        <button
+                            onClick={() => setAuthMode(null)}
+                            className="absolute top-8 left-8 w-11 h-11 bg-white/[0.08] border border-white/[0.15] rounded-xl flex items-center justify-center text-white/70 hover:bg-white/[0.12] hover:text-white/90 transition-all"
+                        >
+                            <Icons.Logout size={18} className="rotate-180" />
+                        </button>
+
+                        {/* Icon Container with Glow */}
+                        <div className="relative z-10 mb-12">
+                            <div className={`absolute inset-0 w-40 h-40 rounded-full blur-[20px] animate-pulse-glow ${isDoctor
+                                ? 'bg-[radial-gradient(circle,rgba(190,242,100,0.4)_0%,rgba(26,155,142,0.2)_40%,transparent_70%)]'
+                                : 'bg-[radial-gradient(circle,rgba(56,189,248,0.4)_0%,rgba(37,99,235,0.2)_40%,transparent_70%)]'
+                                }`}></div>
+                            <div className="relative w-36 h-36 flex items-center justify-center">
+                                {/* Waveform Icon */}
+                                <svg className={`w-20 h-20 ${isDoctor ? 'text-[#BEF264]' : 'text-[#38bdf8]'}`}
+                                    style={{ filter: `drop-shadow(0 0 20px ${isDoctor ? 'rgba(190, 242, 100, 0.6)' : 'rgba(56, 189, 248, 0.6)'})` }}
+                                    viewBox="0 0 80 80" fill="none">
+                                    <rect x="20" y="15" width="8" height="50" rx="4" fill="currentColor" opacity="0.6" />
+                                    <rect x="36" y="8" width="8" height="64" rx="4" fill="currentColor" />
+                                    <rect x="52" y="20" width="8" height="40" rx="4" fill="currentColor" opacity="0.6" />
+                                </svg>
+                            </div>
                         </div>
-                        <div className="space-y-1">
-                            <h2 className="text-3xl font-[1000] tracking-[-0.06em] uppercase">
-                                {isDoctor ? 'Doctor' : 'Patient'}
+
+                        {/* Title */}
+                        <div className="text-center z-10">
+                            <h1 className="text-3xl lg:text-4xl font-black tracking-[0.05em] text-white mb-2 text-shadow-[0_2px_20px_rgba(255,255,255,0.3)]">
+                                {isDoctor ? 'DOCTOR' : 'PATIENT'}
+                            </h1>
+                            <p className={`text-[10px] lg:text-[11px] font-bold tracking-[0.3em] uppercase opacity-90 ${isDoctor ? 'text-[#BEF264]' : 'text-[#38bdf8]'}`}>
+                                {isDoctor ? 'ACCESS PORTAL' : 'RECOVERY HUB'}
+                            </p>
+                        </div>
+
+                        {/* Neural Rings */}
+                        <div className="absolute bottom-16 left-1/2 -translate-x-1/2 w-[300px] h-[120px]">
+                            <div className={`absolute left-1/2 bottom-0 -translate-x-1/2 w-[200px] h-[100px] border rounded-full animate-ring-pulse ${isDoctor ? 'border-[rgba(26,155,142,0.3)]' : 'border-[rgba(37,99,235,0.3)]'}`}></div>
+                            <div className={`absolute left-1/2 bottom-0 -translate-x-1/2 w-[250px] h-[125px] border rounded-full animate-ring-pulse ${isDoctor ? 'border-[rgba(26,155,142,0.3)]' : 'border-[rgba(37,99,235,0.3)]'}`} style={{ animationDelay: '0.5s' }}></div>
+                            <div className={`absolute left-1/2 bottom-0 -translate-x-1/2 w-[300px] h-[150px] border rounded-full animate-ring-pulse ${isDoctor ? 'border-[rgba(26,155,142,0.3)]' : 'border-[rgba(37,99,235,0.3)]'}`} style={{ animationDelay: '1s' }}></div>
+                        </div>
+                    </div>
+
+                    {/* Right Panel - Login Form */}
+                    <div className="relative flex-[0_0_55%] bg-gradient-to-br from-[#ffffff] to-[#f3f5f7] flex items-center justify-center p-12 lg:p-16">
+                        {/* Design Space / Top Pill */}
+                        <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-48 h-10 border-b border-x rounded-b-3xl hidden md:flex items-center justify-center ${isDoctor ? 'bg-[#BEF264]/10 border-[#BEF264]/20' : 'bg-[#38bdf8]/10 border-[#38bdf8]/20'
+                            }`}>
+                            <div className={`w-20 h-1 rounded-full ${isDoctor ? 'bg-[#BEF264]/30' : 'bg-[#38bdf8]/30'}`}></div>
+                        </div>
+
+                        <div className="w-full max-w-[380px]">
+                            {/* Welcome Title - Responsive */}
+                            <h2 className="text-2xl md:text-[32px] lg:text-[36px] font-black text-[#0f172a] mb-2 lg:mb-3 tracking-[-0.03em]">
+                                {authMode === 'LOGIN' ? 'Welcome Back' : 'Create Account'}
                             </h2>
-                            <p className="text-[10px] font-black uppercase tracking-[0.4em] opacity-60">
-                                Access Portal
-                            </p>
-                        </div>
-                    </div>
 
-                    {/* Decorative Circle */}
-                    <div className={`absolute -bottom-20 -right-20 w-40 h-40 rounded-full bg-white/10 blur-3xl`}></div>
-                </div>
+                            {/* Subtitle with Divider */}
+                            <div className="flex items-center gap-2 lg:gap-3 mb-8 lg:mb-12">
+                                <span className={`px-3 py-1 border rounded-full text-[8px] lg:text-[9px] font-black tracking-[0.2em] uppercase ${isDoctor ? 'bg-[#BEF264]/10 border-[#BEF264]/20 text-[#1a9b8e]' : 'bg-[#38bdf8]/10 border-[#38bdf8]/20 text-[#2563eb]'
+                                    }`}>
+                                    {isDoctor ? 'PHYSICIAN ID PROTOCOL' : 'NEURO-RECOVERY LINK'}
+                                </span>
+                                <span className="flex-1 h-[1px] bg-gradient-to-r from-black/[0.05] to-transparent"></span>
+                            </div>
 
-                {/* Right Side: Form */}
-                <div className="md:w-[60%] p-8 lg:p-14 relative bg-white dark:bg-[#0A0A0A]">
-                    <div className="mb-10">
-                        <h2 className="text-3xl font-[1000] text-prism-dark dark:text-white tracking-[-0.05em] mb-2">
-                            {authMode === 'LOGIN' ? 'Welcome Back' : 'Create Signature'}
-                        </h2>
-                        <div className="flex items-center gap-2">
-                            <div className={`h-1 w-4 rounded-full ${isDoctor ? 'bg-emerald-500' : 'bg-prism-accent'}`}></div>
-                            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-prism-text/40 dark:text-white/30">
-                                {isDoctor ? 'Physician ID Protocol' : 'Neuro-Recovery Link'}
-                            </p>
-                        </div>
-                    </div>
-
-                    {authError && (
-                        <div className="mb-8 p-5 bg-rose-500/5 border border-rose-500/10 text-rose-500 text-center rounded-2xl text-[10px] font-black uppercase tracking-widest animate-pulse">
-                            {authError}
-                        </div>
-                    )}
-
-                    <form onSubmit={onSubmit} className="space-y-4">
-                        {authMode === 'REGISTER' && (
-                            <div className="relative group">
-                                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-prism-text/30 group-focus-within:text-prism-accent transition-colors">
-                                    <Icons.User size={18} />
+                            {/* Error Message */}
+                            {authError && (
+                                <div className="mb-5 lg:mb-6 p-3 lg:p-4 bg-rose-500/5 border border-rose-500/10 text-rose-500 text-center rounded-xl text-[9px] lg:text-[10px] font-black uppercase tracking-widest">
+                                    {authError}
                                 </div>
-                                <input name="name" required className="w-full pl-14 pr-8 py-3.5 rounded-xl outline-none font-bold text-sm bg-slate-50 dark:bg-white/5 border border-transparent focus:border-prism-accent transition-all dark:text-white" placeholder="Full Signature Name" />
-                            </div>
-                        )}
+                            )}
 
-                        <div className="relative group">
-                            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-prism-text/30 group-focus-within:text-prism-accent transition-colors">
-                                <Icons.Mail size={18} />
-                            </div>
-                            <input name="email" required type="email" className="w-full pl-14 pr-8 py-3.5 rounded-xl outline-none font-bold text-sm bg-slate-50 dark:bg-white/5 border border-transparent focus:border-prism-accent transition-all dark:text-white" placeholder="Network ID / Email" />
-                        </div>
+                            {/* Form - Responsive */}
+                            <form onSubmit={onSubmit} className="space-y-3 lg:space-y-3.5">
+                                {authMode === 'REGISTER' && (
+                                    <div className="relative">
+                                        <div className="absolute left-[18px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
+                                            <Icons.User size={18} />
+                                        </div>
+                                        <input
+                                            name="name"
+                                            required
+                                            className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                            placeholder="Full Name"
+                                        />
+                                    </div>
+                                )}
 
-                        {authMode === 'REGISTER' && (
-                            <div className="relative group">
-                                <div className="absolute left-5 top-1/2 -translate-y-1/2 text-prism-text/30 group-focus-within:text-prism-accent transition-colors">
-                                    <Icons.Phone size={18} />
+                                <div className="relative">
+                                    <div className="absolute left-[16px] lg:left-[18px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
+                                        <Icons.Mail size={18} />
+                                    </div>
+                                    <input
+                                        name="email"
+                                        required
+                                        type="email"
+                                        className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                        placeholder="Network ID / Email"
+                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
+                                        title="Please enter a valid email address"
+                                    />
                                 </div>
-                                <input name="phone" type="tel" className="w-full pl-14 pr-8 py-3.5 rounded-xl outline-none font-bold text-sm bg-slate-50 dark:bg-white/5 border border-transparent focus:border-prism-accent transition-all dark:text-white" placeholder="Contact Number (Optional)" />
-                            </div>
-                        )}
 
-                        <div className="relative group">
-                            <div className="absolute left-5 top-1/2 -translate-y-1/2 text-prism-text/30 group-focus-within:text-prism-accent transition-colors">
-                                <Icons.Lock size={18} />
+                                {authMode === 'REGISTER' && (
+                                    <div className="relative">
+                                        <div className="absolute left-[16px] lg:left-[18px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
+                                            <Icons.Phone size={18} />
+                                        </div>
+                                        <input
+                                            name="phone"
+                                            type="tel"
+                                            className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                            placeholder="Contact Number (Optional)"
+                                        />
+                                    </div>
+                                )}
+
+                                {authMode === 'REGISTER' && isDoctor && (
+                                    <div className="relative">
+                                        <div className="absolute left-[16px] lg:left-[18px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
+                                            <Icons.ShieldCheck size={18} />
+                                        </div>
+                                        <input
+                                            name="licenseId"
+                                            required
+                                            className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                            placeholder="Medical License Number"
+                                            minLength={5}
+                                            pattern="[a-zA-Z0-9]+"
+                                            title="License ID must be at least 5 alphanumeric characters"
+                                        />
+                                    </div>
+                                )}
+
+                                <div className="relative">
+                                    <div className="absolute left-[16px] lg:left-[18px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
+                                        <Icons.Lock size={18} />
+                                    </div>
+                                    <input
+                                        name="password"
+                                        required
+                                        type="password"
+                                        className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                        placeholder="Password"
+                                        minLength={8}
+                                        title="Password must be at least 8 characters long"
+                                    />
+                                </div>
+
+                                <button
+                                    type="submit"
+                                    disabled={isAuthenticating}
+                                    className={`w-full h-11 md:h-12 lg:h-13 border-none rounded-2xl text-[10px] lg:text-[11px] font-black tracking-[0.2em] text-white uppercase cursor-pointer transition-all mt-5 lg:mt-6 touch-manipulation ${isDoctor
+                                        ? 'bg-gradient-to-br from-[#0d5c54] to-[#1a9b8e] shadow-[0_10px_30px_rgba(13,92,84,0.35)]'
+                                        : 'bg-gradient-to-br from-[#1e40af] to-[#3b82f6] shadow-[0_10px_30px_rgba(30,64,175,0.35)]'
+                                        }`}
+                                >
+                                    {isAuthenticating ? 'PLEASE WAIT...' : (authMode === 'LOGIN' ? 'LOGIN' : 'CREATE ACCOUNT')}
+                                </button>
+                            </form>
+
+                            {/* Footer Links */}
+                            <div className="flex justify-between items-center pt-6 mt-6 border-t border-black/[0.06]">
+                                <button
+                                    onClick={() => setAuthMode(authMode === 'LOGIN' ? 'REGISTER' : 'LOGIN')}
+                                    className="text-[11px] font-bold tracking-[0.1em] text-[#6b7280] uppercase hover:text-[#1a9b8e] transition-colors"
+                                >
+                                    {authMode === 'LOGIN' ? 'REGISTER' : 'LOGIN'}
+                                </button>
+                                <button
+                                    onClick={() => onSwitchRole(isDoctor ? UserRole.PATIENT : UserRole.DOCTOR)}
+                                    className="flex items-center gap-2 text-[11px] font-bold tracking-[0.1em] text-[#6b7280] uppercase hover:text-[#1a9b8e] transition-colors"
+                                >
+                                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                                        <circle cx="12" cy="12" r="10" />
+                                        <polyline points="12 6 12 12 16 14" />
+                                    </svg>
+                                    SWITCH HUB
+                                </button>
                             </div>
-                            <input name="password" required type="password" className="w-full pl-14 pr-8 py-3.5 rounded-xl outline-none font-bold text-sm bg-slate-50 dark:bg-white/5 border border-transparent focus:border-prism-accent transition-all dark:text-white" placeholder="Password" />
                         </div>
-
-                        <button
-                            type="submit"
-                            disabled={isAuthenticating}
-                            className={`w-full py-4 mt-4 rounded-xl font-[1000] uppercase tracking-[0.3em] text-[10px] shadow-xl active:scale-95 transition-all specular ${isDoctor ? 'bg-emerald-600 text-white' : 'bg-prism-dark text-white'}`}
-                        >
-                            {isAuthenticating ? 'SYNCHRONIZING...' : 'ESTABLISH LINK'}
-                        </button>
-                    </form>
-
-                    <div className="mt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <button
-                            onClick={() => { setAuthMode(authMode === 'LOGIN' ? 'REGISTER' : 'LOGIN'); }}
-                            className="text-[9px] font-black uppercase tracking-[0.2em] text-prism-text/30 dark:text-white/20 hover:text-prism-text dark:hover:text-white transition-colors"
-                        >
-                            {authMode === 'LOGIN' ? "Register" : "Login"}
-                        </button>
-
-                        <button
-                            onClick={() => onSwitchRole(isDoctor ? UserRole.PATIENT : UserRole.DOCTOR)}
-                            className="px-5 py-2.5 rounded-xl glass-ui text-[9px] font-black uppercase tracking-[0.2em] hover:bg-white/10 transition-all flex items-center gap-3 text-prism-text/40 dark:text-white/30 group"
-                        >
-                            <Icons.Brain size={14} className="group-hover:rotate-12 transition-transform" />
-                            Switch Hub
-                        </button>
                     </div>
                 </div>
             </div>

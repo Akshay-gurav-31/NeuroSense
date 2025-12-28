@@ -57,7 +57,12 @@ export const dataService = {
                     license_id: user.licenseId,
                     is_verified: user.isVerified
                 });
-            if (doctorError) throw doctorError;
+            if (doctorError) {
+                if (doctorError.code === '23505') {
+                    throw new Error("This Medical License Number is already registered. Please check again.");
+                }
+                throw doctorError;
+            }
         }
 
         return user;

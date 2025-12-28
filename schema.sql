@@ -35,7 +35,7 @@ CREATE TABLE IF NOT EXISTS patient_profiles (
 
 CREATE TABLE IF NOT EXISTS doctor_profiles (
     user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
-    license_id TEXT,
+    license_id TEXT UNIQUE,
     is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP

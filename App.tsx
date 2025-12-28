@@ -130,22 +130,49 @@ const App: React.FC = () => {
           }
         }
       } else {
+        const email = formData.get('email') as string;
+        const password = formData.get('password') as string;
         const phoneInput = formData.get('phone') as string;
+        const licenseIdInput = formData.get('licenseId') as string;
+
+        const { validateEmail, validatePassword, validatePhoneNumber, validateLicenseId } = await import('./utils/validation');
+
+        // Email Validation
+        const emailValidation = validateEmail(email);
+        if (!emailValidation.isValid) {
+          setAuthError(emailValidation.error || "Invalid email format");
+          setIsAuthenticating(false);
+          return;
+        }
+
+        // Password Validation
+        const passwordValidation = validatePassword(password);
+        if (!passwordValidation.isValid) {
+          setAuthError(passwordValidation.error || "Invalid password");
+          setIsAuthenticating(false);
+          return;
+        }
+
+        // Phone Validation (Optional check if provided)
         let validPhone = "N/A";
-
         if (phoneInput) {
-          // Lazy import for util if needed, or better to top-level import. Doing inline given the context, 
-          // or assume top-level import added. I will add top-level import in next step or use require if safer.
-          // Using explicit logic here to be safe and fast without moving imports around too much:
-          const { validatePhoneNumber } = await import('./utils/validation');
-          const validation = validatePhoneNumber(phoneInput);
-
-          if (!validation.isValid) {
-            setAuthError(validation.error || "Invalid phone number");
+          const phoneValidation = validatePhoneNumber(phoneInput);
+          if (!phoneValidation.isValid) {
+            setAuthError(phoneValidation.error || "Invalid phone number");
             setIsAuthenticating(false);
             return;
           }
-          validPhone = validation.value;
+          validPhone = phoneValidation.value;
+        }
+
+        // License ID Validation (Required for Doctors)
+        if (selectedRole === UserRole.DOCTOR) {
+          const licenseValidation = validateLicenseId(licenseIdInput);
+          if (!licenseValidation.isValid) {
+            setAuthError(licenseValidation.error || "Invalid license ID");
+            setIsAuthenticating(false);
+            return;
+          }
         }
 
         const userId = `UID-${Math.random().toString(36).substr(2, 7).toUpperCase()}`;
