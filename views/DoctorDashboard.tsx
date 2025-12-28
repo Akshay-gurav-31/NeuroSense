@@ -132,15 +132,6 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
 
               <MoodTrendCard history={patientHistory} />
             </div>
-
-            {/* Side Chat - Integrated Propetly */}
-            <div className="w-full lg:w-[400px] h-[600px] lg:h-auto lg:sticky lg:top-0">
-              <ChatSystem
-                currentUser={currentUser}
-                otherUser={patient}
-                darkMode={isDark}
-              />
-            </div>
           </div>
         </div>
       </div>
@@ -150,6 +141,7 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
 
 const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connections, onAcceptConnection, darkMode, currentUser, accounts, setView }) => {
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
+  const [chatPatientId, setChatPatientId] = useState<string | null>(null);
 
   const myConnections = connections.filter(c => c.doctorId === currentUser.id);
   const pendingRequests = myConnections.filter(c => c.status === ConnectionStatus.PENDING);
@@ -251,7 +243,16 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
                       <td className="px-8 py-5 text-[10px] clinical-mono font-bold tracking-widest text-slate-400 dark:text-white">{p.patientId}</td>
                       <td className="px-8 py-5 text-xs font-semibold text-slate-400 dark:text-white">{new Date(p.timestamp).toLocaleDateString()}</td>
                       <td className="px-8 py-5">
-                        <span className="px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">ACTIVE PORTAL</span>
+                        <div className="flex items-center gap-4">
+                          <span className="px-3 py-1 rounded-lg text-[8px] font-black uppercase tracking-widest bg-emerald-500/10 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-400">ACTIVE PORTAL</span>
+                          <button
+                            onClick={() => setChatPatientId(p.patientId)}
+                            className="p-2 rounded-lg bg-[#48c1cf]/10 text-[#48c1cf] hover:bg-[#48c1cf] hover:text-white transition-all shadow-sm border border-[#48c1cf]/20 flex items-center gap-2 group/chat"
+                          >
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="group-hover/chat:rotate-12 transition-transform"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
+                            <span className="text-[8px] font-black uppercase tracking-widest">CHAT</span>
+                          </button>
+                        </div>
                       </td>
                       <td className="px-8 py-5 text-right">
                         <button
@@ -380,6 +381,26 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
           </div>
         </div>
       </div>
+
+      {/* Floating Chat Modal for Doctor */}
+      {chatPatientId && (
+        <div className="fixed bottom-12 right-12 z-[250] w-[400px] h-[600px] shadow-[0_32px_64px_-16px_rgba(0,0,0,0.3)] animate-in slide-in-from-bottom-10 duration-500">
+          {(() => {
+            const patient = accounts.find(a => a.id === chatPatientId);
+            if (patient) {
+              return (
+                <ChatSystem
+                  currentUser={currentUser}
+                  otherUser={patient}
+                  darkMode={darkMode}
+                  onClose={() => setChatPatientId(null)}
+                />
+              );
+            }
+            return null;
+          })()}
+        </div>
+      )}
     </div>
   );
 };
