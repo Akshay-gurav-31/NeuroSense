@@ -12,7 +12,10 @@ interface LandingPageProps {
 
 const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSelectRole }) => {
     return (
-        <div className="min-h-screen w-full bg-prism-bg dark:bg-black transition-all duration-300 overflow-hidden relative flex flex-col lg:flex-row">
+        <div className="min-h-screen w-full transition-all duration-700 overflow-hidden relative flex flex-col lg:flex-row bg-gradient-to-r from-[#dcfce7] via-white to-[#dbeafe] dark:from-[#0a1f1c] dark:via-[#020617] dark:to-[#0a192f]">
+            {/* Pro Ambient Glows */}
+            <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-emerald-500/5 dark:bg-emerald-500/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
+            <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-blue-500/5 dark:bg-blue-500/10 blur-[120px] rounded-full pointer-events-none z-0"></div>
 
             {/* Top Integrated Nav */}
             <div className="absolute top-8 left-8 lg:top-12 lg:left-12 flex items-center gap-4 z-50">
@@ -45,9 +48,9 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                     <div className="flex flex-col sm:flex-row items-center gap-6">
                         <button
                             onClick={() => onSelectRole(UserRole.PATIENT)}
-                            className="group w-full sm:w-auto flex items-center gap-4 bg-prism-dark p-2 pr-10 rounded-full border border-white/5 hover:scale-[1.05] active:scale-95 transition-all shadow-2xl specular"
+                            className="group w-full sm:w-auto flex items-center gap-4 bg-[#0a192f] p-2 pr-10 rounded-full border border-white/5 hover:scale-[1.05] active:scale-95 transition-all shadow-2xl specular"
                         >
-                            <div className="w-14 h-14 bg-prism-accent rounded-full flex items-center justify-center text-prism-dark group-hover:rotate-12 transition-transform duration-300 shadow-lg">
+                            <div className="w-14 h-14 bg-blue-500 rounded-full flex items-center justify-center text-white group-hover:rotate-12 transition-transform duration-300 shadow-lg">
                                 <Icons.User size={24} />
                             </div>
                             <div className="flex flex-col items-start pr-4">
@@ -60,7 +63,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                             onClick={() => onSelectRole(UserRole.DOCTOR)}
                             className="group w-full sm:w-auto flex items-center gap-4 glass-ui p-2 pr-10 rounded-full border border-prism-text/5 hover:bg-white/10 hover:scale-[1.05] active:scale-95 transition-all shadow-lg"
                         >
-                            <div className="w-14 h-14 bg-emerald-500/20 dark:bg-emerald-500/10 border border-emerald-500/30 rounded-full flex items-center justify-center text-emerald-600 dark:text-emerald-400 group-hover:rotate-12 transition-transform duration-300">
+                            <div className="w-14 h-14 bg-emerald-500 rounded-full flex items-center justify-center text-white group-hover:rotate-12 transition-transform duration-300 shadow-lg">
                                 <Icons.Activity size={24} />
                             </div>
                             <div className="flex flex-col items-start pr-4">

@@ -158,7 +158,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
 
   const renderRequestsView = () => (
     <div className="space-y-8 animate-in fade-in duration-300">
-      <h2 className="text-xs font-black uppercase tracking-[0.4em] mb-8 text-blue-600 dark:text-[#48c1cf]">Inbound Telemetry Requests</h2>
+      <h2 className="text-xs font-black uppercase tracking-[0.4em] mb-8 text-emerald-600 dark:text-[#48c1cf]">Inbound Telemetry Requests</h2>
       {pendingRequests.length === 0 ? (
         <div className="py-20 text-center rounded-[3rem] bg-slate-50 border border-slate-200 dark:bg-white/5 dark:border-white/10">
           <p className="text-slate-400 dark:text-white font-bold uppercase tracking-widest text-xs">No pending handshakes found.</p>
@@ -200,7 +200,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
 
   const renderAuthorizedView = () => (
     <div className="space-y-8 animate-in fade-in duration-300">
-      <h2 className="text-xs font-black uppercase tracking-[0.4em] mb-8 text-blue-600 dark:text-white">Managed Patient Cohort</h2>
+      <h2 className="text-xs font-black uppercase tracking-[0.4em] mb-8 text-emerald-600 dark:text-white">Managed Patient Cohort</h2>
       {authorizedPatients.length === 0 ? (
         <div className="py-20 text-center rounded-[3rem] bg-slate-50 border border-slate-200 dark:bg-white/5 dark:border-white/10">
           <p className="text-slate-400 dark:text-slate-300 font-bold uppercase tracking-widest text-xs">No authorized patients linked yet.</p>
@@ -233,7 +233,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
                               patientName.charAt(0)
                             )}
                           </div>
-                          <span className="text-sm font-black uppercase tracking-tight text-[#1a365d] dark:text-white">{patientName}</span>
+                          <span className="text-sm font-black uppercase tracking-tight text-slate-800 dark:text-white">{patientName}</span>
                         </div>
                       </td>
                       <td className="px-8 py-5 text-[10px] clinical-mono font-bold tracking-widest text-slate-400 dark:text-white">{p.patientId}</td>
@@ -270,26 +270,26 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
         <header className="flex items-center justify-between py-3 px-8 rounded-full shadow-2xl relative overflow-hidden transition-all duration-300 pill-header">
           {/* Left: Branding */}
           <div className="flex items-center gap-6 relative z-10">
-            <div className="w-10 h-10 rounded-full flex items-center justify-center border shadow-lg bg-blue-50 border-blue-100 dark:bg-blue-500/10 dark:border-blue-400/20">
-              <Activity size={20} className="text-blue-600 dark:text-blue-400" />
+            <div className="w-10 h-10 rounded-full flex items-center justify-center border shadow-lg bg-emerald-50 border-emerald-100 dark:bg-emerald-500/10 dark:border-emerald-400/20">
+              <Activity size={20} className="text-emerald-600 dark:text-emerald-400" />
             </div>
             <div>
               <h1 className="text-3xl tracking-tighter uppercase leading-none drop-shadow-md font-[900] text-slate-800 dark:font-[800] dark:text-white">Clinical Command</h1>
-              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.3em] mt-1 opacity-80 text-slate-500 dark:text-blue-200">CENTRAL TELEMETRY UNIT v4.0</p>
+              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.3em] mt-1 opacity-80 text-slate-500 dark:text-emerald-200">CENTRAL TELEMETRY UNIT v4.0</p>
             </div>
           </div>
 
           {/* Right: Physician Status */}
           <div className="hidden md:flex items-center gap-12 relative z-10">
             <div className="flex flex-col items-center">
-              <span className="text-[9px] font-bold uppercase tracking-widest mb-1 text-slate-400 dark:text-blue-200/60">System Status</span>
+              <span className="text-[9px] font-bold uppercase tracking-widest mb-1 text-slate-400 dark:text-emerald-200/60">System Status</span>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
                 <span className="text-xs font-bold font-mono tracking-wider uppercase text-shadow-sm text-slate-700 dark:text-emerald-300">Online</span>
               </div>
             </div>
             <div className="flex flex-col items-end">
-              <span className="text-[9px] font-bold uppercase tracking-widest mb-1 text-slate-400 dark:text-blue-200/60">Authorized Physician</span>
+              <span className="text-[9px] font-bold uppercase tracking-widest mb-1 text-slate-400 dark:text-emerald-200/60">Authorized Physician</span>
               <span className="text-lg font-black tracking-tight drop-shadow-md text-slate-800 dark:text-white">Dr. {currentUser.name}</span>
             </div>
           </div>
@@ -302,11 +302,11 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
       <div className="flex-grow overflow-y-auto p-6 pt-6">
         <div className="space-y-12 resolve-ui">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="dashboard-card group border-blue-500/30 hover:border-blue-400/60 relative overflow-hidden">
-              <div className="absolute -bottom-4 -right-4 text-blue-500/10 dark:text-white/10 pointer-events-none transition-colors duration-300">
+            <div className="dashboard-card group border-emerald-500/30 hover:border-emerald-400/60 relative overflow-hidden">
+              <div className="absolute -bottom-4 -right-4 text-emerald-500/10 dark:text-white/10 pointer-events-none transition-colors duration-300">
                 <User size={80} />
               </div>
-              <p className="text-[10px] font-black uppercase tracking-widest mb-2 relative z-10 text-blue-600 dark:text-blue-300">Total Linked Cohort</p>
+              <p className="text-[10px] font-black uppercase tracking-widest mb-2 relative z-10 text-emerald-600 dark:text-emerald-300">Total Linked Cohort</p>
               <p className="text-4xl font-black relative z-10 drop-shadow-md text-slate-900 dark:text-white">{authorizedPatients.length}</p>
             </div>
             <div className="dashboard-card group border-cyan-500/30 hover:border-cyan-400/60 relative overflow-hidden">
@@ -325,10 +325,9 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
               { id: 'reports', label: 'Clinical Synthesis', icon: <Brain size={14} /> }
             ].map(tab => {
               const isActive = activeTab === tab.id;
-              // Classes logic simplified for readability
               const activeClass = isActive
-                ? "bg-blue-600 text-white border-blue-400 shadow-[0_0_20px_rgba(37,99,235,0.4)] dark:bg-blue-600/90 dark:text-white dark:border-blue-500/50 dark:shadow-[0_0_15px_rgba(37,99,235,0.2)] scale-105"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-100 border-transparent hover:border-blue-500/30 dark:text-slate-400/80 dark:hover:text-white dark:hover:bg-white/5";
+                ? "bg-emerald-600 text-white border-emerald-400 shadow-[0_0_20px_rgba(16,185,129,0.4)] dark:bg-emerald-600/90 dark:text-white dark:border-emerald-500/50 dark:shadow-[0_0_15px_rgba(16,185,129,0.2)] scale-105"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-100 border-transparent hover:border-emerald-500/30 dark:text-slate-400/80 dark:hover:text-white dark:hover:bg-white/5";
 
               return (
                 <button

@@ -11,6 +11,7 @@ interface AuthPortalProps {
     isAuthenticating: boolean;
     authError: string | null;
     onSwitchRole: (role: UserRole) => void;
+    darkMode: boolean;
 }
 
 const AuthPortal: React.FC<AuthPortalProps> = ({
@@ -20,16 +21,19 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
     onSubmit,
     isAuthenticating,
     authError,
-    onSwitchRole
+    onSwitchRole,
+    darkMode
 }) => {
     const isDoctor = role === UserRole.DOCTOR;
 
     return (
-        <div className="cosmic-auth-background">
-            {/* Cosmic Gradient Background */}
-            <div className={`fixed inset-0 bg-gradient-to-br -z-10 transition-colors duration-700 ${isDoctor
-                ? 'from-[#0a1f1c] via-[#1a4d47] via-[#2d7a6e] via-[#8b6f47] to-[#c9a961]'
-                : 'from-[#0a192f] via-[#112240] via-[#1e40af] via-[#3b82f6] to-[#93c5fd]'
+        <div className={`cosmic-auth-background ${darkMode ? 'dark' : 'light'}`}>
+            {/* Pro Gradient Background */}
+            <div className={`fixed inset-0 -z-10 transition-all duration-700 ${darkMode
+                ? (isDoctor
+                    ? 'bg-gradient-to-br from-[#0a1f1c] via-[#1a4d47] via-[#2d7a6e] via-[#8b6f47] to-[#c9a961]'
+                    : 'bg-gradient-to-br from-[#0a192f] via-[#112240] via-[#1e40af] via-[#3b82f6] to-[#93c5fd]')
+                : 'bg-gradient-to-r from-[#dcfce7] via-white to-[#dbeafe]'
                 }`}></div>
 
             {/* Floating Particles */}
@@ -53,13 +57,20 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
 
             {/* Main Container */}
             <div className="min-h-screen flex items-center justify-center p-6 md:p-10 py-8 lg:py-16">
-                <div className="flex flex-col md:flex-row w-full max-w-[1000px] md:min-h-[660px] rounded-[40px] overflow-hidden shadow-[0_30px_90px_rgba(0,0,0,0.6),0_0_1px_rgba(255,255,255,0.3)_inset,0_0_120px_rgba(26,155,142,0.25)] backdrop-blur-xl bg-white/[0.03] border border-white/[0.08]">
+                <div className={`flex flex-col md:flex-row w-full max-w-[1000px] md:min-h-[660px] rounded-[40px] overflow-hidden shadow-2xl backdrop-blur-xl border transition-all duration-700 ${darkMode
+                    ? 'bg-white/[0.03] border-white/[0.08] shadow-[0_30px_90px_rgba(0,0,0,0.6)]'
+                    : 'bg-white/60 border-black/5 shadow-[0_30px_60px_rgba(0,0,0,0.1)]'
+                    }`}>
 
 
                     {/* Left Panel - Visual Branding */}
-                    <div className={`relative flex-[0_0_45%] bg-gradient-to-br flex flex-col items-center justify-center p-16 overflow-hidden transition-all duration-700 ${isDoctor
-                        ? 'from-[rgba(10,31,28,0.95)] via-[rgba(26,77,71,0.9)] to-[rgba(45,122,110,0.85)]'
-                        : 'from-[rgba(10,25,47,0.95)] via-[rgba(17,34,64,0.9)] to-[rgba(30,64,175,0.85)]'
+                    <div className={`relative flex-[0_0_45%] bg-gradient-to-br flex flex-col items-center justify-center p-16 overflow-hidden transition-all duration-700 ${darkMode
+                        ? (isDoctor
+                            ? 'from-[rgba(10,31,28,0.95)] via-[rgba(26,77,71,0.9)] to-[rgba(45,122,110,0.85)]'
+                            : 'from-[rgba(10,25,47,0.95)] via-[rgba(17,34,64,0.9)] to-[rgba(30,64,175,0.85)]')
+                        : (isDoctor
+                            ? 'from-[#10b981] via-[#059669] to-[#047857]'
+                            : 'from-[#3b82f6] via-[#2563eb] to-[#1d4ed8]')
                         }`}>
                         {/* Radial Glow */}
                         <div className={`absolute inset-0 pointer-events-none ${isDoctor
@@ -151,7 +162,12 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                                         <input
                                             name="name"
                                             required
-                                            className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                            className={`w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
+                                            style={{
+                                                borderColor: 'rgba(0,0,0,0.06)',
+                                                boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
+                                                borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
+                                            }}
                                             placeholder="Full Name"
                                         />
                                     </div>
@@ -165,7 +181,12 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                                         name="email"
                                         required
                                         type="email"
-                                        className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                        className={`w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
+                                        style={{
+                                            borderColor: 'rgba(0,0,0,0.06)',
+                                            boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
+                                            borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
+                                        }}
                                         placeholder="Network ID / Email"
                                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
                                         title="Please enter a valid email address"
@@ -180,7 +201,12 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                                         <input
                                             name="phone"
                                             type="tel"
-                                            className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                            className={`w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
+                                            style={{
+                                                borderColor: 'rgba(0,0,0,0.06)',
+                                                boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
+                                                borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
+                                            }}
                                             placeholder="Contact Number (Optional)"
                                         />
                                     </div>
@@ -194,7 +220,12 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                                         <input
                                             name="licenseId"
                                             required
-                                            className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                            className={`w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
+                                            style={{
+                                                borderColor: 'rgba(0,0,0,0.06)',
+                                                boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
+                                                borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
+                                            }}
                                             placeholder="Medical License Number"
                                             minLength={5}
                                             pattern="[a-zA-Z0-9]+"
@@ -211,7 +242,12 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                                         name="password"
                                         required
                                         type="password"
-                                        className="w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white focus:border-[rgba(26,155,142,0.4)] focus:shadow-[0_0_0_4px_rgba(26,155,142,0.1)] transition-all touch-manipulation"
+                                        className={`w-full h-10 md:h-11 lg:h-12 px-4 lg:px-5 pl-[48px] lg:pl-[52px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
+                                        style={{
+                                            borderColor: 'rgba(0,0,0,0.06)',
+                                            boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
+                                            borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
+                                        }}
                                         placeholder="Password"
                                         minLength={8}
                                         title="Password must be at least 8 characters long"

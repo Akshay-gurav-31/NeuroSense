@@ -38,6 +38,9 @@ export interface UserAccount {
   caseId?: string;
   // Doctor specific
   licenseId?: string;
+  specialty?: string;
+  experienceYears?: number;
+  bio?: string;
   isVerified?: boolean;
   startDate: string;
 }
@@ -50,6 +53,9 @@ export interface PatientProfile extends UserAccount {
 export interface DoctorProfile extends UserAccount {
   // Specific fields guaranteed for doctor
   licenseId?: string;
+  specialty?: string;
+  experienceYears?: number;
+  bio?: string;
   isVerified?: boolean;
 }
 
@@ -59,6 +65,7 @@ export interface SessionResult {
   type: TherapyType;
   exerciseName?: string;
   score: number;
+  metadata?: Record<string, any>;
   feedback: string;
 }
 

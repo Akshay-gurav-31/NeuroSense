@@ -55,6 +55,9 @@ export const dataService = {
                 .insert({
                     user_id: user.id,
                     license_id: user.licenseId,
+                    specialty: user.specialty,
+                    experience_years: user.experienceYears,
+                    bio: user.bio,
                     is_verified: user.isVerified
                 });
             if (doctorError) {
@@ -98,6 +101,9 @@ export const dataService = {
                 .upsert({
                     user_id: user.id,
                     license_id: user.licenseId,
+                    specialty: user.specialty,
+                    experience_years: user.experienceYears,
+                    bio: user.bio,
                     is_verified: user.isVerified,
                     updated_at: new Date().toISOString()
                 });
@@ -146,6 +152,9 @@ export const dataService = {
             diagnosis: patientData?.diagnosis,
             caseId: patientData?.case_id,
             licenseId: doctorData?.license_id,
+            specialty: doctorData?.specialty,
+            experienceYears: doctorData?.experience_years,
+            bio: doctorData?.bio,
             isVerified: doctorData?.is_verified
         };
     },
@@ -161,6 +170,7 @@ export const dataService = {
                 type: result.type,
                 exercise_name: result.exerciseName,
                 score: result.score,
+                metadata: result.metadata || {},
                 feedback: result.feedback
             });
 
@@ -269,6 +279,9 @@ export const dataService = {
                 diagnosis: patProfile?.diagnosis,
                 caseId: patProfile?.case_id,
                 licenseId: docProfile?.license_id,
+                specialty: docProfile?.specialty,
+                experienceYears: docProfile?.experience_years,
+                bio: docProfile?.bio,
                 isVerified: docProfile?.is_verified
             };
         });

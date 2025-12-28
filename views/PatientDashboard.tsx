@@ -32,14 +32,14 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
     <div className="space-y-6 sm:space-y-8 resolve-ui">
       <header className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 pb-8 border-b border-slate-200 dark:border-white/10">
         <div className="w-full">
-          <div className="inline-flex items-center gap-3 px-5 py-2 bg-slate-100 dark:bg-prism-accent/10 text-slate-600 dark:text-prism-accent rounded-full text-[9px] font-black uppercase tracking-[0.3em] mb-8 border border-slate-200 dark:border-white/5">
-            <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(16,185,129,0.5)]"></span>
+          <div className="inline-flex items-center gap-3 px-5 py-2 bg-slate-100 dark:bg-blue-500/10 text-slate-600 dark:text-blue-400 rounded-full text-[9px] font-black uppercase tracking-[0.3em] mb-8 border border-slate-200 dark:border-white/5">
+            <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.5)]"></span>
             Telemetry Link: Active
           </div>
           <h1 className="text-5xl lg:text-[5.5rem] font-[1000] tracking-[-0.06em] mb-4 leading-[0.85] text-slate-900 dark:text-white transition-colors duration-300">
             Hello, <br /> {profile.name.split(' ')[0]}.
           </h1>
-          <p className="text-slate-500 dark:text-slate-400 text-xl font-medium tracking-tight">Protocol: <span className="text-slate-900 dark:text-prism-accent font-black uppercase tracking-widest text-xs clinical-mono ml-2">{profile.diagnosis}</span></p>
+          <p className="text-slate-500 dark:text-slate-400 text-xl font-medium tracking-tight">Protocol: <span className="text-slate-900 dark:text-blue-400 font-black uppercase tracking-widest text-xs clinical-mono ml-2">{profile.diagnosis}</span></p>
         </div>
 
         <div className="flex gap-4 w-full lg:w-auto">
@@ -63,7 +63,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
               <span className="text-8xl lg:text-[10rem] font-[1000] tracking-[-0.08em] leading-none text-black dark:text-white transition-colors duration-300">{avgScore}</span>
               <div className="sm:mb-8">
                 <span className="text-4xl font-black text-black/40 dark:text-white block mb-4 tracking-tighter">/ 100</span>
-                <div className="flex items-center gap-2 px-4 py-2 bg-emerald-500/10 text-emerald-600 dark:text-emerald-500 rounded-xl text-[10px] font-black uppercase tracking-widest border border-emerald-500/20">
+                <div className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl text-[10px] font-black uppercase tracking-widest border border-blue-500/20">
                   {recoveryData.trend === 'IMPROVING' ? '+' : ''}{recoveryData.predictedScore - recoveryData.currentScore}% Predicted Velocity
                 </div>
               </div>
@@ -72,7 +72,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-10 border-t border-slate-100 dark:border-white/10">
               <div className="space-y-1">
                 <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Node Status</p>
-                <p className={`text-2xl font-black uppercase tracking-tight ${riskData.level === 'LOW' ? 'text-emerald-500' : riskData.level === 'MODERATE' ? 'text-amber-500' : 'text-rose-500'}`}>
+                <p className={`text-2xl font-black uppercase tracking-tight ${riskData.level === 'LOW' ? 'text-blue-500' : riskData.level === 'MODERATE' ? 'text-amber-500' : 'text-rose-500'}`}>
                   {riskData.level}
                 </p>
               </div>
@@ -109,12 +109,12 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
                 onClick={() => !completed && onStartTherapy(task.type)}
                 className={`group p-10 rounded-[3rem] border transition-all duration-300 flex flex-col items-start relative overflow-hidden shadow-md ${completed
                   ? 'cursor-not-allowed bg-slate-50 dark:bg-white/[0.02] border-slate-100 dark:border-white/5 opacity-80'
-                  : 'cursor-pointer bg-white dark:bg-[#080808] border-slate-200 dark:border-white/10 hover:border-[#BEF264] dark:hover:border-[#BEF264]'
+                  : 'cursor-pointer bg-white dark:bg-[#080808] border-slate-200 dark:border-white/10 hover:border-blue-500 dark:hover:border-blue-500'
                   }`}
               >
                 <div className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-8 transition-all duration-300 border ${completed
-                  ? 'bg-emerald-500 text-white border-emerald-400'
-                  : 'bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-[#BEF264] group-hover:bg-[#BEF264] group-hover:text-slate-900 border-slate-100 dark:border-white/10'
+                  ? 'bg-blue-500 text-white border-blue-400'
+                  : 'bg-slate-50 dark:bg-white/5 text-slate-600 dark:text-blue-400 group-hover:bg-blue-500 group-hover:text-white border-slate-100 dark:border-white/10'
                   }`}>
                   {completed ? <Icons.Activity /> : task.icon}
                 </div>
@@ -122,11 +122,11 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
                 <p className="text-slate-500 dark:text-slate-400 text-xs font-medium mb-12 leading-relaxed max-w-[90%]">{task.desc}</p>
 
                 <div className="w-full pt-8 border-t border-slate-100 dark:border-white/10 flex items-center justify-between transition-colors">
-                  <span className={`text-[9px] font-black uppercase tracking-[0.3em] ${completed ? 'text-emerald-500' : 'text-slate-400 group-hover:text-[#BEF264]'}`}>
+                  <span className={`text-[9px] font-black uppercase tracking-[0.3em] ${completed ? 'text-blue-500' : 'text-slate-400 group-hover:text-blue-500'}`}>
                     {completed ? 'PROTOCOL VERIFIED' : 'INITIALIZE'}
                   </span>
                   {!completed && <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" className="group-hover:translate-x-2 transition-transform"><path d="m9 18 6-6-6-6" /></svg>}
-                  {completed && <div className="p-2 bg-emerald-500/10 rounded-lg text-emerald-500"><Icons.Activity size={12} /></div>}
+                  {completed && <div className="p-2 bg-blue-500/10 rounded-lg text-blue-500"><Icons.Activity size={12} /></div>}
                 </div>
               </div>
             );

@@ -280,6 +280,7 @@ const App: React.FC = () => {
         isAuthenticating={isAuthenticating}
         authError={authError}
         onSwitchRole={(r) => setSelectedRole(r)}
+        darkMode={darkMode}
       />
     );
   }
@@ -346,7 +347,7 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#000000] md:pl-28 transition-all duration-300">
+    <div className={`min-h-screen bg-white dark:bg-[#000000] md:pl-28 transition-all duration-300 ${role === UserRole.DOCTOR ? 'theme-doctor' : 'theme-patient'}`}>
       <Navigation role={role!} currentView={currentView} setView={setView} onLogout={handleLogout} darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} />
       <main className="max-w-[1500px] mx-auto min-h-screen pb-36 md:pb-12">
         <div className="p-6 md:p-10 lg:p-14">

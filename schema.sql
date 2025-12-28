@@ -36,6 +36,9 @@ CREATE TABLE IF NOT EXISTS patient_profiles (
 CREATE TABLE IF NOT EXISTS doctor_profiles (
     user_id TEXT PRIMARY KEY REFERENCES users(id) ON DELETE CASCADE,
     license_id TEXT UNIQUE,
+    specialty TEXT,
+    experience_years INTEGER,
+    bio TEXT,
     is_verified BOOLEAN DEFAULT FALSE,
     created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
@@ -49,6 +52,7 @@ CREATE TABLE IF NOT EXISTS sessions (
     type TEXT NOT NULL CHECK (type IN ('BODY', 'BRAIN', 'SPEECH', 'MENTAL')),
     exercise_name TEXT,
     score INTEGER NOT NULL CHECK (score BETWEEN 0 AND 100),
+    metadata JSONB DEFAULT '{}'::jsonb,
     feedback TEXT
 );
 
@@ -156,12 +160,23 @@ CREATE TRIGGER update_patients_timestamp BEFORE UPDATE ON patient_profiles FOR E
 DROP TRIGGER IF EXISTS update_doctors_timestamp ON doctor_profiles;
 CREATE TRIGGER update_doctors_timestamp BEFORE UPDATE ON doctor_profiles FOR EACH ROW EXECUTE PROCEDURE update_timestamp();
 
--- 7.1 MIGRATION: Add exercise_name to sessions
+-- 7.1 MIGRATION: Add exercise_name and metadata to sessions
 DO $$
 BEGIN
     ALTER TABLE sessions ADD COLUMN IF NOT EXISTS exercise_name TEXT;
+    ALTER TABLE sessions ADD COLUMN IF NOT EXISTS metadata JSONB DEFAULT '{}'::jsonb;
 EXCEPTION
     WHEN duplicate_column THEN RAISE NOTICE 'Column already exists in sessions.';
+END $$;
+
+-- 7.2 MIGRATION: Add specialty, experience, and bio to doctors
+DO $$
+BEGIN
+    ALTER TABLE doctor_profiles ADD COLUMN IF NOT EXISTS specialty TEXT;
+    ALTER TABLE doctor_profiles ADD COLUMN IF NOT EXISTS experience_years INTEGER;
+    ALTER TABLE doctor_profiles ADD COLUMN IF NOT EXISTS bio TEXT;
+EXCEPTION
+    WHEN duplicate_column THEN RAISE NOTICE 'Column already exists in doctor_profiles.';
 END $$;
 
 
