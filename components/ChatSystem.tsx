@@ -18,18 +18,18 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
     const [editingId, setEditingId] = useState<string | null>(null);
     const scrollRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const fetchMessages = async () => {
-            try {
-                const data = await dataService.getMessages(currentUser.id, otherUser.id);
-                setMessages(data);
-            } catch (err) {
-                console.error('Failed to fetch messages:', err);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchMessages = async () => {
+        try {
+            const data = await dataService.getMessages(currentUser.id, otherUser.id);
+            setMessages(data);
+        } catch (err) {
+            console.error('Failed to fetch messages:', err);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
         fetchMessages();
         const interval = setInterval(fetchMessages, 3000); // Polling for real-time feel
         return () => clearInterval(interval);
@@ -57,16 +57,17 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
                 try {
                     await dataService.editMessage(editingId, content);
+                    // Wait a bit before next fetch to let Supabase propagate
+                    setTimeout(fetchMessages, 500);
                 } catch (err) {
                     setMessages(oldMessages); // Rollback
-                    console.error('Failed to edit message:', err);
-                    alert('Failed to save edit. Please check if the 5-minute window has passed.');
+                    console.error('Edit failed:', err);
+                    alert('Server rejected the edit. Please verify you ran the SQL policies for UPDATE.');
                 }
             } else {
                 await dataService.sendMessage(currentUser.id, otherUser.id, content);
+                fetchMessages();
             }
-            const data = await dataService.getMessages(currentUser.id, otherUser.id);
-            setMessages(data);
         } catch (err) {
             console.error('Failed to process message:', err);
         }

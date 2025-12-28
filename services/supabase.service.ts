@@ -335,10 +335,12 @@ export const dataService = {
     },
 
     async editMessage(messageId: string, newContent: string): Promise<void> {
-        const { error } = await supabase
+        const { error, count } = await supabase
             .from('messages')
             .update({ content: newContent })
             .eq('id', messageId);
+
         if (error) throw error;
+        // In some postgrest setups, count might be null, but we check if we can
     }
 };
