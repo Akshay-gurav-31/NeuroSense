@@ -95,13 +95,11 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
         </button>
       </div>
 
-      <div className="hidden md:block flex-grow"></div>
-
       {/* Utility Actions */}
-      <div className="hidden md:flex flex-col items-center gap-6 mb-12">
+      <div className="hidden md:flex flex-col items-center gap-6 mt-auto mb-10 pb-4">
         <button
           onClick={toggleTheme}
-          className="w-12 h-12 flex items-center justify-center rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white hover:text-prism-accent transition-all hover:rotate-90 shadow-sm"
+          className="w-12 h-12 flex items-center justify-center rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white hover:text-prism-accent transition-all hover:rotate-90 shadow-sm border border-slate-100 dark:border-white/5"
         >
           {darkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
         </button>
