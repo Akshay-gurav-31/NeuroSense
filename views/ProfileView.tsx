@@ -137,9 +137,19 @@ const ProfileView: React.FC<ProfileViewProps> = ({ profile, onLogout, onUpdate, 
         <div className="flex flex-col sm:flex-row items-center gap-8 mb-12 pb-12 border-b border-slate-100 dark:border-white/5">
           {/* Avatar Section */}
           <div className="relative group">
-            <div className="w-24 h-24 bg-[#48c1cf] rounded-[2rem] flex items-center justify-center text-white text-5xl font-black shadow-xl shadow-[#48c1cf]/20 overflow-hidden">
+            <div className={`w-24 h-24 rounded-[2rem] flex items-center justify-center shadow-xl overflow-hidden ${formData.avatarUrl ? 'bg-white dark:bg-slate-800' : 'bg-[#48c1cf] text-white text-5xl font-black shadow-[#48c1cf]/20'}`}>
               {formData.avatarUrl ? (
-                <img src={formData.avatarUrl} alt="Profile" className="w-full h-full object-cover" />
+                <img
+                  src={formData.avatarUrl}
+                  alt="Profile"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    // Fallback to initial if image fails to load
+                    e.currentTarget.style.display = 'none';
+                    e.currentTarget.parentElement!.classList.add('bg-[#48c1cf]', 'text-white', 'text-5xl', 'font-black');
+                    e.currentTarget.parentElement!.textContent = formData.name.charAt(0);
+                  }}
+                />
               ) : (
                 formData.name.charAt(0)
               )}
