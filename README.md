@@ -1,21 +1,24 @@
-# 🧠 NeuroSense — Clinical Neuro-Recovery Platform
-
 <div align="center">
-  <img src="./public/Images/logo.png" width="180" height="auto" alt="NeuroSense Logo" />
-  
-  <h3>AI-Powered Neurological Rehabilitation System</h3>
 
-  <p align="center">
-    <img src="https://img.shields.io/badge/Imagine--Cup--2026-Project-0078d4?style=for-the-badge&logo=microsoft&logoColor=white" alt="Imagine Cup" />
-    <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge" alt="Version" />
-  </p>
+<img src="./public/Images/logo.png" width="120" height="auto" alt="NeuroSense Logo" />
 
-  <p align="center">
-    <img src="https://img.shields.io/badge/React-19-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
-    <img src="https://img.shields.io/badge/TypeScript-5.8-%23007acc.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
-    <img src="https://img.shields.io/badge/Supabase-Database-%233ecf8e.svg?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
-    <img src="https://img.shields.io/badge/Tailwind--CSS-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" />
-  </p>
+# NeuroSense
+### Clinical Neuro-Recovery Platform
+
+<h3>AI-Powered Neurological Rehabilitation System</h3>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Imagine--Cup--2026-Project-0078d4?style=for-the-badge&logo=microsoft&logoColor=white" alt="Imagine Cup" />
+  <img src="https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge" alt="Version" />
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/React-19-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB" alt="React" />
+  <img src="https://img.shields.io/badge/TypeScript-5.8-%23007acc.svg?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" />
+  <img src="https://img.shields.io/badge/Supabase-Database-%233ecf8e.svg?style=for-the-badge&logo=supabase&logoColor=white" alt="Supabase" />
+  <img src="https://img.shields.io/badge/Tailwind--CSS-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind" />
+</p>
+
 </div>
 
 ---
@@ -91,20 +94,64 @@
 
 ## 📍 Overview
 
-**NeuroSense** is a clinical-grade AI platform built for **Microsoft Imagine Cup 2026**. It revolutionizes neurological rehabilitation by integrating **bio-telemetry**, **AI-driven analytics**, and **doctor-supervised therapy** to support patients recovering from stroke, brain injury, and speech disorders.
+**NeuroSense** is a clinical-grade AI platform developed for **Microsoft Imagine Cup 2026**. It revolutionizes neurological rehabilitation by integrating **bio-telemetry**, **AI-driven analytics**, and **doctor-supervised therapy** to support patients recovering from stroke, traumatic brain injury, and speech disorders.
+
+<div align="center">
+
+### 🎯 Core Mission
+
+```mermaid
+%%{init: {'theme':'base', 'themeVariables': { 
+  'primaryColor':'#3b82f6',
+  'primaryTextColor':'#0f172a',
+  'primaryBorderColor':'#60a5fa',
+  'lineColor':'#475569',
+  'secondaryColor':'#10b981',
+  'secondaryTextColor':'#ffffff',
+  'tertiaryColor':'#f59e0b',
+  'tertiaryTextColor':'#ffffff',
+  'background':'#ffffff',
+  'mainBkg':'#ffffff',
+  'secondBkg':'#f1f5f9',
+  'nodeTextColor':'#0f172a',
+  'clusterBkg':'#e0f2fe',
+  'clusterBorder':'#7dd3fc',
+  'defaultLinkColor':'#475569',
+  'titleColor':'#0f172a',
+  'edgeLabelBackground':'#f8fafc'
+}}}%%
+mindmap
+  root((NeuroSense))
+    Real-Time Monitoring
+      Bio-Telemetry
+      Progress Tracking
+      Vital Signs
+    AI-Powered Insights
+      Recovery Predictions
+      Therapy Optimization
+      Pattern Recognition
+    Clinical Oversight
+      Doctor Dashboard
+      Treatment Plans
+      Patient Management
+    Patient Engagement
+      Interactive Therapy
+      Gamified Exercises
+      Progress Visualization
+```
+
+</div>
 
 ---
 
 ## 🎯 Problem Statement
 
 Neurological rehabilitation today suffers from:
-
 - ❌ Lack of continuous monitoring between clinical visits
 - ❌ One-size-fits-all therapy plans
 - ❌ Limited doctor–patient interaction outside clinics
 
 **NeuroSense solves this:**
-
 - ✅ Real-time patient monitoring
 - ✅ AI-assisted personalized therapy
 - ✅ Doctor-controlled clinical oversight
@@ -159,13 +206,13 @@ Neurological rehabilitation today suffers from:
 
 <div align="center">
 
-| Layer | Technologies |
-| :--- | :--- |
-| **Frontend** | ![React](https://img.shields.io/badge/React-20232A?style=flat-square&logo=react&logoColor=61DAFB) ![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=flat-square&logo=typescript&logoColor=white) |
-| **Styling** | ![Tailwind](https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=flat-square&logo=tailwind-css&logoColor=white) |
-| **Backend** | ![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=flat-square&logo=supabase&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-336791?style=flat-square&logo=postgresql&logoColor=white) |
-| **Visualization** | ![Three.js](https://img.shields.io/badge/Three.js-black?style=flat-square&logo=three.js&logoColor=white) ![Recharts](https://img.shields.io/badge/Recharts-22b5bf?style=flat-square) |
-| **Auth** | ![Google OAuth](https://img.shields.io/badge/Google_OAuth-4285F4?style=flat-square&logo=google&logoColor=white) |
+| Layer          | Technologies                                                                 |
+|----------------|------------------------------------------------------------------------------|
+| **Frontend**   | React • TypeScript                                                           |
+| **Styling**    | Tailwind CSS                                                                 |
+| **Backend**    | Supabase • PostgreSQL                                                        |
+| **Visualization** | Three.js • Recharts                                                       |
+| **Auth**       | Google OAuth                                                                 |
 
 </div>
 
@@ -179,7 +226,6 @@ Neurological rehabilitation today suffers from:
 - Google Cloud Console (for OAuth)
 
 ### Installation
-
 ```bash
 git clone https://github.com/Akshay-gurav-31/NeuroSense.git
 cd NeuroSense
@@ -202,13 +248,11 @@ VITE_SUPABASE_ANON_KEY=your_anon_key
 ```bash
 npm run dev
 ```
-
 App available at `http://localhost:5173`
 
 ---
 
 ## 📈 Expected Impact
-
 - 🚀 **25% faster** recovery cycles
 - 🎮 **40% higher** patient engagement
 - 🧠 **60% better** clinical insights
@@ -217,18 +261,14 @@ App available at `http://localhost:5173`
 ---
 
 ## 📞 Contact
-
 **Email**: akshaygurav416115@gmail.com  
 **GitHub**: [https://github.com/Akshay-gurav-31/NeuroSense](https://github.com/Akshay-gurav-31/NeuroSense)
 
 ---
 
 ## ⚠️ Disclaimer
-
 > **NeuroSense is not a diagnostic tool.**  
 > It is a **clinical support system** designed to assist licensed medical professionals.
-
----
 
 <div align="center">
   <sub>Developed for Microsoft Imagine Cup 2026</sub>
