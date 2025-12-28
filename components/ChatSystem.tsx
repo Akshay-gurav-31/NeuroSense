@@ -25,6 +25,12 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
         try {
             const data = await dataService.getMessages(currentUser.id, otherUser.id);
 
+            // Mark as read if there are unread messages from the other user
+            const hasUnread = data.some(m => m.receiverId === currentUser.id && !m.isRead);
+            if (hasUnread) {
+                dataService.markAllAsRead(currentUser.id, otherUser.id).catch(console.error);
+            }
+
             // SERVER-CONFIRMATION-SYNC:
             // For each message, check if we have a "sticky" local edit.
             // If the server's content matches our edit, the server is synced -> clear sticky.

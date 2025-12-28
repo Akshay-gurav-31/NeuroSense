@@ -326,6 +326,42 @@ export const dataService = {
         if (error) throw error;
     },
 
+    async markAllAsRead(receiverId: string, senderId: string): Promise<void> {
+        const { error } = await supabase
+            .from('messages')
+            .update({ is_read: true })
+            .match({ receiver_id: receiverId, sender_id: senderId, is_read: false });
+        if (error) throw error;
+    },
+
+    async getChatPreview(userId1: string, userId2: string): Promise<{ lastMessage: string, timestamp: string, unreadCount: number } | null> {
+        // Get last message
+        const { data: lastMsgData, error: lastMsgError } = await supabase
+            .from('messages')
+            .select('content, timestamp')
+            .or(`and(sender_id.eq.${userId1},receiver_id.eq.${userId2}),and(sender_id.eq.${userId2},receiver_id.eq.${userId1})`)
+            .order('timestamp', { ascending: false })
+            .limit(1)
+            .maybeSingle();
+
+        if (lastMsgError) throw lastMsgError;
+        if (!lastMsgData) return null;
+
+        // Get unread count for current user (userId1 is assumed to be the observer)
+        const { count, error: countError } = await supabase
+            .from('messages')
+            .select('*', { count: 'exact', head: true })
+            .match({ receiver_id: userId1, sender_id: userId2, is_read: false });
+
+        if (countError) throw countError;
+
+        return {
+            lastMessage: lastMsgData.content,
+            timestamp: lastMsgData.timestamp,
+            unreadCount: count || 0
+        };
+    },
+
     async deleteMessage(messageId: string): Promise<void> {
         const { error } = await supabase
             .from('messages')

@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { UserAccount, Connection, ConnectionStatus, PatientProfile, UserRole } from '../types';
 import ChatSystem from '../components/ChatSystem';
 import { Icons } from '../components/Icons';
+import { dataService } from '../services/supabase.service';
 
 interface PatientChatViewProps {
     profile: PatientProfile;
@@ -13,6 +14,7 @@ interface PatientChatViewProps {
 
 const PatientChatView: React.FC<PatientChatViewProps> = ({ profile, connections, accounts, darkMode }) => {
     const [selectedDoctorId, setSelectedDoctorId] = useState<string | null>(null);
+    const [chatPreviews, setChatPreviews] = useState<Record<string, { lastMessage: string, timestamp: string, unreadCount: number }>>({});
 
     const connectedDoctors = useMemo(() => {
         const connectedIds = connections
@@ -21,6 +23,27 @@ const PatientChatView: React.FC<PatientChatViewProps> = ({ profile, connections,
 
         return accounts.filter(a => a.role === UserRole.DOCTOR && connectedIds.includes(a.id));
     }, [connections, accounts, profile.id]);
+
+    const fetchPreviews = async () => {
+        const previews: Record<string, any> = {};
+        for (const doctor of connectedDoctors) {
+            try {
+                const preview = await dataService.getChatPreview(profile.id, doctor.id);
+                if (preview) {
+                    previews[doctor.id] = preview;
+                }
+            } catch (err) {
+                console.error(`Failed to fetch preview for ${doctor.id}:`, err);
+            }
+        }
+        setChatPreviews(previews);
+    };
+
+    React.useEffect(() => {
+        fetchPreviews();
+        const interval = setInterval(fetchPreviews, 5000);
+        return () => clearInterval(interval);
+    }, [connectedDoctors]);
 
     const selectedDoctor = useMemo(() =>
         connectedDoctors.find(d => d.id === selectedDoctorId),
@@ -48,33 +71,49 @@ const PatientChatView: React.FC<PatientChatViewProps> = ({ profile, connections,
                             </p>
                         </div>
                     ) : (
-                        connectedDoctors.map(doctor => (
-                            <button
-                                key={doctor.id}
-                                onClick={() => setSelectedDoctorId(doctor.id)}
-                                className={`w-full flex items-center gap-4 p-4 rounded-3xl transition-all duration-300 group ${selectedDoctorId === doctor.id
-                                    ? 'bg-blue-600 text-white shadow-lg'
-                                    : 'hover:bg-slate-50 dark:hover:bg-white/5 text-slate-600 dark:text-white'
-                                    }`}
-                            >
-                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-md overflow-hidden flex-shrink-0 ${selectedDoctorId === doctor.id ? 'bg-white text-blue-600' : 'bg-blue-600 text-white'
-                                    }`}>
-                                    {doctor.avatarUrl ? (
-                                        <img src={doctor.avatarUrl} alt={doctor.name} className="w-full h-full object-cover" />
-                                    ) : (
-                                        doctor.name.charAt(0)
+                        connectedDoctors.map(doctor => {
+                            const preview = chatPreviews[doctor.id];
+                            return (
+                                <button
+                                    key={doctor.id}
+                                    onClick={() => setSelectedDoctorId(doctor.id)}
+                                    className={`w-full flex items-center gap-4 p-4 rounded-3xl transition-all duration-300 group relative ${selectedDoctorId === doctor.id
+                                        ? 'bg-blue-600 text-white shadow-lg'
+                                        : 'hover:bg-slate-50 dark:hover:bg-white/5 text-slate-600 dark:text-white'
+                                        }`}
+                                >
+                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-md overflow-hidden flex-shrink-0 ${selectedDoctorId === doctor.id ? 'bg-white text-blue-600' : 'bg-blue-600 text-white'
+                                        }`}>
+                                        {doctor.avatarUrl ? (
+                                            <img src={doctor.avatarUrl} alt={doctor.name} className="w-full h-full object-cover" />
+                                        ) : (
+                                            doctor.name.charAt(0)
+                                        )}
+                                    </div>
+                                    <div className="text-left flex-grow truncate">
+                                        <div className="flex items-center justify-between">
+                                            <p className="font-black text-sm tracking-tight leading-none truncate">Dr. {doctor.name.split(' ').pop()}</p>
+                                            {preview?.timestamp && (
+                                                <span className={`text-[7px] font-bold opacity-50 ${selectedDoctorId === doctor.id ? 'text-white' : 'text-slate-400'}`}>
+                                                    {new Date(preview.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <p className={`text-[9px] font-medium truncate mt-1 ${selectedDoctorId === doctor.id ? 'text-blue-100' : 'text-slate-400'}`}>
+                                            {preview?.lastMessage || `No messages yet`}
+                                        </p>
+                                    </div>
+                                    {preview && preview.unreadCount > 0 && selectedDoctorId !== doctor.id && (
+                                        <div className="absolute top-2 right-2 min-w-5 h-5 bg-rose-500 rounded-full flex items-center justify-center px-1.5 shadow-lg animate-bounce">
+                                            <span className="text-[9px] font-black text-white">{preview.unreadCount}</span>
+                                        </div>
                                     )}
-                                </div>
-                                <div className="text-left flex-grow truncate">
-                                    <p className="font-black text-sm tracking-tight leading-none truncate">Dr. {doctor.name.split(' ').pop()}</p>
-                                    <p className={`text-[8px] font-bold uppercase tracking-widest mt-1 opacity-60 ${selectedDoctorId === doctor.id ? 'text-white' : 'text-slate-400'
-                                        }`}>Authorized MD</p>
-                                </div>
-                                {selectedDoctorId === doctor.id && (
-                                    <div className="w-2 h-2 rounded-full bg-white animate-pulse"></div>
-                                )}
-                            </button>
-                        ))
+                                    {selectedDoctorId === doctor.id && (
+                                        <div className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0"></div>
+                                    )}
+                                </button>
+                            );
+                        })
                     )}
                 </div>
             </aside>

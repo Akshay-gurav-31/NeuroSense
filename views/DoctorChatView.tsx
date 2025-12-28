@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { UserAccount, Connection, ConnectionStatus, DoctorProfile, UserRole } from '../types';
 import ChatSystem from '../components/ChatSystem';
 import { Icons } from '../components/Icons';
+import { dataService } from '../services/supabase.service';
 
 interface DoctorChatViewProps {
     profile: DoctorProfile;
@@ -13,6 +14,7 @@ interface DoctorChatViewProps {
 
 const DoctorChatView: React.FC<DoctorChatViewProps> = ({ profile, connections, accounts, darkMode }) => {
     const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
+    const [chatPreviews, setChatPreviews] = useState<Record<string, { lastMessage: string, timestamp: string, unreadCount: number }>>({});
 
     const connectedPatients = useMemo(() => {
         const connectedIds = connections
@@ -21,6 +23,27 @@ const DoctorChatView: React.FC<DoctorChatViewProps> = ({ profile, connections, a
 
         return accounts.filter(a => a.role === UserRole.PATIENT && connectedIds.includes(a.id));
     }, [connections, accounts, profile.id]);
+
+    const fetchPreviews = async () => {
+        const previews: Record<string, any> = {};
+        for (const patient of connectedPatients) {
+            try {
+                const preview = await dataService.getChatPreview(profile.id, patient.id);
+                if (preview) {
+                    previews[patient.id] = preview;
+                }
+            } catch (err) {
+                console.error(`Failed to fetch preview for ${patient.id}:`, err);
+            }
+        }
+        setChatPreviews(previews);
+    };
+
+    React.useEffect(() => {
+        fetchPreviews();
+        const interval = setInterval(fetchPreviews, 5000);
+        return () => clearInterval(interval);
+    }, [connectedPatients]);
 
     const selectedPatient = useMemo(() =>
         connectedPatients.find(p => p.id === selectedPatientId),
@@ -48,33 +71,49 @@ const DoctorChatView: React.FC<DoctorChatViewProps> = ({ profile, connections, a
                             </p>
                         </div>
                     ) : (
-                        connectedPatients.map(patient => (
-                            <button
-                                key={patient.id}
-                                onClick={() => setSelectedPatientId(patient.id)}
-                                className={`w-full flex items-center gap-4 p-4 rounded-3xl transition-all duration-300 group ${selectedPatientId === patient.id
+                        connectedPatients.map(patient => {
+                            const preview = chatPreviews[patient.id];
+                            return (
+                                <button
+                                    key={patient.id}
+                                    onClick={() => setSelectedPatientId(patient.id)}
+                                    className={`w-full flex items-center gap-4 p-4 rounded-3xl transition-all duration-300 group relative ${selectedPatientId === patient.id
                                         ? 'bg-emerald-600 text-white shadow-lg'
                                         : 'hover:bg-slate-50 dark:hover:bg-white/5 text-slate-600 dark:text-white'
-                                    }`}
-                            >
-                                <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-md overflow-hidden flex-shrink-0 ${selectedPatientId === patient.id ? 'bg-white text-emerald-600' : 'bg-emerald-600 text-white'
-                                    }`}>
-                                    {patient.avatarUrl ? (
-                                        <img src={patient.avatarUrl} alt={patient.name} className="w-full h-full object-cover" />
-                                    ) : (
-                                        patient.name.charAt(0)
+                                        }`}
+                                >
+                                    <div className={`w-12 h-12 rounded-2xl flex items-center justify-center font-black text-xl shadow-md overflow-hidden flex-shrink-0 ${selectedPatientId === patient.id ? 'bg-white text-emerald-600' : 'bg-emerald-600 text-white'
+                                        }`}>
+                                        {patient.avatarUrl ? (
+                                            <img src={patient.avatarUrl} alt={patient.name} className="w-full h-full object-cover" />
+                                        ) : (
+                                            patient.name.charAt(0)
+                                        )}
+                                    </div>
+                                    <div className="text-left flex-grow truncate">
+                                        <div className="flex items-center justify-between">
+                                            <p className="font-black text-sm tracking-tight leading-none truncate">{patient.name}</p>
+                                            {preview?.timestamp && (
+                                                <span className={`text-[7px] font-bold opacity-50 ${selectedPatientId === patient.id ? 'text-white' : 'text-slate-400'}`}>
+                                                    {new Date(preview.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <p className={`text-[9px] font-medium truncate mt-1 ${selectedPatientId === patient.id ? 'text-emerald-100' : 'text-slate-400'}`}>
+                                            {preview?.lastMessage || `No messages yet`}
+                                        </p>
+                                    </div>
+                                    {preview && preview.unreadCount > 0 && selectedPatientId !== patient.id && (
+                                        <div className="absolute top-2 right-2 min-w-5 h-5 bg-rose-500 rounded-full flex items-center justify-center px-1.5 shadow-lg animate-bounce">
+                                            <span className="text-[9px] font-black text-white">{preview.unreadCount}</span>
+                                        </div>
                                     )}
-                                </div>
-                                <div className="text-left flex-grow truncate">
-                                    <p className="font-black text-sm tracking-tight leading-none truncate">{patient.name}</p>
-                                    <p className={`text-[8px] font-bold uppercase tracking-widest mt-1 opacity-60 ${selectedPatientId === patient.id ? 'text-white' : 'text-slate-400'
-                                        }`}>Clinical ID: {patient.id.slice(0, 8)}</p>
-                                </div>
-                                {selectedPatientId === patient.id && (
-                                    <div className="w-2 h-2 rounded-full bg-white animate-pulse"></div>
-                                )}
-                            </button>
-                        ))
+                                    {selectedPatientId === patient.id && (
+                                        <div className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0"></div>
+                                    )}
+                                </button>
+                            );
+                        })
                     )}
                 </div>
             </aside>
