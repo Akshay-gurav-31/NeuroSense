@@ -256,7 +256,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
                             className="w-full max-w-[140px] py-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-600 hover:text-white dark:text-emerald-400 dark:hover:text-white text-[9px] font-[1000] uppercase tracking-widest transition-all shadow-sm hover:shadow-emerald-500/20 hover:scale-105 border border-emerald-500/20 flex items-center justify-center gap-2"
                           >
                             <Activity size={12} />
-                            <span>VIEW PORTAL</span>
+                            <span>VIEW DASHBOARD</span>
                           </button>
                         </div>
                       </td>
