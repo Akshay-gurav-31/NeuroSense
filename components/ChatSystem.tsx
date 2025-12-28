@@ -152,11 +152,20 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         </p>
                     </div>
                 </div>
-                {onClose && (
-                    <button onClick={onClose} className="p-3 hover:bg-black/5 dark:hover:bg-white/5 rounded-xl transition-colors text-slate-400">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18M6 6l12 12" /></svg>
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => fetchMessages()}
+                        className={`p-3 rounded-xl transition-all active:scale-95 ${loading ? 'animate-spin text-[#48c1cf]' : 'text-slate-400 hover:bg-black/5 dark:hover:bg-white/5'}`}
+                        title="Sync Messages"
+                    >
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
                     </button>
-                )}
+                    {onClose && (
+                        <button onClick={onClose} className="p-3 hover:bg-black/5 dark:hover:bg-white/5 rounded-xl transition-colors text-slate-400">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18M6 6l12 12" /></svg>
+                        </button>
+                    )}
+                </div>
             </div>
 
             {/* Messages Area */}
