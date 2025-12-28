@@ -81,31 +81,36 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
         {/* Mobile Dark Mode Toggle */}
         <button
           onClick={toggleTheme}
-          className="flex md:hidden flex-col items-center space-y-1.5 px-3 py-4 rounded-[1.8rem] group relative transition-all duration-300 bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white hover:text-prism-accent"
+          className="flex md:hidden flex-col items-center justify-center w-12 h-12 rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white"
         >
-          <div className="w-5 h-5 flex items-center justify-center">
-            {darkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
-          </div>
-          <span className="text-[8px] font-bold uppercase tracking-wider opacity-60">Theme</span>
+          {darkMode ? <Icons.Sun size={18} /> : <Icons.Moon size={18} />}
+        </button>
+
+        {/* Mobile Logout */}
+        <button
+          onClick={onLogout}
+          className="flex md:hidden flex-col items-center justify-center w-12 h-12 rounded-2xl bg-rose-500/10 text-rose-500"
+        >
+          <Icons.Logout size={18} />
         </button>
       </div>
 
       <div className="hidden md:block flex-grow"></div>
 
       {/* Utility Actions */}
-      <div className="hidden md:flex flex-col items-center gap-4 pb-6">
+      <div className="hidden md:flex flex-col items-center gap-6 mb-12">
         <button
           onClick={toggleTheme}
-          className="w-12 h-12 flex items-center justify-center rounded-[1.5rem] bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white hover:text-prism-accent transition-all hover:rotate-90"
+          className="w-12 h-12 flex items-center justify-center rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white hover:text-prism-accent transition-all hover:rotate-90 shadow-sm"
         >
-          {darkMode ? <Icons.Sun /> : <Icons.Moon />}
+          {darkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
         </button>
         <button
           onClick={onLogout}
-          className="w-12 h-12 flex items-center justify-center rounded-[1.5rem] bg-rose-500/5 text-slate-400 dark:text-white hover:text-rose-500 transition-all hover:bg-rose-500/10 active:scale-75"
+          className="w-12 h-12 flex items-center justify-center rounded-2xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-all active:scale-90 shadow-md border border-rose-500/20"
           title="Logout"
         >
-          <Icons.Logout />
+          <Icons.Logout size={20} />
         </button>
       </div>
     </nav>
