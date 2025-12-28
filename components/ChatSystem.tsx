@@ -99,11 +99,11 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                     if (updatedMsg.content === content) {
                         delete stickyEditsRef.current[editingId];
                     }
-                } catch (err) {
+                } catch (err: any) {
                     delete stickyEditsRef.current[editingId]; // Remove sticky on failure
                     setMessages(oldMessages); // Rollback
                     console.error('Edit failed:', err);
-                    alert('Server rejected the edit. Please check your internet or SQL policies.');
+                    alert(`Server rejected the edit. Reason: ${err.message || 'Unknown Error'}`);
                 }
             } else {
                 await dataService.sendMessage(currentUser.id, otherUser.id, content);
