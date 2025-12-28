@@ -72,26 +72,26 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
               </button>
             );
           })}
+
+          {/* Integrated Profile Tab */}
+          <button
+            onClick={() => setView('profile')}
+            className={`flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] transition-all duration-300 group relative
+              ${currentView === 'profile'
+                ? 'text-emerald-500 bg-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.15)] scale-105'
+                : 'text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}
+            `}
+          >
+            <Icons.User size={20} />
+            <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${currentView === 'profile' ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+              User
+            </span>
+          </button>
         </div>
       </div>
 
-      {/* Bottom Section: Theme & Profile/Logout */}
+      {/* Bottom Section: Theme & Logout */}
       <div className="flex md:flex-col items-center gap-2 md:gap-2 px-4 md:px-0 md:pb-8">
-        {/* Profile */}
-        <button
-          onClick={() => setView('profile')}
-          className={`flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] transition-all duration-300 group
-            ${currentView === 'profile'
-              ? 'text-emerald-500 bg-emerald-500/10'
-              : 'text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'}
-          `}
-        >
-          <Icons.User size={20} />
-          <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${currentView === 'profile' ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>User</span>
-        </button>
-
-        <div className="hidden md:block w-8 h-[1px] bg-slate-200 dark:bg-white/10 opacity-50"></div>
-
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
