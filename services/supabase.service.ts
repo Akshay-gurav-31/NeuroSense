@@ -335,12 +335,16 @@ export const dataService = {
     },
 
     async editMessage(messageId: string, newContent: string): Promise<void> {
-        const { error, count } = await supabase
+        const { data, error } = await supabase
             .from('messages')
             .update({ content: newContent })
-            .eq('id', messageId);
+            .eq('id', messageId)
+            .select();
 
         if (error) throw error;
-        // In some postgrest setups, count might be null, but we check if we can
+
+        if (!data || data.length === 0) {
+            throw new Error('Update failed: No rows affected. Possible RLS policy issue.');
+        }
     }
 };
