@@ -17,6 +17,7 @@ import LandingPage from './views/LandingPage';
 import AuthPortal from './views/AuthPortal';
 import MentalHealthView from './views/MentalHealthView';
 import PatientChatView from './views/PatientChatView';
+import DoctorChatView from './views/DoctorChatView';
 
 import { dataService } from './services/supabase.service';
 
@@ -298,6 +299,9 @@ const App: React.FC = () => {
             localStorage.setItem('ns_user', JSON.stringify(updatedUser));
           }}
         />;
+      }
+      if (currentView === 'chat') {
+        return <DoctorChatView profile={user as DoctorProfile} connections={allConnections} accounts={accounts} darkMode={darkMode} />;
       }
       return (
         <DoctorDashboard

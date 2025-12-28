@@ -141,7 +141,6 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
 
 const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connections, onAcceptConnection, darkMode, currentUser, accounts, setView }) => {
   const [selectedPatientId, setSelectedPatientId] = useState<string | null>(null);
-  const [chatPatientId, setChatPatientId] = useState<string | null>(null);
 
   const myConnections = connections.filter(c => c.doctorId === currentUser.id);
   const pendingRequests = myConnections.filter(c => c.status === ConnectionStatus.PENDING);
@@ -242,18 +241,10 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
                       <td className="px-8 py-5 text-[10px] clinical-mono font-bold tracking-widest text-slate-400 dark:text-white">{p.patientId}</td>
                       <td className="px-8 py-5 text-xs font-semibold text-slate-400 dark:text-white text-center">{new Date(p.timestamp).toLocaleDateString()}</td>
                       <td className="px-8 py-5">
-                        <div className="flex flex-col items-center gap-3">
-                          <button
-                            onClick={() => setChatPatientId(p.patientId)}
-                            className="w-full max-w-[140px] py-3 rounded-xl bg-[#48c1cf]/10 text-[#48c1cf] hover:bg-[#48c1cf] hover:text-white transition-all shadow-sm border border-[#48c1cf]/20 flex items-center justify-center gap-2 group/chat"
-                          >
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="group-hover/chat:rotate-12 transition-transform"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>
-                            <span className="text-[9px] font-black uppercase tracking-widest">INITIATE CHAT</span>
-                          </button>
-
+                        <div className="flex justify-center">
                           <button
                             onClick={() => setSelectedPatientId(p.patientId)}
-                            className="w-full max-w-[140px] py-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-600 hover:text-white dark:text-emerald-400 dark:hover:text-white text-[9px] font-[1000] uppercase tracking-widest transition-all shadow-sm hover:shadow-emerald-500/20 hover:scale-105 border border-emerald-500/20 flex items-center justify-center gap-2"
+                            className="w-full max-w-[160px] py-3 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-600 hover:text-white dark:text-emerald-400 dark:hover:text-white text-[9px] font-[1000] uppercase tracking-widest transition-all shadow-sm hover:shadow-emerald-500/20 hover:scale-105 border border-emerald-500/20 flex items-center justify-center gap-2"
                           >
                             <Activity size={12} />
                             <span>VIEW DASHBOARD</span>
@@ -379,28 +370,6 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
           </div>
         </div>
       </div>
-
-      {/* Full Portal Chat for Doctor */}
-      {chatPatientId && (
-        <div className="fixed inset-0 z-[300] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 lg:p-12 animate-in fade-in duration-500">
-          {(() => {
-            const patient = accounts.find(a => a.id === chatPatientId);
-            if (patient) {
-              return (
-                <div className="w-full max-w-[1000px] h-full max-h-[850px] shadow-[0_32px_128px_-16px_rgba(0,0,0,0.5)]">
-                  <ChatSystem
-                    currentUser={currentUser}
-                    otherUser={patient}
-                    darkMode={darkMode}
-                    onClose={() => setChatPatientId(null)}
-                  />
-                </div>
-              );
-            }
-            return null;
-          })()}
-        </div>
-      )}
     </div>
   );
 };
