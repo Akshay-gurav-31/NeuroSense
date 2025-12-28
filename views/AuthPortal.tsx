@@ -11,6 +11,7 @@ interface AuthPortalProps {
     isAuthenticating: boolean;
     authError: string | null;
     onSwitchRole: (role: UserRole) => void;
+    onGoogleLogin: () => void;
     darkMode: boolean;
 }
 
@@ -22,6 +23,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
     isAuthenticating,
     authError,
     onSwitchRole,
+    onGoogleLogin,
     darkMode
 }) => {
     const isDoctor = role === UserRole.DOCTOR;
@@ -264,6 +266,28 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                                 >
                                     {isAuthenticating ? 'PLEASE WAIT...' : (authMode === 'LOGIN' ? 'LOGIN' : 'CREATE ACCOUNT')}
                                 </button>
+
+                                {/* Google Login - Only for Patients */}
+                                {!isDoctor && (
+                                    <>
+                                        {/* Divider or OR */}
+                                        <div className="flex items-center gap-3 my-4">
+                                            <div className="flex-1 h-[1px] bg-black/[0.06]"></div>
+                                            <span className="text-[9px] font-black text-[#9ca3af] tracking-widest uppercase">OR</span>
+                                            <div className="flex-1 h-[1px] bg-black/[0.06]"></div>
+                                        </div>
+
+                                        <button
+                                            type="button"
+                                            onClick={onGoogleLogin}
+                                            disabled={isAuthenticating}
+                                            className={`w-full h-11 md:h-12 border border-black/[0.08] rounded-2xl flex items-center justify-center gap-3 bg-white hover:bg-slate-50 transition-all shadow-sm active:scale-[0.98]`}
+                                        >
+                                            <Icons.Google size={20} />
+                                            <span className="text-[10px] md:text-[11px] font-black tracking-[0.1em] text-[#0f172a] uppercase">CONTINUE WITH GOOGLE</span>
+                                        </button>
+                                    </>
+                                )}
                             </form>
 
                             {/* Footer Links */}

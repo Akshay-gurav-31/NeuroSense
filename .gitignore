@@ -13,6 +13,11 @@ dist-ssr
 *.local
 .env
 
+# Sensitive configuration files
+config/
+client_secret.json
+*.json.secret
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json

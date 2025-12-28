@@ -20,6 +20,7 @@ import PatientChatView from './views/PatientChatView';
 import DoctorChatView from './views/DoctorChatView';
 
 import { dataService } from './services/supabase.service';
+import { supabase } from './lib/supabase';
 
 const App: React.FC = () => {
   const [role, setRole] = useState<UserRole | null>(() => {
@@ -98,6 +99,40 @@ const App: React.FC = () => {
       document.documentElement.classList.remove('dark');
     }
   }, [darkMode]);
+
+  // Listen for Supabase auth state changes (Google OAuth redirect)
+  useEffect(() => {
+    const { data: authListener } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_IN' && session?.user && !user) {
+        try {
+          console.log('Google OAuth detected, syncing user...');
+          // Sync Google user to our database and get complete profile
+          const fullProfile = await dataService.syncGoogleUser(session.user, selectedRole || UserRole.PATIENT);
+
+          // Validate role: If user is a Doctor but trying to login via Patient mode
+          if (fullProfile.role === UserRole.DOCTOR && (selectedRole === UserRole.PATIENT || !selectedRole)) {
+            console.log('Doctor trying to login via Patient mode - blocking');
+            await supabase.auth.signOut(); // Sign out from Supabase
+            setAuthError('This account is registered as a Doctor. Please use the Doctor portal and login with your email and password.');
+            return;
+          }
+
+          console.log('User synced:', fullProfile);
+          setUser(fullProfile);
+          setRole(fullProfile.role);
+          setAuthMode(null);
+          setSelectedRole(null);
+        } catch (err) {
+          console.error('Google auth sync error:', err);
+          setAuthError('Failed to sync Google account. Please try again.');
+        }
+      }
+    });
+
+    return () => {
+      authListener.subscription.unsubscribe();
+    };
+  }, [selectedRole, user]);
 
   const handleAuthSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -204,6 +239,14 @@ const App: React.FC = () => {
     }
   };
 
+  const handleGoogleLogin = async () => {
+    try {
+      await dataService.signInWithGoogle();
+    } catch (err: any) {
+      setAuthError(err.message || "Google Login failed.");
+    }
+  };
+
   const handleLogout = () => {
     setIsLoggingOut(true);
     setTimeout(() => {
@@ -282,6 +325,7 @@ const App: React.FC = () => {
         isAuthenticating={isAuthenticating}
         authError={authError}
         onSwitchRole={(r) => setSelectedRole(r)}
+        onGoogleLogin={handleGoogleLogin}
         darkMode={darkMode}
       />
     );

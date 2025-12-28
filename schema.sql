@@ -6,10 +6,11 @@ CREATE TABLE IF NOT EXISTS users (
     id TEXT PRIMARY KEY,
     name TEXT NOT NULL,
     email TEXT UNIQUE NOT NULL,
-    password TEXT NOT NULL,
+    password TEXT,  -- Made nullable for OAuth users
     role TEXT NOT NULL CHECK (role IN ('PATIENT', 'DOCTOR')),
     phone TEXT,
     avatar_url TEXT,
+    auth_provider TEXT DEFAULT 'email',  -- 'email' or 'google'
     start_date TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
     updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
@@ -19,7 +20,11 @@ DO $$
 BEGIN
     ALTER TABLE users ADD COLUMN IF NOT EXISTS phone TEXT;
     ALTER TABLE users ADD COLUMN IF NOT EXISTS avatar_url TEXT;
+    ALTER TABLE users ADD COLUMN IF NOT EXISTS auth_provider TEXT DEFAULT 'email';
     ALTER TABLE users ADD COLUMN IF NOT EXISTS updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP;
+    
+    -- Make password nullable for OAuth users
+    ALTER TABLE users ALTER COLUMN password DROP NOT NULL;
 EXCEPTION
     WHEN duplicate_column THEN RAISE NOTICE 'Column already exists in users.';
 END $$;

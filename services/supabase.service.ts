@@ -162,6 +162,96 @@ export const dataService = {
         };
     },
 
+    async signInWithGoogle() {
+        const { data, error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: window.location.origin
+            }
+        });
+        if (error) throw error;
+        return data;
+    },
+
+    async syncGoogleUser(supabaseUser: any, role: UserRole) {
+        // Check if user already exists
+        const { data: existingUser } = await supabase
+            .from('users')
+            .select(`
+                *,
+                patient_profiles(*),
+                doctor_profiles(*)
+            `)
+            .eq('email', supabaseUser.email)
+            .single();
+
+        if (existingUser) {
+            // User exists, return full profile
+            const patientData = Array.isArray(existingUser.patient_profiles) ? existingUser.patient_profiles[0] : existingUser.patient_profiles;
+            const doctorData = Array.isArray(existingUser.doctor_profiles) ? existingUser.doctor_profiles[0] : existingUser.doctor_profiles;
+
+            return {
+                id: existingUser.id,
+                name: existingUser.name,
+                email: existingUser.email,
+                avatarUrl: existingUser.avatar_url,
+                phone: existingUser.phone,
+                role: existingUser.role as UserRole,
+                startDate: existingUser.start_date,
+                diagnosis: patientData?.diagnosis,
+                caseId: patientData?.case_id,
+                licenseId: doctorData?.license_id,
+                specialty: doctorData?.specialty,
+                experienceYears: doctorData?.experience_years,
+                bio: doctorData?.bio,
+                isVerified: doctorData?.is_verified
+            };
+        }
+
+        // Create new user
+        const userId = `UID-${Math.random().toString(36).substr(2, 7).toUpperCase()}`;
+        const newUser = {
+            id: userId,
+            name: supabaseUser.user_metadata?.full_name || supabaseUser.email?.split('@')[0] || 'User',
+            email: supabaseUser.email,
+            password: null,
+            auth_provider: 'google',
+            avatar_url: supabaseUser.user_metadata?.avatar_url,
+            role: role,
+            start_date: new Date().toISOString()
+        };
+
+        const { error: userError } = await supabase.from('users').insert(newUser);
+        if (userError) throw userError;
+
+        if (role === UserRole.PATIENT) {
+            await supabase.from('patient_profiles').insert({
+                user_id: userId,
+                diagnosis: 'Neuro-Recovery',
+                case_id: `NS-${Math.floor(Math.random() * 90000)}`
+            });
+        } else if (role === UserRole.DOCTOR) {
+            await supabase.from('doctor_profiles').insert({
+                user_id: userId,
+                is_verified: false
+            });
+        }
+
+        // Return complete profile
+        return {
+            id: userId,
+            name: newUser.name,
+            email: newUser.email,
+            avatarUrl: newUser.avatar_url,
+            phone: undefined,
+            role: role,
+            startDate: newUser.start_date,
+            diagnosis: role === UserRole.PATIENT ? 'Neuro-Recovery' : undefined,
+            caseId: role === UserRole.PATIENT ? `NS-${Math.floor(Math.random() * 90000)}` : undefined,
+            isVerified: role === UserRole.DOCTOR ? false : undefined
+        };
+    },
+
     /**
      * @section Laboratory & Therapy Session Telemetry
      * Captures and retrieves high-fidelity performance data from clinical exercises.
