@@ -62,7 +62,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
                 <div className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
                   {tab.icon}
                 </div>
-                <span className={`text-[7px] font-black uppercase tracking-[0.2em] mt-1.5 md:hidden lg:block transition-opacity ${isActive ? 'opacity-100' : 'opacity-0 md:group-hover:opacity-100'}`}>
+                <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${isActive ? 'text-blue-500' : 'text-slate-500 dark:text-slate-400'}`}>
                   {tab.label}
                 </span>
 
@@ -76,36 +76,39 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
       </div>
 
       {/* Bottom Section: Theme & Profile/Logout */}
-      <div className="flex md:flex-col items-center gap-3 md:gap-5 px-4 md:px-0 md:pb-10">
-        {/* Profile/Profile Icon - Direct Access */}
+      <div className="flex md:flex-col items-center gap-2 md:gap-4 px-4 md:px-0 md:pb-8">
+        {/* Profile */}
         <button
           onClick={() => setView('profile')}
-          className={`flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-3xl transition-all duration-300 group
+          className={`flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] transition-all duration-300 group
             ${currentView === 'profile'
               ? 'text-emerald-500 bg-emerald-500/10'
-              : 'text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}
+              : 'text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5'}
           `}
         >
-          <Icons.User size={22} />
+          <Icons.User size={20} />
+          <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${currentView === 'profile' ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>User</span>
         </button>
 
-        <div className="hidden md:block w-8 h-[1px] bg-slate-200 dark:bg-white/5"></div>
+        <div className="hidden md:block w-8 h-[1px] bg-slate-200 dark:bg-white/10 opacity-50"></div>
 
         {/* Theme Toggle */}
         <button
           onClick={toggleTheme}
-          className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-2xl bg-slate-50 dark:bg-white/5 text-slate-400 dark:text-white hover:text-blue-500 hover:bg-blue-500/5 transition-all"
+          className="flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus:outline-none"
         >
           {darkMode ? <Icons.Sun size={18} /> : <Icons.Moon size={18} />}
+          <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 text-slate-500 dark:text-slate-400">Mode</span>
         </button>
 
         {/* Logout Button */}
         <button
           onClick={onLogout}
-          className="w-10 h-10 md:w-12 md:h-12 flex items-center justify-center rounded-2xl bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-all active:scale-90 shadow-sm border border-rose-500/20"
+          className="flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-all active:scale-95 shadow-sm border border-rose-500/20"
           title="Logout"
         >
           <Icons.Logout size={20} />
+          <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5">Exit</span>
         </button>
       </div>
     </nav>
