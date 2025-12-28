@@ -87,30 +87,32 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
               User
             </span>
           </button>
+
+          {/* Integrated Theme Toggle */}
+          <button
+            onClick={toggleTheme}
+            className="flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] text-slate-400 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus:outline-none"
+          >
+            <div className="transition-transform duration-300 hover:rotate-90">
+              {darkMode ? <Icons.Sun size={18} /> : <Icons.Moon size={18} />}
+            </div>
+            <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 text-slate-500 dark:text-slate-400">Mode</span>
+          </button>
+
+          {/* Integrated Logout Button */}
+          <button
+            onClick={onLogout}
+            className="flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] bg-rose-500/5 text-rose-500 hover:bg-rose-500 hover:text-white transition-all active:scale-95 border border-rose-500/10"
+            title="Logout"
+          >
+            <Icons.Logout size={18} />
+            <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5">Logout</span>
+          </button>
         </div>
       </div>
 
-      {/* Bottom Section: Theme & Logout */}
-      <div className="flex md:flex-col items-center gap-1 md:gap-1.5 px-4 md:px-0 md:pb-8">
-        {/* Theme Toggle */}
-        <button
-          onClick={toggleTheme}
-          className="flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus:outline-none"
-        >
-          {darkMode ? <Icons.Sun size={18} /> : <Icons.Moon size={18} />}
-          <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 text-slate-500 dark:text-slate-400">Mode</span>
-        </button>
-
-        {/* Logout Button */}
-        <button
-          onClick={onLogout}
-          className="flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] bg-rose-500/10 text-rose-500 hover:bg-rose-500 hover:text-white transition-all active:scale-95 shadow-sm border border-rose-500/20"
-          title="Logout"
-        >
-          <Icons.Logout size={20} />
-          <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5">Logout</span>
-        </button>
-      </div>
+      {/* Hidden spacer to maintain floor alignment on mobile if needed */}
+      <div className="hidden md:block pb-6"></div>
     </nav>
   );
 };
