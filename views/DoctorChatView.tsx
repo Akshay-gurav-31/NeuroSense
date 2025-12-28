@@ -99,15 +99,17 @@ const DoctorChatView: React.FC<DoctorChatViewProps> = ({ profile, connections, a
                                                 </span>
                                             )}
                                         </div>
-                                        <p className={`text-[9px] font-medium truncate mt-1 ${selectedPatientId === patient.id ? 'text-emerald-100' : 'text-slate-400'}`}>
-                                            {preview?.lastMessage || `No messages yet`}
-                                        </p>
-                                    </div>
-                                    {preview && preview.unreadCount > 0 && selectedPatientId !== patient.id && (
-                                        <div className="absolute top-2 right-2 min-w-5 h-5 bg-rose-500 rounded-full flex items-center justify-center px-1.5 shadow-lg animate-bounce">
-                                            <span className="text-[9px] font-black text-white">{preview.unreadCount}</span>
+                                        <div className="flex items-center justify-between mt-1">
+                                            <p className={`text-[9px] font-medium truncate flex-grow ${selectedPatientId === patient.id ? 'text-emerald-100' : 'text-slate-400'}`}>
+                                                {preview?.lastMessage || `No messages yet`}
+                                            </p>
+                                            {preview && preview.unreadCount > 0 && selectedPatientId !== patient.id && (
+                                                <div className="flex-shrink-0 min-w-[18px] h-[18px] bg-rose-500 rounded-full flex items-center justify-center px-1 shadow-md ml-2 transition-all">
+                                                    <span className="text-[8px] font-black text-white leading-none">{preview.unreadCount}</span>
+                                                </div>
+                                            )}
                                         </div>
-                                    )}
+                                    </div>
                                     {selectedPatientId === patient.id && (
                                         <div className="w-2 h-2 rounded-full bg-white animate-pulse flex-shrink-0"></div>
                                     )}
