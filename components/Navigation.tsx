@@ -53,11 +53,11 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
 
       {/* Mobile Menu Overlay */}
       {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[99] bg-black/50 md:hidden" onClick={() => setIsMobileMenuOpen(false)}></div>
+        <div className="fixed inset-0 z-[97] bg-black/50 md:hidden" onClick={() => setIsMobileMenuOpen(false)}></div>
       )}
 
       {/* Mobile Menu - Added for mobile visibility at top with vertical layout */}
-      <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden fixed top-16 left-0 right-0 bg-white dark:bg-[#0B1121] shadow-xl z-[98] p-4 border-b border-slate-200 dark:border-white/10`}>
+      <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden fixed top-16 left-0 right-0 bg-white dark:bg-[#0B1121] shadow-xl z-[99] p-4 border-b border-slate-200 dark:border-white/10`}>
         <div className="flex flex-col gap-3">
           {/* Main Navigation Tabs */}
           {tabs.map((tab) => {
@@ -65,7 +65,8 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
             return (
               <button
                 key={tab.id}
-                onClick={() => {
+                onClick={(e) => {
+                  e.stopPropagation();
                   setView(tab.id);
                   setIsMobileMenuOpen(false);
                 }}
@@ -80,7 +81,8 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
           })}
           
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               setView('profile');
               setIsMobileMenuOpen(false);
             }}
@@ -91,7 +93,10 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
           </button>
           
           <button
-            onClick={toggleTheme}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleTheme();
+            }}
             className="flex items-center gap-3 p-4 rounded-xl hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-white transition-all"
           >
             <div className="w-5 h-5">
@@ -101,7 +106,8 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
           </button>
           
           <button
-            onClick={() => {
+            onClick={(e) => {
+              e.stopPropagation();
               onLogout();
               setIsMobileMenuOpen(false);
             }}
