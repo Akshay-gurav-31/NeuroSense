@@ -42,7 +42,7 @@ const App: React.FC = () => {
   const [accounts, setAccounts] = useState<UserAccount[]>([]);
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     const savedTheme = localStorage.getItem('ns_theme');
-    return savedTheme === null ? false : savedTheme === 'dark';
+    return savedTheme === null ? true : savedTheme === 'dark';
   });
   const [currentView, setView] = useState('dashboard');
   const [activeExercise, setActiveExercise] = useState<TherapyType | null>(null);
