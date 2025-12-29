@@ -269,7 +269,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
       <div className="hidden dark:block ambient-blue-glow bottom-[-20%] right-[10%] opacity-40"></div>
 
       <div className="flex-none z-10 p-6 pb-0">
-        <header className="flex items-center justify-between py-3 px-8 rounded-full shadow-2xl relative overflow-hidden transition-all duration-300 pill-header">
+        <header className="flex items-center justify-between py-3 px-8 pr-20 rounded-full shadow-2xl relative overflow-hidden transition-all duration-300 pill-header">
           {/* Left: Branding */}
           <div className="flex items-center gap-6 relative z-10">
             <div className="w-10 h-10 rounded-full flex items-center justify-center border shadow-lg bg-emerald-50 border-emerald-100 dark:bg-emerald-500/10 dark:border-emerald-400/20">

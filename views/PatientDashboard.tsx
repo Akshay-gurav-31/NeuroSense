@@ -30,7 +30,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
   return (
     <div className="space-y-6 sm:space-y-8 resolve-ui">
       {/* Header Section: Clinical Status & Identity */}
-      <header className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 pb-8 border-b border-slate-200 dark:border-white/10">
+      <header className="flex flex-col lg:flex-row justify-between items-start lg:items-end gap-6 pb-8 border-b border-slate-200 dark:border-white/10 pr-2 lg:pr-16">
         <div className="w-full">
           <div className="inline-flex items-center gap-3 px-5 py-2 bg-slate-100 dark:bg-blue-500/10 text-slate-600 dark:text-blue-400 rounded-full text-[9px] font-black uppercase tracking-[0.3em] mb-8 border border-slate-200 dark:border-white/5">
             <span className="w-2 h-2 bg-blue-500 rounded-full animate-pulse shadow-[0_0_10px_rgba(59,130,246,0.5)]"></span>

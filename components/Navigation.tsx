@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { UserRole } from '../types';
 import { Icons } from './Icons';
 
@@ -13,19 +13,29 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onLogout, darkMode, toggleTheme }) => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
-  
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+
+  // Close drawer on escape key
+  useEffect(() => {
+    const handleEsc = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setIsDrawerOpen(false);
+    };
+    window.addEventListener('keydown', handleEsc);
+    return () => window.removeEventListener('keydown', handleEsc);
+  }, []);
+
   const patientTabs = [
     { id: 'dashboard', icon: <Icons.Home />, label: 'Hub' },
     { id: 'therapy', icon: <Icons.Therapy />, label: 'Labs' },
-    { id: 'chat', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>, label: 'Chat' },
+    { id: 'chat', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>, label: 'Chat' },
     { id: 'connect', icon: <Icons.Activity />, label: 'Link' },
     { id: 'progress', icon: <Icons.Stats />, label: 'Data' },
   ];
 
   const doctorTabs = [
+    { id: 'dashboard', icon: <Icons.Home />, label: 'Dashboard' },
     { id: 'patients', icon: <Icons.User />, label: 'Cohort' },
-    { id: 'chat', icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>, label: 'Chat' },
+    { id: 'chat', icon: <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" /></svg>, label: 'Chat' },
     { id: 'alerts', icon: <Icons.Activity />, label: 'Alerts' },
     { id: 'reports', icon: <Icons.Stats />, label: 'Reports' },
   ];
@@ -34,172 +44,109 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
   const tabs = role === UserRole.PATIENT ? patientTabs : doctorTabs;
 
   return (
-    <nav className={`fixed top-0 left-0 right-0 z-[100] md:top-0 md:left-0 md:h-screen md:w-20 flex md:flex-col items-center justify-between border-b md:border-b-0 md:border-r transition-all duration-300 ${darkMode ? 'bg-black/95 border-white/5' : 'bg-white/95 border-slate-200 shadow-2xl'}`}>
-      {/* Mobile Menu Toggle - Moved to top-left */}
-      <div className="md:hidden w-full flex justify-between items-center px-4 py-3">
-        <button 
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          className="p-2 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
-        >
-          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
-        <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/10 to-emerald-500/10 border border-blue-500/20 cursor-pointer"
-          onClick={() => setView('dashboard')}>
-          <Icons.Logo size={24} className="text-blue-500" />
+    <>
+      {/* 1. Hamburger Button (Floating Top-Right) */}
+      <button
+        onClick={() => setIsDrawerOpen(true)}
+        className="fixed top-6 right-6 z-[200] p-4 bg-white/90 dark:bg-[#0B1121]/90 backdrop-blur-xl border border-slate-200 dark:border-white/10 rounded-[1.5rem] shadow-xl text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-cyan-400 hover:scale-105 transition-all active:scale-95 group"
+        aria-label="Open Menu"
+      >
+        <div className="space-y-1.5 flex flex-col items-end">
+          <span className="block w-6 h-[3px] bg-current rounded-full transition-all duration-300 group-hover:w-8 group-hover:bg-blue-600 dark:group-hover:bg-cyan-400"></span>
+          <span className="block w-4 h-[3px] bg-current rounded-full transition-all duration-300 group-hover:w-8 group-hover:bg-blue-600 dark:group-hover:bg-cyan-400"></span>
+          <span className="block w-6 h-[3px] bg-current rounded-full transition-all duration-300 group-hover:w-8 group-hover:bg-blue-600 dark:group-hover:bg-cyan-400"></span>
         </div>
-      </div>
+      </button>
 
-      {/* Mobile Menu Overlay */}
-      {isMobileMenuOpen && (
-        <div className="fixed inset-0 z-[97] bg-black/50 md:hidden" onClick={() => setIsMobileMenuOpen(false)}></div>
-      )}
+      {/* 2. Enhanced Overlay (Backdrop) */}
+      <div
+        className={`fixed inset-0 z-[210] bg-[#020408]/60 backdrop-blur-md transition-opacity duration-500 ease-out ${isDrawerOpen ? 'opacity-100 pointer-events-auto' : 'opacity-0 pointer-events-none'}`}
+        onClick={() => setIsDrawerOpen(false)}
+      />
 
-      {/* Mobile Menu - Added for mobile visibility at top with vertical layout */}
-      <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:hidden fixed top-16 left-0 right-0 bg-white dark:bg-[#0B1121] shadow-xl z-[99] p-4 border-b border-slate-200 dark:border-white/10`}>
-        <div className="flex flex-col gap-3">
-          {/* Main Navigation Tabs */}
-          {tabs.map((tab) => {
-            const isActive = activeId === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setView(tab.id);
-                  setIsMobileMenuOpen(false);
-                }}
-                className={`flex items-center gap-3 p-4 rounded-xl transition-all ${isActive ? 'bg-blue-500/10 text-blue-500 dark:text-blue-300' : 'hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-white'}`}
-              >
-                <div className="w-5 h-5">
-                  {tab.icon}
-                </div>
-                <span className="font-bold text-base text-slate-900 dark:text-white">{tab.label}</span>
-              </button>
-            );
-          })}
-          
+      {/* 3. Floating Card Drawer */}
+      <div className={`fixed top-4 bottom-4 right-4 z-[220] w-[calc(100vw-2rem)] sm:w-[480px] bg-white dark:bg-[#080d1a] rounded-[2.5rem] shadow-2xl border border-slate-200 dark:border-white/10 transform transition-transform duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] flex flex-col overflow-hidden ${isDrawerOpen ? 'translate-x-0' : 'translate-x-[calc(100%+2rem)]'}`}>
+
+        {/* Drawer Header: Brand & Close */}
+        <div className="flex-none p-8 sm:p-10 flex items-center justify-between border-b border-slate-100 dark:border-white/5 bg-slate-50/30 dark:bg-white/[0.01]">
           <button
-            onClick={(e) => {
-              e.stopPropagation();
-              setView('profile');
-              setIsMobileMenuOpen(false);
-            }}
-            className={`flex items-center gap-3 p-4 rounded-xl transition-all ${currentView === 'profile' ? 'bg-emerald-500/10 text-emerald-500 dark:text-emerald-300' : 'hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-white'}`}
+            onClick={() => setIsDrawerOpen(false)}
+            className="p-4 rounded-2xl hover:bg-rose-50 dark:hover:bg-rose-500/10 text-slate-400 hover:text-rose-500 transition-colors group"
           >
-            <Icons.User size={20} />
-            <span className="font-bold text-base text-slate-900 dark:text-white">Profile</span>
+            <svg className="w-6 h-6 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" /></svg>
           </button>
-          
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              toggleTheme();
-            }}
-            className="flex items-center gap-3 p-4 rounded-xl hover:bg-slate-100 dark:hover:bg-white/10 text-slate-700 dark:text-white transition-all"
-          >
-            <div className="w-5 h-5">
-              {darkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
+
+          <div className="flex items-center gap-4 cursor-pointer group text-right" onClick={() => { setView('dashboard'); setIsDrawerOpen(false); }}>
+            <div className="flex flex-col items-end">
+              <h2 className="text-2xl font-[1000] uppercase tracking-tighter text-slate-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-cyan-400 transition-colors">NeuroSense</h2>
+              <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-400 dark:text-slate-500">System v4.0</p>
             </div>
-            <span className="font-bold text-base text-slate-900 dark:text-white">{darkMode ? 'Light' : 'Dark'} Mode</span>
-          </button>
-          
-          <button
-            onClick={(e) => {
-              e.stopPropagation();
-              onLogout();
-              setIsMobileMenuOpen(false);
-            }}
-            className="flex items-center gap-3 p-4 rounded-xl hover:bg-rose-500/10 text-rose-500 dark:text-rose-300 transition-all"
-          >
-            <Icons.Logout size={20} />
-            <span className="font-bold text-base text-slate-900 dark:text-white">Logout</span>
-          </button>
-        </div>
-      </div>
-
-      {/* Desktop Sidebar - Always visible on desktop */}
-      <div className="hidden md:flex flex-col items-center w-full h-full">
-        {/* Brand Logo - Navigates to default dashboard */}
-        <div className="flex items-center justify-center h-20 w-full mb-2">
-          <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/10 to-emerald-500/10 border border-blue-500/20 shadow-lg cursor-pointer hover:scale-105 transition-transform"
-            onClick={() => setView('dashboard')}>
-            <Icons.Logo size={32} className="text-blue-500" />
+            <div className="p-3 rounded-2xl bg-blue-500/10 dark:bg-cyan-500/10 text-blue-600 dark:text-cyan-400 shadow-sm">
+              <Icons.Logo size={28} />
+            </div>
           </div>
         </div>
 
-        {/* Main Navigation Tabs - Always visible on desktop */}
-        <div className="flex flex-col items-center justify-start w-full px-2 py-3 gap-1.5">
-          {tabs.map((tab) => {
-            const isActive = activeId === tab.id;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setView(tab.id);
-                }}
-                className={`flex flex-col items-center justify-center p-3 w-16 h-16 rounded-[1.4rem] transition-all duration-300 group relative
-                  ${isActive
-                    ? 'text-blue-500 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.15)] scale-105'
-                    : 'text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}
-                `}
-              >
-                <div className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
-                  {tab.icon}
-                </div>
-                <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${isActive ? 'text-blue-500 dark:text-blue-300' : 'text-slate-400 dark:text-white'}`}>
-                  {tab.label}
-                </span>
+        {/* Drawer Body: Navigation Menu */}
+        <div className="flex-grow overflow-y-auto py-8 px-4 sm:px-6">
+          <h3 className="px-6 text-[11px] font-black uppercase tracking-[0.4em] text-slate-400 dark:text-slate-600 mb-6 text-right">Main Menu</h3>
+          <div className="space-y-3">
+            {tabs.map((tab) => {
+              const isActive = activeId === tab.id;
+              return (
+                <button
+                  key={tab.id}
+                  onClick={() => {
+                    setView(tab.id);
+                    setIsDrawerOpen(false);
+                  }}
+                  className={`w-full flex items-center justify-end gap-6 px-8 py-5 rounded-[2rem] transition-all duration-300 group relative overflow-hidden
+                     ${isActive
+                      ? 'bg-blue-600 text-white shadow-[0_8px_30px_-5px_rgba(37,99,235,0.4)] dark:bg-cyan-500/10 dark:text-cyan-400 dark:border dark:border-cyan-500/20 dark:shadow-[0_0_20px_-5px_rgba(34,211,238,0.2)]'
+                      : 'text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white'}
+                   `}
+                >
 
-                {isActive && (
-                  <div className="absolute -left-0.5 top-1/2 -translate-y-1/2 w-1 h-8 bg-blue-500 rounded-r-full shadow-[0_0_10px_rgba(59,130,246,0.5)]"></div>
-                )}
-              </button>
-            );
-          })}
+                  <span className={`relative z-10 font-[900] uppercase tracking-[0.15em] text-sm flex-grow text-right transition-all duration-300 ${isActive ? '-translate-x-1' : ''}`}>{tab.label}</span>
+                  <div className={`relative z-10 w-6 h-6 transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
+                    {tab.icon}
+                  </div>
+                </button>
+              );
+            })}
+          </div>
+        </div>
 
-          {/* Dedicated Profile Tab - Aligned with primary navigation flow */}
+        {/* Drawer Footer: User & System */}
+        <div className="flex-none p-6 border-t border-slate-100 dark:border-white/5 bg-slate-50/50 dark:bg-black/20">
+          <div className="grid grid-cols-2 gap-4 mb-4">
+            <button
+              onClick={() => { setView('profile'); setIsDrawerOpen(false); }}
+              className={`flex flex-col items-center justify-center p-5 rounded-[2rem] gap-2 transition-all hover:scale-105 active:scale-95 ${currentView === 'profile' ? 'bg-white shadow-lg text-emerald-600 dark:bg-emerald-500/10 dark:text-emerald-400' : 'bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400'}`}
+            >
+              <Icons.User size={20} />
+              <span className="font-bold text-[10px] uppercase tracking-widest">Profile</span>
+            </button>
+            <button
+              onClick={toggleTheme}
+              className="flex flex-col items-center justify-center p-5 rounded-[2rem] gap-2 transition-all hover:scale-105 active:scale-95 bg-slate-100 dark:bg-white/5 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white"
+            >
+              {darkMode ? <Icons.Sun size={20} /> : <Icons.Moon size={20} />}
+              <span className="font-bold text-[10px] uppercase tracking-widest">{darkMode ? 'Light' : 'Dark'}</span>
+            </button>
+          </div>
+
           <button
-            onClick={() => setView('profile')}
-            className={`flex flex-col items-center justify-center p-3 w-16 h-16 rounded-[1.4rem] transition-all duration-300 group relative
-              ${currentView === 'profile'
-                ? 'text-emerald-500 bg-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.15)] scale-105'
-                : 'text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5'}
-            `}
+            onClick={() => { onLogout(); setIsDrawerOpen(false); }}
+            className="w-full flex items-center justify-center gap-3 p-6 rounded-[2rem] text-rose-500 bg-rose-50 dark:bg-rose-500/10 hover:bg-rose-500 hover:text-white transition-all group active:scale-95"
           >
-            <Icons.User size={20} />
-            <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${currentView === 'profile' ? 'text-emerald-500 dark:text-emerald-300' : 'text-slate-400 dark:text-white'}`}>
-              User
-            </span>
-          </button>
-
-          {/* System Utility: Theme Toggle */}
-          <button
-            onClick={toggleTheme}
-            className="flex flex-col items-center justify-center p-3 w-16 h-16 rounded-[1.4rem] text-slate-400 hover:text-blue-500 hover:bg-slate-50 dark:hover:bg-white/5 transition-all focus:outline-none"
-          >
-            <div className="transition-transform duration-300 hover:rotate-90">
-              {darkMode ? <Icons.Sun size={18} /> : <Icons.Moon size={18} />}
-            </div>
-            <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 text-slate-500 dark:text-white">Mode</span>
-          </button>
-
-          {/* Core Action: Session Logout */}
-          <button
-            onClick={onLogout}
-            className="flex flex-col items-center justify-center p-3 w-16 h-16 rounded-[1.4rem] bg-rose-500/5 text-rose-500 hover:bg-rose-500 hover:text-white transition-all active:scale-95 border border-rose-500/10"
-            title="Logout"
-          >
-            <Icons.Logout size={18} />
-            <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 text-slate-900 dark:text-white">Logout</span>
+            <span className="font-black text-xs uppercase tracking-[0.2em]">Terminate Session</span>
+            <Icons.Logout size={16} className="group-hover:translate-x-1 transition-transform" />
           </button>
         </div>
-      </div>
 
-      {/* Hidden spacer to maintain floor alignment on mobile if needed */}
-      <div className="hidden md:block pb-6"></div>
-    </nav>
+      </div>
+    </>
   );
 };
 
