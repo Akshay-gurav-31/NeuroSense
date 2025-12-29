@@ -263,7 +263,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
   );
 
   return (
-    <div className="fixed top-0 bottom-0 right-0 left-0 md:left-28 z-[100] flex flex-col transition-colors duration-300 overflow-hidden bg-white text-slate-900 dark:bg-[#0B1121] dark:text-slate-100 dark:bg-[radial-gradient(circle_at_center,_#151e32_0%,_#0B1121_100%)]">
+    <div className="fixed top-0 bottom-0 right-0 left-0 z-[100] flex flex-col transition-colors duration-300 overflow-hidden bg-white text-slate-900 dark:bg-[#0B1121] dark:text-slate-100 dark:bg-[radial-gradient(circle_at_center,_#151e32_0%,_#0B1121_100%)]">
       {/* Ambient Atmospheric Visuals */}
       <div className="hidden dark:block ambient-blue-glow top-[-20%] left-[20%] opacity-60"></div>
       <div className="hidden dark:block ambient-blue-glow bottom-[-20%] right-[10%] opacity-40"></div>
