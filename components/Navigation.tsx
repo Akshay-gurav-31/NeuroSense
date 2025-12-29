@@ -13,6 +13,8 @@ interface NavigationProps {
 }
 
 const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onLogout, darkMode, toggleTheme }) => {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = React.useState(false);
+  
   const patientTabs = [
     { id: 'dashboard', icon: <Icons.Home />, label: 'Hub' },
     { id: 'therapy', icon: <Icons.Therapy />, label: 'Labs' },
@@ -35,8 +37,29 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
     <nav className={`fixed bottom-0 left-0 right-0 z-[100] md:top-0 md:h-screen md:w-20 flex md:flex-col items-center justify-between border-t md:border-t-0 md:border-r transition-all duration-300 backdrop-blur-3xl 
       ${darkMode ? 'bg-black/95 border-white/5' : 'bg-white/95 border-slate-200 shadow-2xl'}
     `}>
+      {/* Mobile Menu Toggle */}
+      <div className="md:hidden w-full flex justify-between items-center px-4 py-2">
+        <div className="p-2 rounded-xl bg-gradient-to-br from-blue-500/10 to-emerald-500/10 border border-blue-500/20 cursor-pointer"
+          onClick={() => setView('dashboard')}>
+          <Icons.Logo size={24} className="text-blue-500" />
+        </div>
+        <button 
+          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          className="p-2 rounded-xl text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-white/5"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        </button>
+      </div>
+
+      {/* Mobile Menu Overlay */}
+      {isMobileMenuOpen && (
+        <div className="fixed inset-0 z-[99] bg-black/50 md:hidden" onClick={() => setIsMobileMenuOpen(false)}></div>
+      )}
+
       {/* Primary Navigation & Identity Section */}
-      <div className="flex md:flex-col items-center w-full">
+      <div className={`${isMobileMenuOpen ? 'block' : 'hidden'} md:flex flex-col items-center w-full h-full`}>        
         {/* Brand Logo - Navigates to default dashboard */}
         <div className="hidden md:flex items-center justify-center h-20 w-full mb-2">
           <div className="p-3 rounded-2xl bg-gradient-to-br from-blue-500/10 to-emerald-500/10 border border-blue-500/20 shadow-lg cursor-pointer hover:scale-105 transition-transform"
@@ -52,7 +75,10 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
             return (
               <button
                 key={tab.id}
-                onClick={() => setView(tab.id)}
+                onClick={() => {
+                  setView(tab.id);
+                  setIsMobileMenuOpen(false);
+                }}
                 className={`flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] transition-all duration-300 group relative
                   ${isActive
                     ? 'text-blue-500 bg-blue-500/10 shadow-[0_0_20px_rgba(59,130,246,0.15)] scale-105'
@@ -62,7 +88,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
                 <div className={`transition-transform duration-300 ${isActive ? 'scale-110' : 'group-hover:scale-110'}`}>
                   {tab.icon}
                 </div>
-                <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${isActive ? 'text-blue-500' : 'text-slate-500 dark:text-slate-400'}`}>
+                <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${isActive ? 'text-blue-500' : 'text-slate-400 dark:text-slate-400 md:hidden'}`}>
                   {tab.label}
                 </span>
 
@@ -75,7 +101,10 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
 
           {/* Dedicated Profile Tab - Aligned with primary navigation flow */}
           <button
-            onClick={() => setView('profile')}
+            onClick={() => {
+              setView('profile');
+              setIsMobileMenuOpen(false);
+            }}
             className={`flex flex-col items-center justify-center p-3 md:w-16 md:h-16 rounded-[1.4rem] transition-all duration-300 group relative
               ${currentView === 'profile'
                 ? 'text-emerald-500 bg-emerald-500/10 shadow-[0_0_20px_rgba(16,185,129,0.15)] scale-105'
@@ -83,7 +112,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
             `}
           >
             <Icons.User size={20} />
-            <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${currentView === 'profile' ? 'text-emerald-500' : 'text-slate-500 dark:text-slate-400'}`}>
+            <span className={`text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 transition-all duration-300 ${currentView === 'profile' ? 'text-emerald-500' : 'text-slate-400 dark:text-slate-400 md:hidden'}`}>
               User
             </span>
           </button>
@@ -96,7 +125,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
             <div className="transition-transform duration-300 hover:rotate-90">
               {darkMode ? <Icons.Sun size={18} /> : <Icons.Moon size={18} />}
             </div>
-            <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 text-slate-500 dark:text-slate-400">Mode</span>
+            <span className="hidden md:block text-[8px] font-black uppercase tracking-[0.1em] mt-1.5 text-slate-500 dark:text-slate-400">Mode</span>
           </button>
 
           {/* Core Action: Session Logout */}
@@ -106,7 +135,7 @@ const Navigation: React.FC<NavigationProps> = ({ role, currentView, setView, onL
             title="Logout"
           >
             <Icons.Logout size={18} />
-            <span className="text-[8px] font-black uppercase tracking-[0.1em] mt-1.5">Logout</span>
+            <span className="hidden md:block text-[8px] font-black uppercase tracking-[0.1em] mt-1.5">Logout</span>
           </button>
         </div>
       </div>

@@ -143,7 +143,7 @@ body {
   }
 
   .dashboard-card {
-    @apply rounded-3xl p-6 relative overflow-hidden transition-all duration-300;
+    @apply rounded-2xl sm:rounded-3xl p-4 sm:p-6 relative overflow-hidden transition-all duration-300;
     @apply bg-white dark:bg-[#0B1221];
     @apply border border-slate-200 dark:border-white/10;
     @apply shadow-md dark:shadow-none;
@@ -160,7 +160,7 @@ body {
   }
 
   .dashboard-card-header {
-    @apply flex items-center gap-3 mb-6 text-sm font-bold tracking-widest uppercase text-slate-400 relative z-10;
+    @apply flex items-center gap-2 sm:gap-3 mb-4 sm:mb-6 text-xs sm:text-sm font-bold tracking-wider sm:tracking-widest uppercase text-slate-400 relative z-10;
   }
 
   .premium-glass {
@@ -202,6 +202,52 @@ body {
 
   .card-content {
     @apply relative z-10;
+  }
+
+  /* Responsive Typography */
+  .text-display {
+    @apply text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight;
+  }
+  
+  .text-heading {
+    @apply text-xl sm:text-2xl md:text-3xl font-bold tracking-tight;
+  }
+  
+  .text-body {
+    @apply text-base sm:text-lg;
+  }
+  
+  .text-small {
+    @apply text-sm sm:text-base;
+  }
+  
+  .text-tiny {
+    @apply text-xs sm:text-sm;
+  }
+  
+  /* Responsive Spacing */
+  .spacing-tight {
+    @apply p-2 sm:p-3 md:p-4;
+  }
+  
+  .spacing-comfortable {
+    @apply p-3 sm:p-4 md:p-6;
+  }
+  
+  .spacing-loose {
+    @apply p-4 sm:p-6 md:p-8;
+  }
+  
+  .gap-tight {
+    @apply gap-2 sm:gap-3 md:gap-4;
+  }
+  
+  .gap-comfortable {
+    @apply gap-3 sm:gap-4 md:gap-6;
+  }
+  
+  .gap-loose {
+    @apply gap-4 sm:gap-6 md:gap-8;
   }
 
   .mirror {

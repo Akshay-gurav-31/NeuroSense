@@ -24,14 +24,14 @@ const MemoryScoreCard: React.FC<MemoryScoreCardProps> = ({ history }) => {
         <span>Cognitive Score</span>
       </div>
 
-      <div className="h-20">
+      <div className="h-16 sm:h-20">
         <ResponsiveContainer width="100%" height="100%">
           <BarChart data={brainHistory.length > 0 ? brainHistory : [{ name: 'Empty', value: 0 }]} margin={{ top: 5, right: 5, left: 5, bottom: 0 }}>
             <XAxis
               dataKey="name"
               axisLine={false}
               tickLine={false}
-              tick={{ fill: '#94a3b8', fontSize: 10, fontWeight: 700, fontFamily: 'monospace' }}
+              tick={{ fill: '#94a3b8', fontSize: 8, fontWeight: 700, fontFamily: 'monospace' }}
             />
             <YAxis hide domain={[0, 100]} />
             <Bar dataKey="value" radius={[2, 2, 0, 0]}>

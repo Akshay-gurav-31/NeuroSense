@@ -99,8 +99,8 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
         <div className="max-w-[1800px] mx-auto space-y-8 h-full">
 
           {/* Clinical Telemetry Grid: Comparative Recovery Analytics */}
-          <div className="flex flex-col lg:flex-row gap-8 pb-20">
-            <div className="flex-grow grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 grid-flow-dense auto-rows-auto">
+          <div className="flex flex-col gap-8 pb-20">
+            <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 grid-flow-dense auto-rows-auto">
               {/* Primary Analytics Cluster */}
               <OverallRecoveryCard history={patientHistory} />
               <div className="md:col-span-2">

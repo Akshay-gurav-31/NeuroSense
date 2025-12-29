@@ -54,32 +54,32 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
         </div>
       </header>
 
-      <div className="grid grid-cols-1 xl:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 gap-6">
         {/* Recovery Analytics & Historical Synthesis */}
-        <section className="xl:col-span-2 bg-white dark:bg-[#080808] rounded-[3.5rem] p-8 lg:p-12 relative overflow-hidden border border-slate-200 dark:border-white/10 shadow-xl group transition-colors duration-300">
+        <section className="bg-white dark:bg-[#080808] rounded-[3.5rem] p-6 sm:p-8 lg:p-12 relative overflow-hidden border border-slate-200 dark:border-white/10 shadow-xl group transition-colors duration-300">
           <div className="relative z-10">
-            <h2 className="text-[10px] font-[900] uppercase tracking-[0.4em] text-slate-400 mb-10">Recovery Intelligence</h2>
+            <h2 className="text-[10px] font-[900] uppercase tracking-[0.4em] text-slate-400 mb-6 sm:mb-10">Recovery Intelligence</h2>
 
-            <div className="flex flex-col sm:flex-row items-start sm:items-end gap-6 mb-12">
-              <span className="text-8xl lg:text-[10rem] font-[1000] tracking-[-0.08em] leading-none text-black dark:text-white transition-colors duration-300">{avgScore}</span>
+            <div className="flex flex-col sm:flex-row items-start sm:items-end gap-4 sm:gap-6 mb-8 sm:mb-12">
+              <span className="text-6xl sm:text-7xl lg:text-8xl xl:text-[10rem] font-[1000] tracking-[-0.08em] leading-none text-black dark:text-white transition-colors duration-300">{avgScore}</span>
               <div className="sm:mb-8">
-                <span className="text-4xl font-black text-black/40 dark:text-white block mb-4 tracking-tighter">/ 100</span>
-                <div className="flex items-center gap-2 px-4 py-2 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl text-[10px] font-black uppercase tracking-widest border border-blue-500/20">
+                <span className="text-2xl sm:text-3xl lg:text-4xl font-black text-black/40 dark:text-white block mb-2 sm:mb-4 tracking-tighter">/ 100</span>
+                <div className="flex items-center gap-2 px-3 sm:px-4 py-1.5 sm:py-2 bg-blue-500/10 text-blue-600 dark:text-blue-400 rounded-xl text-[8px] sm:text-[10px] font-black uppercase tracking-widest border border-blue-500/20">
                   {recoveryData.trend === 'IMPROVING' ? '+' : ''}{recoveryData.predictedScore - recoveryData.currentScore}% Predicted Velocity
                 </div>
               </div>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-8 pt-10 border-t border-slate-100 dark:border-white/10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-8 pt-6 sm:pt-10 border-t border-slate-100 dark:border-white/10">
               <div className="space-y-1">
-                <p className="text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Node Status</p>
-                <p className={`text-2xl font-black uppercase tracking-tight ${riskData.level === 'LOW' ? 'text-blue-500' : riskData.level === 'MODERATE' ? 'text-amber-500' : 'text-rose-500'}`}>
+                <p className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] text-slate-400">Node Status</p>
+                <p className={`text-xl sm:text-2xl font-black uppercase tracking-tight ${riskData.level === 'LOW' ? 'text-blue-500' : riskData.level === 'MODERATE' ? 'text-amber-500' : 'text-rose-500'}`}>
                   {riskData.level}
                 </p>
               </div>
-              <div className="md:col-span-3 p-6 bg-slate-50 dark:bg-white/[0.02] rounded-[2rem] border border-slate-100 dark:border-white/10">
-                <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{history.length > 0 ? (history[0].exerciseName || history[0].type) : 'System Status'}</p>
-                <p className="text-base font-medium leading-[1.6] text-slate-600 dark:text-slate-300 italic">"{history.length > 0 ? history[0].feedback : "No active telemetry detected. Initialize laboratory protocol."}"</p>
+              <div className="sm:col-span-2 md:col-span-3 p-4 sm:p-6 bg-slate-50 dark:bg-white/[0.02] rounded-[2rem] border border-slate-100 dark:border-white/10">
+                <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{history.length > 0 ? (history[0].exerciseName || history[0].type) : 'System Status'}</p>
+                <p className="text-sm sm:text-base font-medium leading-[1.6] text-slate-600 dark:text-slate-300 italic">"{history.length > 0 ? history[0].feedback : "No active telemetry detected. Initialize laboratory protocol."}"</p>
               </div>
             </div>
           </div>

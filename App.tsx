@@ -397,10 +397,12 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className={`min-h-screen bg-white dark:bg-[#000000] md:pl-20 transition-all duration-300 ${role === UserRole.DOCTOR ? 'theme-doctor' : 'theme-patient'}`}>
-      <Navigation role={role!} currentView={currentView} setView={setView} onLogout={handleLogout} darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} />
-      <main className="max-w-[1500px] mx-auto min-h-screen pb-36 md:pb-12">
-        <div className="p-6 md:p-10 lg:p-14">
+    <div className={`min-h-screen bg-white dark:bg-[#000000] ${role ? 'md:pl-20' : ''} transition-all duration-300 ${role === UserRole.DOCTOR ? 'theme-doctor' : 'theme-patient'}`}>
+      {role && (
+        <Navigation role={role!} currentView={currentView} setView={setView} onLogout={handleLogout} darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} />
+      )}
+      <main className="max-w-[100vw] md:max-w-[1500px] mx-auto min-h-screen pb-36 md:pb-12">
+        <div className="p-4 sm:p-6 md:p-8 lg:p-10 xl:p-14">
           {renderView()}
         </div>
       </main>
