@@ -77,7 +77,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                 {/* Authentication Card: Glassmorphic form with theme-specific aesthetics */}
                 <div className={`w-full max-w-[480px] p-6 sm:p-10 lg:p-12 rounded-[2rem] sm:rounded-[3.5rem] lg:rounded-[4rem] backdrop-blur-[60px] shadow-2xl transition-all duration-700 ${darkMode
                     ? 'bg-white/5 border-2 border-white/10 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)]'
-                    : 'bg-blue-50/60 border-2 border-blue-900/40 shadow-[0_30px_60px_-15px_rgba(30,58,138,0.15)]'
+                    : 'bg-slate-50 border-2 border-slate-950/20 shadow-[0_40px_80px_-20px_rgba(30,58,138,0.12)]'
                     }`}>
 
                     <div className="mb-6 sm:mb-8 flex flex-col items-center text-center">
@@ -98,7 +98,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                                 <input
                                     name="name"
                                     required
-                                    className="w-full h-12 sm:h-14 px-5 sm:px-6 bg-blue-100/40 dark:bg-white/5 border-2 border-blue-900/25 dark:border-2 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+                                    className="w-full h-12 sm:h-14 px-5 sm:px-6 bg-blue-100/40 dark:bg-white/5 border-2 border-slate-900/10 dark:border-2 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
                                     placeholder="Legal Professional Name"
                                 />
                             </div>
@@ -109,7 +109,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                                 name="email"
                                 required
                                 type="email"
-                                className="w-full h-12 sm:h-14 px-5 sm:px-6 bg-blue-100/40 dark:bg-white/5 border-2 border-blue-900/25 dark:border-2 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+                                className="w-full h-12 sm:h-14 px-5 sm:px-6 bg-blue-100/40 dark:bg-white/5 border-2 border-slate-900/10 dark:border-2 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
                                 placeholder="Network ID / Email"
                             />
                         </div>
@@ -130,7 +130,7 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
                                 name="password"
                                 required
                                 type={showPassword ? 'text' : 'password'}
-                                className="w-full h-12 sm:h-14 pl-5 sm:pl-6 pr-12 sm:pr-14 bg-blue-100/40 dark:bg-white/5 border-2 border-blue-900/25 dark:border-2 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+                                className="w-full h-12 sm:h-14 pl-5 sm:pl-6 pr-12 sm:pr-14 bg-blue-100/40 dark:bg-white/5 border-2 border-slate-900/10 dark:border-2 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
                                 placeholder="Secure Access Password"
                             />
                             <button

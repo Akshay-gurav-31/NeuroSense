@@ -29,7 +29,7 @@ const DailyTracker: React.FC<DailyTrackerProps> = ({ history, tasks, darkMode })
     const allDone = todayCompletions.every(t => t.completed);
 
     return (
-        <div className={`p-5 sm:p-8 rounded-[2rem] sm:rounded-[3rem] border shadow-xl transition-all duration-300 ${darkMode ? 'bg-[#080808] border-white/10' : 'bg-white border-slate-200'}`}>
+        <div className={`p-5 sm:p-8 rounded-[2rem] sm:rounded-[3rem] border-2 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.08)] backdrop-blur-3xl transition-all duration-300 ${darkMode ? 'bg-[#080808] border-white/10' : 'bg-slate-50 border-slate-950/20'}`}>
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h3 className="text-xl font-black tracking-tight mb-1">Daily Protocol</h3>
@@ -70,9 +70,9 @@ const DailyTracker: React.FC<DailyTrackerProps> = ({ history, tasks, darkMode })
                 {todayCompletions.map((task, idx) => (
                     <div
                         key={idx}
-                        className={`flex items-center justify-between p-5 rounded-2xl border transition-all duration-300 ${task.completed
+                        className={`flex items-center justify-between p-5 rounded-2xl border-2 transition-all duration-300 ${task.completed
                             ? 'bg-emerald-500/5 border-emerald-500/20 opacity-60'
-                            : (darkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-100')
+                            : (darkMode ? 'bg-white/5 border-white/10' : 'bg-slate-100/50 border-slate-950/10 shadow-[0_5px_15px_-5px_rgba(0,0,0,0.05)]')
                             }`}
                     >
                         <div className="flex items-center gap-4">

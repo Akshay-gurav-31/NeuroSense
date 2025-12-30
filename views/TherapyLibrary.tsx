@@ -60,7 +60,7 @@ const TherapyLibrary: React.FC<TherapyLibraryProps> = ({ onStartTherapy, therapy
   return (
     <div className="min-h-screen bg-white dark:bg-[#000000] animate-in fade-in duration-1000">
       {/* Immersive Panoramic Header */}
-      <header className="relative w-full overflow-hidden bg-slate-50 dark:bg-[#050505] border-b border-slate-200 dark:border-white/5">
+      <header className="relative w-full overflow-hidden bg-slate-100/50 backdrop-blur-xl dark:bg-[#050505] border-b-2 border-slate-950/20 dark:border-white/5">
         {/* Animated Background Elements */}
         <div className="absolute inset-0 overflow-hidden pointer-events-none">
           <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-500/10 dark:bg-cyan-500/10 blur-[120px] rounded-full animate-pulse"></div>
@@ -83,7 +83,7 @@ const TherapyLibrary: React.FC<TherapyLibraryProps> = ({ onStartTherapy, therapy
             </p>
           </div>
 
-          <div className="flex items-center gap-6 sm:gap-10 bg-white/40 dark:bg-white/[0.02] backdrop-blur-3xl p-6 sm:p-10 rounded-[2rem] sm:rounded-[4rem] border border-white/20 dark:border-white/10 shadow-2xl relative overflow-hidden group mx-auto lg:mx-0 w-full sm:w-auto">
+          <div className="flex items-center gap-6 sm:gap-10 bg-white/60 dark:bg-white/[0.02] backdrop-blur-3xl p-6 sm:p-10 rounded-[2rem] sm:rounded-[4rem] border-2 border-white/40 dark:border-white/10 shadow-2xl relative overflow-hidden group mx-auto lg:mx-0 w-full sm:w-auto">
             <div className="relative w-24 h-24 sm:w-32 sm:h-32 transform group-hover:rotate-6 transition-transform duration-700">
               <svg className="w-full h-full -rotate-90 filter drop-shadow-[0_0_15px_rgba(72,193,207,0.3)]">
                 <circle cx="50%" cy="50%" r="44%" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-200 dark:text-white/5" />
@@ -128,9 +128,9 @@ const TherapyLibrary: React.FC<TherapyLibraryProps> = ({ onStartTherapy, therapy
         {categories.map((cat) => (
           <div
             key={cat.id}
-            className={`group p-6 sm:p-12 rounded-[2rem] sm:rounded-[4rem] border transition-all duration-500 ${darkMode
+            className={`group p-6 sm:p-12 rounded-[2rem] sm:rounded-[4rem] border-2 transition-all duration-500 ${darkMode
               ? 'bg-[#080808] border-white/10 hover:border-cyan-500/30 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)]'
-              : 'bg-white border-slate-200/60 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] hover:shadow-[0_40px_80px_-25px_rgba(0,0,0,0.15)]'
+              : 'bg-slate-50 backdrop-blur-xl border-slate-950/20 shadow-[0_20px_50px_-12px_rgba(0,0,0,0.06)] hover:shadow-[0_40px_80px_-25px_rgba(0,0,0,0.15)]'
               }`}
           >
             <div className="flex items-center gap-4 sm:gap-6 mb-8 sm:mb-12">
@@ -153,10 +153,10 @@ const TherapyLibrary: React.FC<TherapyLibraryProps> = ({ onStartTherapy, therapy
                   <button
                     key={i}
                     onClick={() => !isDone && onStartTherapy(cat.id, ex.name)}
-                    className={`w-full text-left p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2.5rem] border transition-all duration-300 group/btn flex items-center justify-between gap-4 ${isDone
+                    className={`w-full text-left p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2.5rem] border-2 transition-all duration-300 group/btn flex items-center justify-between gap-4 ${isDone
                       ? 'bg-emerald-500/5 border-emerald-500/30 cursor-pointer hover:bg-emerald-500/10'
                       : 'hover:border-[#48c1cf] hover:bg-[#48c1cf]/5'
-                      } ${!isDone && (darkMode ? 'border-white/5 bg-white/[0.01]' : 'border-slate-100 bg-slate-50/50')}`}
+                      } ${!isDone && (darkMode ? 'border-white/5 bg-white/[0.01]' : 'border-slate-300 bg-slate-100/50 backdrop-blur-sm shadow-[0_10px_30px_-10px_rgba(0,0,0,0.05)] hover:shadow-lg')}`}
                   >
                     <div className="flex-1">
                       <p className={`font-black text-base sm:text-lg mb-1 sm:mb-2 transition-colors duration-300 ${isDone ? 'text-emerald-500' : 'text-[#1a365d] dark:text-white'}`}>

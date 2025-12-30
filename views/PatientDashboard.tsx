@@ -43,9 +43,9 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
         </div>
 
         <div className="flex gap-4 w-full lg:w-auto">
-          <div className="flex-1 lg:min-w-[160px] bg-white dark:bg-[#080808] border border-slate-200 dark:border-white/10 p-5 sm:p-6 rounded-[2rem] sm:rounded-[2.5rem] text-center shadow-lg transition-colors duration-300">
+          <div className="flex-1 lg:min-w-[160px] bg-slate-50 backdrop-blur-md dark:bg-[#080808] border-2 border-slate-950/20 dark:border-white/10 p-5 sm:p-6 rounded-[2rem] sm:rounded-[2.5rem] text-center shadow-[0_20px_50px_-12px_rgba(0,0,0,0.08)] transition-all duration-300">
             <p className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] text-slate-400 mb-1 sm:mb-2">Stability</p>
-            <p className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white">96.8%</p>
+            <p className="text-2xl sm:text-3xl font-black text-slate-900 dark:text-white transition-colors">96.8%</p>
           </div>
           <div className="flex-1 lg:min-w-[160px] bg-slate-900 dark:bg-[#0c0c0c] p-5 sm:p-6 rounded-[2rem] sm:rounded-[2.5rem] text-center text-white shadow-xl transition-colors duration-300">
             <p className="text-[8px] sm:text-[9px] font-black uppercase tracking-[0.2em] opacity-40 mb-1 sm:mb-2">Phase</p>
@@ -56,7 +56,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
 
       <div className="grid grid-cols-1 gap-6 sm:gap-8">
         {/* Recovery Analytics & Historical Synthesis */}
-        <section className="bg-white dark:bg-[#080808] rounded-[2.5rem] sm:rounded-[3.5rem] p-6 sm:p-8 lg:p-12 relative overflow-hidden border border-slate-200 dark:border-white/10 shadow-xl group transition-colors duration-300">
+        <section className="bg-slate-50 backdrop-blur-3xl dark:bg-[#080808] rounded-[2.5rem] sm:rounded-[3.5rem] p-6 sm:p-8 lg:p-12 relative overflow-hidden border-2 border-slate-950/20 dark:border-white/10 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.1)] group transition-all duration-300">
           <div className="relative z-10">
             <h2 className="text-[9px] sm:text-[10px] font-[900] uppercase tracking-[0.4em] text-slate-400 mb-6 sm:mb-10">Recovery Intelligence</h2>
 
@@ -77,7 +77,7 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
                   {riskData.level}
                 </p>
               </div>
-              <div className="sm:col-span-2 lg:col-span-3 p-4 sm:p-6 bg-slate-50 dark:bg-white/[0.02] rounded-2xl sm:rounded-[2rem] border border-slate-100 dark:border-white/10">
+              <div className="sm:col-span-2 lg:col-span-3 p-4 sm:p-6 bg-slate-100/50 backdrop-blur-sm dark:bg-white/[0.02] rounded-2xl sm:rounded-[2rem] border-2 border-slate-950/10 dark:border-white/10">
                 <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{history.length > 0 ? (history[0].exerciseName || history[0].type) : 'System Status'}</p>
                 <p className="text-[13px] sm:text-base font-medium leading-[1.6] text-slate-600 dark:text-slate-300 italic">"{history.length > 0 ? history[0].feedback : "No active telemetry detected. Initialize laboratory protocol."}"</p>
               </div>
@@ -110,9 +110,9 @@ const PatientDashboard: React.FC<DashboardProps> = ({ profile, history, onStartT
               <div
                 key={idx}
                 onClick={() => !completed && onStartTherapy(task.type)}
-                className={`group p-6 sm:p-10 rounded-[1.5rem] sm:rounded-[3rem] border transition-all duration-300 flex flex-col items-start relative overflow-hidden shadow-md ${completed
-                  ? 'cursor-not-allowed bg-slate-50 dark:bg-white/[0.02] border-slate-100 dark:border-white/5 opacity-80'
-                  : 'cursor-pointer bg-white dark:bg-[#080808] border-slate-200 dark:border-white/10 hover:border-blue-500 dark:hover:border-blue-500'
+                className={`group p-6 sm:p-10 rounded-[1.5rem] sm:rounded-[3rem] border-2 transition-all duration-300 flex flex-col items-start relative overflow-hidden shadow-[0_20px_40px_-15px_rgba(0,0,0,0.06)] ${completed
+                  ? 'cursor-not-allowed bg-slate-100/30 dark:bg-white/[0.02] border-slate-200 dark:border-white/5 opacity-80'
+                  : 'cursor-pointer bg-slate-50 backdrop-blur-md dark:bg-[#080808] border-slate-950/20 dark:border-white/10 hover:border-blue-500 dark:hover:border-blue-500 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.12)] hover:-translate-y-1'
                   }`}
               >
                 <div className={`w-12 h-12 sm:w-16 h-16 rounded-xl sm:rounded-2xl flex items-center justify-center mb-6 sm:mb-8 transition-all duration-300 border ${completed
