@@ -401,8 +401,8 @@ const App: React.FC = () => {
       {role && (
         <Navigation role={role!} currentView={currentView} setView={setView} onLogout={handleLogout} darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} />
       )}
-      <main className="max-w-[100vw] md:max-w-[1500px] mx-auto min-h-screen pb-12">
-        <div className="p-4 sm:p-6 md:p-8 lg:p-10 xl:p-14">
+      <main className={`${currentView === 'therapy' ? 'w-full' : 'max-w-[100vw] md:max-w-[1500px] mx-auto'} min-h-screen pb-12`}>
+        <div className={currentView === 'therapy' ? 'w-full' : 'p-4 sm:p-6 md:p-8 lg:p-10 xl:p-14'}>
           {renderView()}
         </div>
       </main>

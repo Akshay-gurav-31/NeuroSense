@@ -1,5 +1,5 @@
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Icons } from '../components/Icons';
 import { UserRole } from '../types';
 
@@ -27,292 +27,180 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
     darkMode
 }) => {
     const isDoctor = role === UserRole.DOCTOR;
+    const [showPassword, setShowPassword] = useState(false);
 
     return (
-        <div className={`cosmic-auth-background ${darkMode ? 'dark' : 'light'}`}>
-            {/* Dynamic System Theme Backgrounds */}
-            <div className={`fixed inset-0 -z-10 transition-all duration-700 ${darkMode
-                ? (isDoctor
-                    ? 'bg-gradient-to-br from-[#0a1f1c] via-[#1a4d47] via-[#2d7a6e] via-[#8b6f47] to-[#c9a961]'
-                    : 'bg-gradient-to-br from-[#0a192f] via-[#112240] via-[#1e40af] via-[#3b82f6] to-[#93c5fd]')
-                : 'bg-gradient-to-r from-[#dcfce7] via-white to-[#dbeafe]'
-                }`}></div>
+        <div className={`min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-6 ${darkMode ? 'dark bg-[#000000]' : 'bg-slate-50'}`}>
+            {/* Immersive Panoramic Background Strategy */}
+            <div className="fixed inset-0 pointer-events-none">
+                {/* Dynamic Gradient Orbs */}
+                <div className={`absolute top-[-10%] left-[-10%] w-[50%] h-[50%] blur-[150px] rounded-full transition-all duration-1000 animate-pulse ${isDoctor ? 'bg-emerald-500/10' : 'bg-blue-600/10'}`}></div>
+                <div className={`absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] blur-[120px] rounded-full transition-all duration-1000 ${isDoctor ? 'bg-amber-500/10' : 'bg-cyan-500/10'}`}></div>
 
-            {/* Atmospheric Visual Effects: Particle Field */}
-            <div className="fixed inset-0 opacity-60 -z-10 animate-particle-float" style={{
-                backgroundImage: `radial-gradient(2px 2px at 20% 30%, white, transparent),
-                                  radial-gradient(2px 2px at 60% 70%, white, transparent),
-                                  radial-gradient(1px 1px at 50% 50%, white, transparent),
-                                  radial-gradient(1px 1px at 80% 10%, white, transparent),
-                                  radial-gradient(2px 2px at 90% 60%, white, transparent)`,
-                backgroundSize: '200% 200%'
-            }}></div>
+                {/* Neural Pattern Overlay */}
+                <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.07]" style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`
+                }}></div>
+            </div>
 
-            {/* Glow Overlay */}
-            <div className="fixed inset-0 -z-10 mix-blend-screen" style={{
-                background: isDoctor
-                    ? `radial-gradient(ellipse at 30% 50%, rgba(26, 155, 142, 0.3) 0%, transparent 50%),
-                       radial-gradient(ellipse at 70% 50%, rgba(201, 169, 97, 0.2) 0%, transparent 50%)`
-                    : `radial-gradient(ellipse at 30% 50%, rgba(37, 99, 235, 0.3) 0%, transparent 50%),
-                       radial-gradient(ellipse at 70% 50%, rgba(147, 197, 253, 0.2) 0%, transparent 50%)`
-            }}></div>
+            {/* Back to Home Control */}
+            <button
+                onClick={() => setAuthMode(null)}
+                className="absolute top-6 left-6 sm:top-10 sm:left-10 z-50 p-3 sm:p-4 rounded-xl sm:rounded-2xl bg-white/20 dark:bg-white/5 backdrop-blur-xl border-2 border-blue-900/20 dark:border-2 dark:border-white/10 text-slate-500 dark:text-slate-400 hover:text-slate-900 dark:hover:text-white hover:scale-110 active:scale-95 transition-all group"
+            >
+                <Icons.Logout size={18} className="rotate-180 transition-transform group-hover:-translate-x-1" />
+            </button>
 
-            {/* Main Container */}
-            <div className="min-h-screen flex items-center justify-center p-4 sm:p-6 md:p-10 py-4 sm:py-8 lg:py-16">
-                <div className={`flex flex-col w-full max-w-[95vw] sm:max-w-[500px] md:max-w-[1000px] md:min-h-[660px] rounded-[30px] sm:rounded-[40px] overflow-hidden shadow-2xl backdrop-blur-xl border transition-all duration-700 ${darkMode
-                    ? 'bg-white/[0.03] border-white/[0.08] shadow-[0_30px_90px_rgba(0,0,0,0.6)]'
-                    : 'bg-white/60 border-black/5 shadow-[0_30px_60px_rgba(0,0,0,0.1)]'
-                    }`}>
+            {/* Main Portal Container: Responsive stacking for mobile/desktop */}
+            <div className={`relative z-10 w-full max-w-[1200px] flex flex-col lg:flex-row items-center gap-10 md:gap-16 lg:gap-24 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out`}>
 
-
-                    {/* Brand Identity & Visual Indicators - Hidden on mobile */}
-                    <div className={`relative hidden md:flex flex-[0_0_45%] bg-gradient-to-br flex flex-col items-center justify-center p-12 lg:p-16 overflow-hidden transition-all duration-700 ${darkMode
-                        ? (isDoctor
-                            ? 'from-[rgba(10,31,28,0.95)] via-[rgba(26,77,71,0.9)] to-[rgba(45,122,110,0.85)]'
-                            : 'from-[rgba(10,25,47,0.95)] via-[rgba(17,34,64,0.9)] to-[rgba(30,64,175,0.85)]')
-                        : (isDoctor
-                            ? 'from-[#10b981] via-[#059669] to-[#047857]'
-                            : 'from-[#3b82f6] via-[#2563eb] to-[#1d4ed8]')
-                        }`}>
-                        {/* Radial Glow */}
-                        <div className={`absolute inset-0 pointer-events-none ${isDoctor
-                            ? 'bg-[radial-gradient(circle_at_50%_50%,rgba(26,155,142,0.15)_0%,transparent_70%)]'
-                            : 'bg-[radial-gradient(circle_at_50%_50%,rgba(37,99,235,0.15)_0%,transparent_70%)]'
-                            }`}></div>
-
-                        {/* Back Button */}
-                        <button
-                            onClick={() => setAuthMode(null)}
-                            className="absolute top-6 left-6 w-10 h-10 bg-white/[0.08] border border-white/[0.15] rounded-xl flex items-center justify-center text-white/70 hover:bg-white/[0.12] hover:text-white/90 transition-all"
-                        >
-                            <Icons.Logout size={16} className="rotate-180" />
-                        </button>
-
-                        {/* Icon Container with Glow */}
-                        <div className="relative z-10 mb-10">
-                            <div className={`absolute inset-0 w-32 h-32 rounded-full blur-[20px] animate-pulse-glow ${isDoctor
-                                ? 'bg-[radial-gradient(circle,rgba(190,242,100,0.4)_0%,rgba(26,155,142,0.2)_40%,transparent_70%)]'
-                                : 'bg-[radial-gradient(circle,rgba(56,189,248,0.4)_0%,rgba(37,99,235,0.2)_40%,transparent_70%)]'
-                                }`}></div>
-                            <div className="relative w-28 h-28 flex items-center justify-center">
-                                {/* Waveform Icon */}
-                                <svg className={`w-16 h-16 ${isDoctor ? 'text-[#BEF264]' : 'text-[#38bdf8]'}`}
-                                    style={{ filter: `drop-shadow(0 0 20px ${isDoctor ? 'rgba(190, 242, 100, 0.6)' : 'rgba(56, 189, 248, 0.6)'})` }}
-                                    viewBox="0 0 80 80" fill="none">
-                                    <rect x="20" y="15" width="8" height="50" rx="4" fill="currentColor" opacity="0.6" />
-                                    <rect x="36" y="8" width="8" height="64" rx="4" fill="currentColor" />
-                                    <rect x="52" y="20" width="8" height="40" rx="4" fill="currentColor" opacity="0.6" />
-                                </svg>
-                            </div>
-                        </div>
-
-                        {/* Title */}
-                        <div className="text-center z-10">
-                            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-black tracking-[0.05em] text-white mb-2 text-shadow-[0_2px_20px_rgba(255,255,255,0.3)]">
-                                {isDoctor ? 'DOCTOR' : 'PATIENT'}
-                            </h1>
-                            <p className={`text-[9px] sm:text-[10px] lg:text-[11px] font-bold tracking-[0.3em] uppercase opacity-90 ${isDoctor ? 'text-[#BEF264]' : 'text-[#38bdf8]'}`}>
-                                {isDoctor ? 'ACCESS PORTAL' : 'RECOVERY HUB'}
-                            </p>
-                        </div>
-
-                        {/* Neural Rings */}
-                        <div className="absolute bottom-12 left-1/2 -translate-x-1/2 w-[250px] h-[100px]">
-                            <div className={`absolute left-1/2 bottom-0 -translate-x-1/2 w-[160px] h-[80px] border rounded-full animate-ring-pulse ${isDoctor ? 'border-[rgba(26,155,142,0.3)]' : 'border-[rgba(37,99,235,0.3)]'}`}></div>
-                            <div className={`absolute left-1/2 bottom-0 -translate-x-1/2 w-[200px] h-[100px] border rounded-full animate-ring-pulse ${isDoctor ? 'border-[rgba(26,155,142,0.3)]' : 'border-[rgba(37,99,235,0.3)]'}`} style={{ animationDelay: '0.5s' }}></div>
-                            <div className={`absolute left-1/2 bottom-0 -translate-x-1/2 w-[250px] h-[125px] border rounded-full animate-ring-pulse ${isDoctor ? 'border-[rgba(26,155,142,0.3)]' : 'border-[rgba(37,99,235,0.3)]'}`} style={{ animationDelay: '1s' }}></div>
-                        </div>
+                {/* Left Side: Brand & Identity (Immersive Block) */}
+                <div className="flex-1 text-center lg:text-left px-4 sm:px-0 mb-10 lg:mb-0">
+                    <div className="inline-flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 px-4 py-2 rounded-full bg-slate-100/50 dark:bg-white/5 border-2 border-blue-900/20 dark:border-2 dark:border-white/10 backdrop-blur-sm">
+                        <div className={`w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full shadow-lg ${isDoctor ? 'bg-emerald-500 shadow-emerald-500/30' : 'bg-blue-600 shadow-blue-500/30'}`}></div>
+                        <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] text-slate-500 dark:text-slate-400">{isDoctor ? 'DOCTOR PORTAL' : 'PATIENT PORTAL'}</span>
                     </div>
 
-                    {/* Authentication Feedback & Input Ingress */}
-                    <div className="relative flex-[0_0_100%] md:flex-[0_0_55%] bg-gradient-to-br from-[#ffffff] to-[#f3f5f7] flex items-center justify-center p-6 sm:p-8 lg:p-12">
-                        {/* Design Space / Top Pill - Hidden on mobile */}
-                        <div className={`absolute top-0 left-1/2 -translate-x-1/2 w-40 h-8 border-b border-x rounded-b-3xl hidden md:flex items-center justify-center ${isDoctor ? 'bg-[#BEF264]/10 border-[#BEF264]/20' : 'bg-[#38bdf8]/10 border-[#38bdf8]/20'
-                            }`}>
-                            <div className={`w-16 h-1 rounded-full ${isDoctor ? 'bg-[#BEF264]/30' : 'bg-[#38bdf8]/30'}`}></div>
+                    <h1 className="text-3xl sm:text-6xl lg:text-7xl xl:text-8xl font-[1000] tracking-[-0.04em] leading-[0.9] sm:leading-tight text-slate-900 dark:text-white mb-6 sm:mb-8 transition-all duration-700">
+                        {authMode === 'LOGIN' ? 'Welcome' : 'Join the'} <br />
+                        <span className={`pb-1 sm:pb-2 block text-transparent bg-clip-text bg-gradient-to-b ${isDoctor ? 'from-emerald-400 to-emerald-900 font-black' : 'from-blue-400 to-[#1a365d]'}`}>
+                            {authMode === 'LOGIN' ? 'Back' : 'Network'}
+                        </span>
+                    </h1>
+
+                    <p className="hidden sm:block text-lg font-medium text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed lg:mx-0 mx-auto">
+                        Precision healthcare powered by <span className="font-black text-slate-900 dark:text-white tracking-tighter">NeuroSense AI</span>.
+                        {isDoctor ? ' Access clinical telemetry and patient analytics.' : ' Start your personalized neurological recovery journey.'}
+                    </p>
+                </div>
+
+                {/* Authentication Card: Glassmorphic form with theme-specific aesthetics */}
+                <div className={`w-full max-w-[480px] p-6 sm:p-10 lg:p-12 rounded-[2rem] sm:rounded-[3.5rem] lg:rounded-[4rem] backdrop-blur-[60px] shadow-2xl transition-all duration-700 ${darkMode
+                    ? 'bg-white/5 border-2 border-white/10 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)]'
+                    : 'bg-blue-50/60 border-2 border-blue-900/40 shadow-[0_30px_60px_-15px_rgba(30,58,138,0.15)]'
+                    }`}>
+
+                    <div className="mb-6 sm:mb-8 flex flex-col items-center text-center">
+                        <h2 className="text-3xl sm:text-4xl font-[1000] tracking-tight text-slate-900 dark:text-white">
+                            {authMode === 'LOGIN' ? 'Login' : 'Register'}
+                        </h2>
+                    </div>
+
+                    {authError && (
+                        <div className="mb-6 sm:mb-8 p-3 sm:p-4 bg-rose-500/5 border border-rose-500/20 text-rose-500 text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-center rounded-xl sm:rounded-2xl animate-in shake duration-500">
+                            {authError}
+                        </div>
+                    )}
+
+                    <form onSubmit={onSubmit} className="space-y-4 sm:space-y-5">
+                        {authMode === 'REGISTER' && (
+                            <div className="group">
+                                <input
+                                    name="name"
+                                    required
+                                    className="w-full h-12 sm:h-14 px-5 sm:px-6 bg-blue-100/40 dark:bg-white/5 border-2 border-blue-900/25 dark:border-2 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+                                    placeholder="Legal Professional Name"
+                                />
+                            </div>
+                        )}
+
+                        <div className="group">
+                            <input
+                                name="email"
+                                required
+                                type="email"
+                                className="w-full h-12 sm:h-14 px-5 sm:px-6 bg-blue-100/40 dark:bg-white/5 border-2 border-blue-900/25 dark:border-2 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+                                placeholder="Network ID / Email"
+                            />
                         </div>
 
-                        <div className="w-full max-w-[350px] sm:max-w-[380px]">
-                            {/* Welcome Title - Responsive */}
-                            <h2 className="text-xl sm:text-2xl md:text-[32px] lg:text-[36px] font-black text-[#0f172a] mb-2 lg:mb-3 tracking-[-0.03em]">
-                                {authMode === 'LOGIN' ? 'Welcome Back' : 'Create Account'}
-                            </h2>
-
-                            {/* Subtitle with Divider */}
-                            <div className="flex items-center gap-2 sm:gap-3 mb-6 sm:mb-8 lg:mb-12">
-                                <span className={`px-2 sm:px-3 py-0.5 sm:py-1 border rounded-full text-[7px] sm:text-[8px] lg:text-[9px] font-black tracking-[0.15em] uppercase ${isDoctor ? 'bg-[#BEF264]/10 border-[#BEF264]/20 text-[#1a9b8e]' : 'bg-[#38bdf8]/10 border-[#38bdf8]/20 text-[#2563eb]'
-                                    }`}>
-                                    {isDoctor ? 'PHYSICIAN ID PROTOCOL' : 'NEURO-RECOVERY LINK'}
-                                </span>
-                                <span className="flex-1 h-[1px] bg-gradient-to-r from-black/[0.05] to-transparent"></span>
+                        {authMode === 'REGISTER' && isDoctor && (
+                            <div className="group">
+                                <input
+                                    name="licenseId"
+                                    required
+                                    className="w-full h-12 sm:h-14 px-5 sm:px-6 bg-slate-100 dark:bg-white/5 border border-rose-400/20 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500/50 transition-all"
+                                    placeholder="Physician License PIN"
+                                />
                             </div>
+                        )}
 
-                            {/* Error Message */}
-                            {authError && (
-                                <div className="mb-4 sm:mb-5 lg:mb-6 p-2 sm:p-3 bg-rose-500/5 border border-rose-500/10 text-rose-500 text-center rounded-lg text-[8px] sm:text-[9px] lg:text-[10px] font-black uppercase tracking-widest">
-                                    {authError}
-                                </div>
+                        <div className="group relative">
+                            <input
+                                name="password"
+                                required
+                                type={showPassword ? 'text' : 'password'}
+                                className="w-full h-12 sm:h-14 pl-5 sm:pl-6 pr-12 sm:pr-14 bg-blue-100/40 dark:bg-white/5 border-2 border-blue-900/25 dark:border-2 dark:border-white/10 rounded-xl sm:rounded-2xl text-[14px] sm:text-[15px] font-semibold text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500/50 transition-all"
+                                placeholder="Secure Access Password"
+                            />
+                            <button
+                                type="button"
+                                onClick={() => setShowPassword(!showPassword)}
+                                className="absolute right-4 top-1/2 -translate-y-1/2 p-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-300 transition-colors"
+                            >
+                                {showPassword ? <Icons.EyeOff size={18} /> : <Icons.Eye size={18} />}
+                            </button>
+                        </div>
+
+                        <button
+                            type="submit"
+                            disabled={isAuthenticating}
+                            className={`w-full h-14 sm:h-16 rounded-xl sm:rounded-[1.5rem] text-[10px] sm:text-xs font-[1000] tracking-[0.15em] sm:tracking-[0.2em] text-white uppercase shadow-xl transition-all duration-300 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2 sm:gap-3 ${isDoctor
+                                ? 'bg-gradient-to-b from-emerald-400 to-emerald-900 shadow-emerald-900/40'
+                                : 'bg-gradient-to-b from-blue-400 to-[#1a365d] shadow-[#1a365d]/40'
+                                }`}
+                        >
+                            {isAuthenticating ? (
+                                <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+                            ) : (
+                                <>
+                                    {authMode === 'LOGIN' ? 'VERIFY & ENTER' : 'INITIALIZE ACCOUNT'}
+                                    <Icons.Back size={14} className="rotate-180" />
+                                </>
                             )}
+                        </button>
 
-                            {/* Form - Responsive */}
-                            <form onSubmit={onSubmit} className="space-y-2.5 sm:space-y-3 lg:space-y-3.5">
-                                {authMode === 'REGISTER' && (
-                                    <div className="relative">
-                                        <div className="absolute left-[16px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
-                                            <Icons.User size={16} />
-                                        </div>
-                                        <input
-                                            name="name"
-                                            required
-                                            className={`w-full h-10 px-4 lg:px-5 pl-[44px] lg:pl-[48px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
-                                            style={{
-                                                borderColor: 'rgba(0,0,0,0.06)',
-                                                boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
-                                                borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
-                                            }}
-                                            placeholder="Full Name"
-                                        />
-                                    </div>
-                                )}
-
-                                <div className="relative">
-                                    <div className="absolute left-[14px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
-                                        <Icons.Mail size={16} />
-                                    </div>
-                                    <input
-                                        name="email"
-                                        required
-                                        type="email"
-                                        className={`w-full h-10 px-4 lg:px-5 pl-[44px] lg:pl-[48px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
-                                        style={{
-                                            borderColor: 'rgba(0,0,0,0.06)',
-                                            boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
-                                            borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
-                                        }}
-                                        placeholder="Network ID / Email"
-                                        pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}$"
-                                        title="Please enter a valid email address"
-                                    />
+                        {!isDoctor && authMode === 'LOGIN' && (
+                            <>
+                                <div className="flex items-center gap-3 py-2 sm:py-4">
+                                    <div className="flex-1 h-[1px] bg-slate-200 dark:bg-white/10"></div>
+                                    <span className="text-[9px] sm:text-[10px] font-black text-slate-400 uppercase tracking-widest">OR</span>
+                                    <div className="flex-1 h-[1px] bg-slate-200 dark:bg-white/10"></div>
                                 </div>
-
-                                {authMode === 'REGISTER' && (
-                                    <div className="relative">
-                                        <div className="absolute left-[14px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
-                                            <Icons.Phone size={16} />
-                                        </div>
-                                        <input
-                                            name="phone"
-                                            type="tel"
-                                            className={`w-full h-10 px-4 lg:px-5 pl-[44px] lg:pl-[48px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
-                                            style={{
-                                                borderColor: 'rgba(0,0,0,0.06)',
-                                                boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
-                                                borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
-                                            }}
-                                            placeholder="Contact Number (Optional)"
-                                        />
-                                    </div>
-                                )}
-
-                                {authMode === 'REGISTER' && isDoctor && (
-                                    <div className="relative">
-                                        <div className="absolute left-[14px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
-                                            <Icons.ShieldCheck size={16} />
-                                        </div>
-                                        <input
-                                            name="licenseId"
-                                            required
-                                            className={`w-full h-10 px-4 lg:px-5 pl-[44px] lg:pl-[48px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
-                                            style={{
-                                                borderColor: 'rgba(0,0,0,0.06)',
-                                                boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
-                                                borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
-                                            }}
-                                            placeholder="Medical License Number"
-                                            minLength={5}
-                                            pattern="[a-zA-Z0-9]+"
-                                            title="License ID must be at least 5 alphanumeric characters"
-                                        />
-                                    </div>
-                                )}
-
-                                <div className="relative">
-                                    <div className="absolute left-[14px] top-1/2 -translate-y-1/2 text-[#9ca3af]">
-                                        <Icons.Lock size={16} />
-                                    </div>
-                                    <input
-                                        name="password"
-                                        required
-                                        type="password"
-                                        className={`w-full h-10 px-4 lg:px-5 pl-[44px] lg:pl-[48px] bg-white border border-black/[0.06] rounded-xl text-sm font-medium text-[#1a1a1a] placeholder:text-[#9ca3af] placeholder:font-medium focus:outline-none focus:bg-white transition-all touch-manipulation`}
-                                        style={{
-                                            borderColor: 'rgba(0,0,0,0.06)',
-                                            boxShadow: isDoctor ? '0 0 0 4px rgba(16, 185, 129, 0.1)' : '0 0 0 4px rgba(59, 130, 246, 0.1)',
-                                            borderInlineColor: isDoctor ? 'rgba(16, 185, 129, 0.4)' : 'rgba(59, 130, 246, 0.4)'
-                                        }}
-                                        placeholder="Password"
-                                        minLength={8}
-                                        title="Password must be at least 8 characters long"
-                                    />
-                                </div>
-
                                 <button
-                                    type="submit"
-                                    disabled={isAuthenticating}
-                                    className={`w-full h-10 sm:h-11 border-none rounded-xl sm:rounded-2xl text-[9px] sm:text-[10px] lg:text-[11px] font-black tracking-[0.15em] sm:tracking-[0.2em] text-white uppercase cursor-pointer transition-all mt-4 sm:mt-5 lg:mt-6 touch-manipulation ${isDoctor
-                                        ? 'bg-gradient-to-br from-[#0d5c54] to-[#1a9b8e] shadow-[0_10px_30px_rgba(13,92,84,0.35)]'
-                                        : 'bg-gradient-to-br from-[#1e40af] to-[#3b82f6] shadow-[0_10px_30px_rgba(30,64,175,0.35)]'
-                                        }`}
+                                    type="button"
+                                    onClick={onGoogleLogin}
+                                    className="w-full h-12 sm:h-14 px-5 sm:px-6 rounded-xl sm:rounded-2xl border-2 border-blue-900/20 dark:border-2 dark:border-white/10 bg-white/50 dark:bg-white/5 hover:bg-slate-50 dark:hover:bg-white/10 transition-all flex items-center justify-center gap-3 sm:gap-4 text-[10px] sm:text-xs font-black text-slate-600 dark:text-slate-300 tracking-widest uppercase"
                                 >
-                                    {isAuthenticating ? 'PLEASE WAIT...' : (authMode === 'LOGIN' ? 'LOGIN' : 'CREATE ACCOUNT')}
+                                    <Icons.Google size={18} />
+                                    CONTINUE WITH GOOGLE
                                 </button>
+                            </>
+                        )}
+                    </form>
 
-                                {/* Google Login - Only for Patients */}
-                                {!isDoctor && (
-                                    <>
-                                        {/* Divider or OR */}
-                                        <div className="flex items-center gap-2 sm:gap-3 my-3 sm:my-4">
-                                            <div className="flex-1 h-[1px] bg-black/[0.06]"></div>
-                                            <span className="text-[8px] sm:text-[9px] font-black text-[#9ca3af] tracking-widest uppercase">OR</span>
-                                            <div className="flex-1 h-[1px] bg-black/[0.06]"></div>
-                                        </div>
+                    <div className="mt-8 sm:mt-12 flex flex-col sm:flex-row items-center justify-between gap-4 sm:gap-6 pt-6 sm:pt-8 border-t border-slate-200 dark:border-white/10">
+                        <button
+                            onClick={() => setAuthMode(authMode === 'LOGIN' ? 'REGISTER' : 'LOGIN')}
+                            className="text-[11px] sm:text-[12px] font-[1000] text-slate-900 dark:text-white hover:text-blue-600 dark:hover:text-cyan-400 uppercase tracking-widest transition-colors flex items-center gap-2"
+                        >
+                            {authMode === 'LOGIN' ? 'CREATE PROFILE' : 'EXISTING USER'}
+                            <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 bg-current rounded-full"></div>
+                        </button>
 
-                                        <button
-                                            type="button"
-                                            onClick={onGoogleLogin}
-                                            disabled={isAuthenticating}
-                                            className={`w-full h-10 sm:h-11 border border-black/[0.08] rounded-xl sm:rounded-2xl flex items-center justify-center gap-2 sm:gap-3 bg-white hover:bg-slate-50 transition-all shadow-sm active:scale-[0.98]`}
-                                        >
-                                            <Icons.Google size={18} />
-                                            <span className="text-[9px] sm:text-[10px] md:text-[11px] font-black tracking-[0.1em] text-[#0f172a] uppercase">CONTINUE WITH GOOGLE</span>
-                                        </button>
-                                    </>
-                                )}
-                            </form>
-
-                            {/* Footer Links */}
-                            <div className="flex flex-col sm:flex-row justify-between items-center gap-2 pt-4 sm:pt-6 mt-4 sm:mt-6 border-t border-black/[0.06]">
-                                <button
-                                    onClick={() => setAuthMode(authMode === 'LOGIN' ? 'REGISTER' : 'LOGIN')}
-                                    className="text-[10px] sm:text-[11px] font-bold tracking-[0.1em] text-[#6b7280] uppercase hover:text-[#1a9b8e] transition-colors"
-                                >
-                                    {authMode === 'LOGIN' ? 'REGISTER' : 'LOGIN'}
-                                </button>
-                                <button
-                                    onClick={() => onSwitchRole(isDoctor ? UserRole.PATIENT : UserRole.DOCTOR)}
-                                    className="flex items-center gap-1 sm:gap-2 text-[10px] sm:text-[11px] font-bold tracking-[0.1em] text-[#6b7280] uppercase hover:text-[#1a9b8e] transition-colors"
-                                >
-                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <polyline points="12 6 12 12 16 14" />
-                                    </svg>
-                                    SWITCH HUB
-                                </button>
-                            </div>
-                        </div>
+                        <button
+                            onClick={() => onSwitchRole(isDoctor ? UserRole.PATIENT : UserRole.DOCTOR)}
+                            className={`w-full sm:w-auto px-5 sm:px-6 py-2 sm:py-2.5 rounded-full text-[10px] sm:text-[11px] font-black uppercase tracking-widest border-2 transition-all ${isDoctor
+                                ? 'bg-blue-500/5 border-blue-500/20 text-blue-500 hover:bg-blue-500 hover:text-white'
+                                : 'bg-emerald-500/5 border-emerald-500/20 text-emerald-500 hover:bg-emerald-500 hover:text-white'
+                                }`}
+                        >
+                            SWITCH HUB: {isDoctor ? 'PATIENT' : 'DOCTOR'}
+                        </button>
                     </div>
                 </div>
             </div>
+
         </div>
     );
 };

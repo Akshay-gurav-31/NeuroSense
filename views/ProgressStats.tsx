@@ -25,27 +25,27 @@ const ProgressStats: React.FC<ProgressStatsProps> = ({ history, darkMode }) => {
 
   return (
     <div className="space-y-12 animate-in fade-in duration-700 resolve-ui">
-      <header>
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-1.5 h-6 bg-[#48c1cf] rounded-full"></div>
-          <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#48c1cf]">Longitudinal Analytics</span>
+      <header className="px-2">
+        <div className="flex items-center gap-2 sm:gap-3 mb-4">
+          <div className="w-1 sm:w-1.5 h-6 bg-[#48c1cf] rounded-full"></div>
+          <span className="text-[9px] sm:text-[10px] font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] text-[#48c1cf]">Longitudinal Analytics</span>
         </div>
-        <h1 className="text-5xl font-black tracking-tight mb-2 text-[#1a365d] dark:text-white">Recovery Telemetry</h1>
-        <p className="text-slate-500 text-lg">Cross-modality performance data synchronized from active recovery nodes.</p>
+        <h1 className="text-3xl sm:text-5xl font-black tracking-tight mb-2 text-[#1a365d] dark:text-white">Recovery Telemetry</h1>
+        <p className="text-slate-500 text-base sm:text-lg leading-relaxed">Cross-modality performance data synchronized from active recovery nodes.</p>
       </header>
 
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
         {stats.map((s, i) => (
-          <div key={i} className="bg-white dark:bg-[#050505] p-8 rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-lg">
-            <p className="text-[10px] font-black uppercase tracking-widest text-slate-400 mb-2">{s.label}</p>
-            <p className="text-3xl font-black text-[#1a365d] dark:text-white">{s.value}</p>
+          <div key={i} className="bg-white dark:bg-[#050505] p-6 sm:p-8 rounded-2xl sm:rounded-[2rem] border border-slate-200 dark:border-white/5 shadow-lg">
+            <p className="text-[9px] sm:text-[10px] font-black uppercase tracking-widest text-slate-400 mb-1 sm:mb-2">{s.label}</p>
+            <p className="text-2xl sm:text-3xl font-black text-[#1a365d] dark:text-white">{s.value}</p>
           </div>
         ))}
       </div>
 
-      <section className="bg-white dark:bg-[#050505] p-8 lg:p-12 rounded-[3rem] border border-slate-200 dark:border-white/5 shadow-xl">
-        <h2 className="text-xs font-black uppercase tracking-[0.4em] mb-12 text-[#48c1cf]">Kinematic Quality Progression</h2>
-        <div className="h-[400px] w-full">
+      <section className="bg-white dark:bg-[#050505] p-6 sm:p-8 lg:p-12 rounded-[2rem] sm:rounded-[3rem] border border-slate-200 dark:border-white/5 shadow-xl">
+        <h2 className="text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] mb-8 sm:mb-12 text-[#48c1cf]">Kinematic Quality Progression</h2>
+        <div className="h-[300px] sm:h-[400px] w-full">
           {chartData.length > 0 ? (
             <ResponsiveContainer width="100%" height="100%">
               <AreaChart data={chartData}>

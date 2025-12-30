@@ -103,6 +103,14 @@ export const Google: React.FC<IconProps> = ({ size = 20, className = "" }) => (
   </svg>
 );
 
+export const Eye: React.FC<IconProps> = ({ size = 20, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" /><circle cx="12" cy="12" r="3" /></svg>
+);
+
+export const EyeOff: React.FC<IconProps> = ({ size = 20, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9.88 9.88 12 12s.12.12.12.12L15 15" /><path d="M2 12s3-7 10-7a9.45 9.45 0 0 1 5.3 1.62" /><path d="M21.88 17.58A13.41 13.41 0 0 1 12 19c-7 0-10-7-10-7a9.75 9.75 0 0 1 1.43-2.5" /><path d="m2 2 20 20" /></svg>
+);
+
 export const Icons = {
-  Logo, Home, Therapy, Stats, User, Activity, Mic, Logout, Sun, Moon, Mail, Lock, Verified, Body, Brain, Phone, Camera, Edit, Back, ShieldCheck, Google
+  Logo, Home, Therapy, Stats, User, Activity, Mic, Logout, Sun, Moon, Mail, Lock, Verified, Body, Brain, Phone, Camera, Edit, Back, ShieldCheck, Google, Eye, EyeOff
 };

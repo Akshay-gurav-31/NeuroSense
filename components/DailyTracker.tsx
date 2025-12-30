@@ -29,7 +29,7 @@ const DailyTracker: React.FC<DailyTrackerProps> = ({ history, tasks, darkMode })
     const allDone = todayCompletions.every(t => t.completed);
 
     return (
-        <div className={`p-8 rounded-[3rem] border shadow-xl transition-all duration-300 ${darkMode ? 'bg-[#080808] border-white/10' : 'bg-white border-slate-200'}`}>
+        <div className={`p-5 sm:p-8 rounded-[2rem] sm:rounded-[3rem] border shadow-xl transition-all duration-300 ${darkMode ? 'bg-[#080808] border-white/10' : 'bg-white border-slate-200'}`}>
             <div className="flex items-center justify-between mb-8">
                 <div>
                     <h3 className="text-xl font-black tracking-tight mb-1">Daily Protocol</h3>
@@ -53,12 +53,12 @@ const DailyTracker: React.FC<DailyTrackerProps> = ({ history, tasks, darkMode })
                             <span className={`text-[10px] font-black uppercase tracking-widest ${isCurrent ? 'text-[#BEF264]' : 'text-slate-400'}`}>
                                 {day.day}
                             </span>
-                            <div className={`w-10 h-10 rounded-2xl flex items-center justify-center transition-all duration-300 border ${status === 'full' ? 'bg-emerald-500 border-emerald-400 text-white' :
-                                    status === 'partial' ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-500' :
-                                        'bg-slate-50 dark:bg-white/5 border-slate-100 dark:border-white/5 text-slate-300'
+                            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-xl sm:rounded-2xl flex items-center justify-center transition-all duration-300 border ${status === 'full' ? 'bg-emerald-500 border-emerald-400 text-white' :
+                                status === 'partial' ? 'bg-emerald-500/20 border-emerald-500/30 text-emerald-500' :
+                                    'bg-slate-50 dark:bg-white/5 border-slate-100 dark:border-white/5 text-slate-300'
                                 } ${isCurrent ? 'ring-2 ring-[#BEF264] ring-offset-4 ring-offset-white dark:ring-offset-[#080808]' : ''}`}>
-                                {status === 'full' ? <Icons.Activity size={18} /> :
-                                    status === 'partial' ? <div className="w-2 h-2 rounded-full bg-emerald-500"></div> : null}
+                                {status === 'full' ? <Icons.Activity size={16} /> :
+                                    status === 'partial' ? <div className="w-1.5 h-1.5 rounded-full bg-emerald-500"></div> : null}
                             </div>
                         </div>
                     );
@@ -71,8 +71,8 @@ const DailyTracker: React.FC<DailyTrackerProps> = ({ history, tasks, darkMode })
                     <div
                         key={idx}
                         className={`flex items-center justify-between p-5 rounded-2xl border transition-all duration-300 ${task.completed
-                                ? 'bg-emerald-500/5 border-emerald-500/20 opacity-60'
-                                : (darkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-100')
+                            ? 'bg-emerald-500/5 border-emerald-500/20 opacity-60'
+                            : (darkMode ? 'bg-white/5 border-white/10' : 'bg-slate-50 border-slate-100')
                             }`}
                     >
                         <div className="flex items-center gap-4">

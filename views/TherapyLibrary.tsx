@@ -58,100 +58,122 @@ const TherapyLibrary: React.FC<TherapyLibraryProps> = ({ onStartTherapy, therapy
   const progressPercent = Math.round((completedToday / totalPossible) * 100);
 
   return (
-    <div className="space-y-16 animate-in fade-in duration-700 resolve-ui">
-      <header className="flex flex-col lg:flex-row lg:items-center justify-between gap-8 pb-10 border-b border-slate-100 dark:border-white/5">
-        <div className="flex-1">
-          <div className="flex items-center gap-3 mb-4">
-            <div className="w-1.5 h-6 bg-[#48c1cf] rounded-full"></div>
-            <span className="text-[10px] font-black uppercase tracking-[0.4em] text-[#48c1cf]">Daily Training</span>
-          </div>
-          <h1 className="text-6xl font-black tracking-tight mb-3 text-[#1a365d] dark:text-white">Training Library</h1>
-          <p className="text-slate-500 text-xl font-medium max-w-xl leading-relaxed">Personalized neurological exercises tailored to your recovery trajectory.</p>
+    <div className="min-h-screen bg-white dark:bg-[#000000] animate-in fade-in duration-1000">
+      {/* Immersive Panoramic Header */}
+      <header className="relative w-full overflow-hidden bg-slate-50 dark:bg-[#050505] border-b border-slate-200 dark:border-white/5">
+        {/* Animated Background Elements */}
+        <div className="absolute inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-blue-500/10 dark:bg-cyan-500/10 blur-[120px] rounded-full animate-pulse"></div>
+          <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-emerald-500/10 dark:bg-emerald-500/5 blur-[100px] rounded-full"></div>
         </div>
 
-        <div className="flex items-center gap-8 bg-white dark:bg-[#050505] p-8 rounded-[3.5rem] border-2 border-slate-100 dark:border-white/10 shadow-2xl relative overflow-hidden group">
-          {/* Subtle background glow */}
-          <div className="absolute top-0 right-0 w-32 h-32 bg-[#48c1cf]/5 blur-[50px] rounded-full -mr-16 -mt-16 group-hover:bg-[#48c1cf]/10 transition-colors duration-700"></div>
-
-          <div className="relative w-28 h-28 transform group-hover:scale-105 transition-transform duration-500">
-            <svg className="w-full h-full -rotate-90 filter drop-shadow-[0_0_8px_rgba(72,193,207,0.2)]">
-              <circle cx="56" cy="56" r="48" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-100 dark:text-white/5" />
-              <circle
-                cx="56" cy="56" r="48"
-                fill="none"
-                stroke="url(#progressGradient)"
-                strokeWidth="10"
-                strokeDasharray={301.6}
-                strokeDashoffset={301.6 - (301.6 * progressPercent) / 100}
-                strokeLinecap="round"
-                className="transition-all duration-1000 ease-out"
-              />
-              <defs>
-                <linearGradient id="progressGradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                  <stop offset="0%" stopColor="#48c1cf" />
-                  <stop offset="100%" stopColor="#10b981" />
-                </linearGradient>
-              </defs>
-            </svg>
-            <div className="absolute inset-0 flex flex-col items-center justify-center">
-              <span className="text-3xl font-black tracking-tighter text-[#1a365d] dark:text-white leading-none">{progressPercent}%</span>
-              <span className="text-[8px] font-black uppercase tracking-widest text-slate-400 mt-2">Daily</span>
+        <div className="relative z-10 p-6 sm:p-10 md:p-16 lg:p-24 flex flex-col lg:flex-row lg:items-center justify-between gap-8 sm:gap-12 max-w-[1800px] mx-auto">
+          <div className="flex-1 text-center lg:text-left">
+            <div className="flex items-center justify-center lg:justify-start gap-4 mb-4 sm:mb-6">
+              <div className="w-1.5 sm:w-2 h-6 sm:h-8 bg-[#48c1cf] rounded-full shadow-[0_0_15px_rgba(72,193,207,0.5)]"></div>
+              <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.4em] sm:tracking-[0.5em] text-[#48c1cf] dark:text-cyan-400">RECOVERY PROTOCOL</span>
             </div>
+            <h1 className="text-4xl sm:text-7xl md:text-8xl lg:text-9xl font-[1000] tracking-[-0.04em] mb-4 sm:mb-6 text-[#1a365d] dark:text-white leading-[0.9]">
+              RECOVERY <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#48c1cf] to-[#10b981]">HUB</span>
+            </h1>
+            <p className="text-slate-500 dark:text-slate-400 text-lg sm:text-2xl font-medium max-w-2xl leading-relaxed lg:mx-0 mx-auto">
+              Precision neurological restoration systems. <br className="hidden md:block" />
+              Tailored biological recovery trajectories for neural optimization.
+            </p>
           </div>
 
-          <div className="relative z-10 flex flex-col justify-center">
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-[#48c1cf] mb-2">Clinical Pulse</p>
-            <p className="text-3xl font-black text-[#1a365d] dark:text-white leading-none tracking-tighter">
-              {completedToday}<span className="text-lg opacity-20 mx-1">/</span>{totalPossible}
-            </p>
-            <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mt-2 px-3 py-1 bg-slate-100 dark:bg-white/5 rounded-full inline-block">Units Resolved</p>
+          <div className="flex items-center gap-6 sm:gap-10 bg-white/40 dark:bg-white/[0.02] backdrop-blur-3xl p-6 sm:p-10 rounded-[2rem] sm:rounded-[4rem] border border-white/20 dark:border-white/10 shadow-2xl relative overflow-hidden group mx-auto lg:mx-0 w-full sm:w-auto">
+            <div className="relative w-24 h-24 sm:w-32 sm:h-32 transform group-hover:rotate-6 transition-transform duration-700">
+              <svg className="w-full h-full -rotate-90 filter drop-shadow-[0_0_15px_rgba(72,193,207,0.3)]">
+                <circle cx="50%" cy="50%" r="44%" fill="none" stroke="currentColor" strokeWidth="10" className="text-slate-200 dark:text-white/5" />
+                <circle
+                  cx="50%" cy="50%" r="44%"
+                  fill="none"
+                  stroke="url(#progressGradientHub)"
+                  strokeWidth="10"
+                  strokeDasharray="276"
+                  strokeDashoffset={276 - (276 * progressPercent) / 100}
+                  strokeLinecap="round"
+                  className="transition-all duration-1500 ease-in-out"
+                />
+                <defs>
+                  <linearGradient id="progressGradientHub" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stopColor="#48c1cf" />
+                    <stop offset="100%" stopColor="#10b981" />
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div className="absolute inset-0 flex flex-col items-center justify-center">
+                <span className="text-2xl sm:text-4xl font-[1000] tracking-tighter text-[#1a365d] dark:text-white leading-none">{progressPercent}%</span>
+                <span className="text-[8px] sm:text-[10px] font-black uppercase tracking-widest text-[#48c1cf] mt-1 sm:mt-2">Cycle</span>
+              </div>
+            </div>
+
+            <div className="relative z-10 flex flex-col justify-center flex-1">
+              <p className="text-[9px] sm:text-xs font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] text-slate-400 mb-1 sm:mb-2">NEURAL LOAD</p>
+              <p className="text-3xl sm:text-5xl font-[1000] text-[#1a365d] dark:text-white leading-none tracking-tighter mb-2 sm:mb-4">
+                {completedToday}<span className="text-xl sm:text-2xl opacity-20 mx-1 sm:mx-2">/</span>{totalPossible}
+              </p>
+              <div className="inline-block self-start px-4 sm:px-5 py-1.5 sm:py-2 bg-[#48c1cf]/10 dark:bg-white/5 border border-[#48c1cf]/20 dark:border-white/10 rounded-full">
+                <p className="text-[8px] sm:text-[10px] font-black text-[#48c1cf] dark:text-cyan-400 uppercase tracking-widest italic leading-none">Units Operational</p>
+              </div>
+            </div>
           </div>
         </div>
       </header>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+      {/* Experimental Grid: Fluid & Dynamic */}
+      <div className="max-w-[1800px] mx-auto p-6 sm:p-10 md:p-16 lg:p-24 grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12">
         {categories.map((cat) => (
           <div
             key={cat.id}
-            className={`p-10 rounded-[3rem] border-2 transition-all ${darkMode ? 'bg-[#050505] border-white/20' : 'bg-white border-slate-300/60 shadow-md'}`}
+            className={`group p-6 sm:p-12 rounded-[2rem] sm:rounded-[4rem] border transition-all duration-500 ${darkMode
+              ? 'bg-[#080808] border-white/10 hover:border-cyan-500/30 shadow-[0_30px_60px_-15px_rgba(0,0,0,0.4)]'
+              : 'bg-white border-slate-200/60 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.08)] hover:shadow-[0_40px_80px_-25px_rgba(0,0,0,0.15)]'
+              }`}
           >
-            <div className="flex items-center gap-5 mb-10">
-              <div className="w-14 h-14 bg-[#48c1cf]/10 text-[#48c1cf] rounded-2xl flex items-center justify-center border border-[#48c1cf]/20">
+            <div className="flex items-center gap-4 sm:gap-6 mb-8 sm:mb-12">
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-gradient-to-br from-[#48c1cf] to-[#10b981] text-white rounded-2xl sm:rounded-3xl flex items-center justify-center shadow-lg shadow-cyan-500/20 group-hover:scale-110 transition-transform duration-500">
                 {cat.icon}
               </div>
-              <h2 className="text-2xl font-black tracking-tight">{cat.title}</h2>
+              <div>
+                <h2 className="text-2xl sm:text-3xl font-[1000] tracking-tight text-[#1a365d] dark:text-white">{cat.title}</h2>
+                <div className="flex items-center gap-2 mt-1">
+                  <div className="w-1 sm:w-1.5 h-1 sm:h-1.5 bg-cyan-500 rounded-full animate-pulse"></div>
+                  <span className="text-[8px] sm:text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Module {cat.id} Active</span>
+                </div>
+              </div>
             </div>
 
-            <div className="space-y-5">
+            <div className="space-y-4 sm:space-y-6">
               {cat.exercises.map((ex, i) => {
                 const isDone = therapyHistory.some(s => isToday(s.timestamp) && s.type === cat.id);
                 return (
                   <button
                     key={i}
                     onClick={() => !isDone && onStartTherapy(cat.id, ex.name)}
-                    className={`w-full text-left p-6 rounded-[2rem] border-2 transition-all group flex items-center justify-between ${isDone
-                      ? 'bg-emerald-500/10 border-emerald-500/50 cursor-pointer hover:bg-emerald-500/20'
+                    className={`w-full text-left p-6 sm:p-8 rounded-[1.5rem] sm:rounded-[2.5rem] border transition-all duration-300 group/btn flex items-center justify-between gap-4 ${isDone
+                      ? 'bg-emerald-500/5 border-emerald-500/30 cursor-pointer hover:bg-emerald-500/10'
                       : 'hover:border-[#48c1cf] hover:bg-[#48c1cf]/5'
-                      } ${!isDone && (darkMode ? 'border-white/15 bg-[#0a0a0a]' : 'border-slate-200 bg-slate-50')}`}
+                      } ${!isDone && (darkMode ? 'border-white/5 bg-white/[0.01]' : 'border-slate-100 bg-slate-50/50')}`}
                   >
-                    <div className="max-w-[75%]">
-                      <p className="font-black text-base mb-1 text-[#1a365d] dark:text-white leading-tight">
+                    <div className="flex-1">
+                      <p className={`font-black text-base sm:text-lg mb-1 sm:mb-2 transition-colors duration-300 ${isDone ? 'text-emerald-500' : 'text-[#1a365d] dark:text-white'}`}>
                         {ex.name}
                       </p>
-                      <p className="text-xs text-slate-500 font-medium">{ex.desc}</p>
+                      <p className="text-[11px] sm:text-sm text-slate-500 dark:text-slate-400 font-medium leading-relaxed">{ex.desc}</p>
                     </div>
 
                     <div className="flex-shrink-0">
                       {isDone ? (
-                        <div className="flex items-center gap-2 bg-emerald-600 px-4 py-2 rounded-xl shadow-lg shadow-emerald-500/20 animate-in zoom-in duration-300 border border-emerald-400/30">
-                          <div className="w-5 h-5 bg-white/10 rounded-md flex items-center justify-center border border-white/20">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
-                          </div>
-                          <span className="text-white font-[1000] text-[10px] uppercase tracking-widest">DONE</span>
+                        <div className="flex items-center gap-2 sm:gap-3 bg-emerald-600 px-4 sm:px-6 py-2 sm:py-3 rounded-xl sm:rounded-2xl shadow-xl shadow-emerald-500/20 border border-emerald-400/30 transform scale-100 sm:scale-110">
+                          <svg className="w-3 h-3 sm:w-4 sm:h-4" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="M20 6 9 17l-5-5" /></svg>
+                          <span className="text-white font-black text-[9px] sm:text-xs uppercase tracking-widest">VERIFIED</span>
                         </div>
                       ) : (
-                        <div className="text-[#48c1cf] opacity-0 group-hover:opacity-100 transition-opacity translate-x-2 group-hover:translate-x-0 duration-300">
-                          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
+                        <div className="w-10 h-10 sm:w-12 sm:h-12 rounded-xl sm:rounded-2xl bg-slate-100 dark:bg-white/5 text-[#48c1cf] flex items-center justify-center opacity-100 lg:opacity-0 group-hover/btn:opacity-100 translate-x-0 lg:translate-x-4 lg:group-hover/btn:translate-x-0 transition-all duration-300">
+                          <svg className="w-5 h-5 sm:w-6 sm:h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4" strokeLinecap="round" strokeLinejoin="round"><path d="m9 18 6-6-6-6" /></svg>
                         </div>
                       )}
                     </div>

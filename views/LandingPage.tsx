@@ -38,8 +38,8 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
             {/* Content */}
             <div className="relative z-10 max-w-7xl mx-auto px-6 py-32 lg:py-40 w-full">
                 <div className="max-w-4xl">
-                    {/* Main Heading */}
-                    <h1 className="text-5xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-bold leading-[1.02] tracking-tight mb-8 font-display">
+                    {/* Main Hero Branding: Scaling typography for all devicess */}
+                    <h1 className="text-4xl sm:text-6xl lg:text-7xl xl:text-[5.5rem] font-bold leading-[1.02] tracking-tight mb-8 font-display">
                         <span className="block animate-fade-up text-slate-900 dark:text-white drop-shadow-sm">Recover</span>
                         <span className="block animate-fade-up-delay-1 text-slate-900 dark:text-white drop-shadow-sm">Your Voice,</span>
                         <span className="block animate-fade-up-delay-2">
@@ -60,13 +60,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                         <Button
                             variant="hero"
                             size="hero"
-                            className="group flex items-center gap-4 min-w-[320px] rounded-full bg-white dark:bg-[#0B1221] border border-slate-200 dark:border-white/10 hover:border-blue-500/50 hover:bg-slate-50 dark:hover:bg-[#0f172a] transition-all duration-300 p-2 pr-8 shadow-lg shadow-blue-900/5"
+                            className="group flex items-center gap-4 w-full sm:min-w-[320px] sm:w-auto rounded-full bg-white dark:bg-[#0B1221] border border-slate-200 dark:border-white/10 hover:border-blue-500/50 hover:bg-slate-50 dark:hover:bg-[#0f172a] transition-all duration-300 p-2 pr-8 shadow-lg shadow-blue-900/5"
                             onClick={() => onSelectRole(UserRole.PATIENT)}
                         >
                             <div className="w-16 h-16 rounded-full bg-[#3B82F6] flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
                                 <User className="w-8 h-8 text-white stroke-[2.5px]" />
                             </div>
-                            <div className="flex flex-col items-start flex-1 gap-0.5">
+                            <div className="flex flex-col items-start flex-1 gap-0.5 py-1.5 px-3 rounded-2xl border-4 border-black/15 bg-slate-50/80 dark:bg-transparent dark:border-transparent">
                                 <span className="text-lg font-bold text-slate-900 dark:text-white tracking-wider">PATIENT</span>
                                 <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Start Recovery Journey</span>
                             </div>
@@ -76,13 +76,13 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                         <Button
                             variant="hero"
                             size="hero"
-                            className="group flex items-center gap-4 min-w-[320px] rounded-full bg-white dark:bg-[#0B1221] border border-slate-200 dark:border-white/10 hover:border-emerald-500/50 hover:bg-slate-50 dark:hover:bg-[#0f172a] transition-all duration-300 p-2 pr-8 shadow-lg shadow-emerald-900/5"
+                            className="group flex items-center gap-4 w-full sm:min-w-[320px] sm:w-auto rounded-full bg-white dark:bg-[#0B1221] border border-slate-200 dark:border-white/10 hover:border-emerald-500/50 hover:bg-slate-50 dark:hover:bg-[#0f172a] transition-all duration-300 p-2 pr-8 shadow-lg shadow-emerald-900/5"
                             onClick={() => onSelectRole(UserRole.DOCTOR)}
                         >
                             <div className="w-16 h-16 rounded-full bg-[#10B981] flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
                                 <Activity className="w-8 h-8 text-white stroke-[2.5px]" />
                             </div>
-                            <div className="flex flex-col items-start flex-1 gap-0.5">
+                            <div className="flex flex-col items-start flex-1 gap-0.5 py-1.5 px-3 rounded-2xl border-4 border-black/15 bg-slate-50/80 dark:bg-transparent dark:border-transparent">
                                 <span className="text-lg font-bold text-slate-900 dark:text-white tracking-wider">DOCTOR</span>
                                 <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Clinical Dashboard</span>
                             </div>
