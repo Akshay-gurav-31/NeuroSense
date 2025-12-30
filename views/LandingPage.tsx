@@ -66,7 +66,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                             <div className="w-16 h-16 rounded-full bg-[#3B82F6] flex items-center justify-center shadow-lg shadow-blue-500/20 shrink-0">
                                 <User className="w-8 h-8 text-white stroke-[2.5px]" />
                             </div>
-                            <div className="flex flex-col items-start flex-1 gap-0.5 py-1.5 px-3 rounded-2xl border-4 border-black/15 bg-slate-50/80 dark:bg-transparent dark:border-transparent">
+                            <div className="flex flex-col items-start flex-1 gap-0.5 py-1.5 px-3 rounded-2xl border border-slate-200 dark:border-transparent bg-slate-50/30 dark:bg-transparent">
                                 <span className="text-lg font-bold text-slate-900 dark:text-white tracking-wider">PATIENT</span>
                                 <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Start Recovery Journey</span>
                             </div>
@@ -82,7 +82,7 @@ const LandingPage: React.FC<LandingPageProps> = ({ darkMode, setDarkMode, onSele
                             <div className="w-16 h-16 rounded-full bg-[#10B981] flex items-center justify-center shadow-lg shadow-emerald-500/20 shrink-0">
                                 <Activity className="w-8 h-8 text-white stroke-[2.5px]" />
                             </div>
-                            <div className="flex flex-col items-start flex-1 gap-0.5 py-1.5 px-3 rounded-2xl border-4 border-black/15 bg-slate-50/80 dark:bg-transparent dark:border-transparent">
+                            <div className="flex flex-col items-start flex-1 gap-0.5 py-1.5 px-3 rounded-2xl border border-slate-200 dark:border-transparent bg-slate-50/30 dark:bg-transparent">
                                 <span className="text-lg font-bold text-slate-900 dark:text-white tracking-wider">DOCTOR</span>
                                 <span className="text-[11px] font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest">Clinical Dashboard</span>
                             </div>

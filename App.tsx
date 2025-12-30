@@ -57,7 +57,7 @@ const App: React.FC = () => {
   const [allConnections, setAllConnections] = useState<Connection[]>([]);
   const [history, setHistory] = useState<SessionResult[]>([]);
 
-  // Background Data Sync: Maintains real-time state consistency
+  // Synchronize telemetry with the database
   const fetchData = async () => {
     if (!user) return;
     try {
@@ -85,7 +85,7 @@ const App: React.FC = () => {
       localStorage.setItem('ns_user', JSON.stringify(user));
       localStorage.setItem('ns_role', user.role);
       fetchData();
-      const interval = setInterval(fetchData, 5000); // Poll server every 5 seconds for telemetry updates
+      const interval = setInterval(fetchData, 5000); // Polling interval for real-time updates
       return () => clearInterval(interval);
     }
   }, [user]);
@@ -146,7 +146,7 @@ const App: React.FC = () => {
       if (authMode === 'LOGIN') {
         const result = await dataService.login(email, password);
 
-        // Logic-driven authentication handling
+        // Authentication logic
         if (!result) {
           setAuthError("Database connection error. Please try again.");
         } else if ('error' in result) {
@@ -296,7 +296,7 @@ const App: React.FC = () => {
     );
   }
 
-  // Main Application Router: Conditional view rendering based on state
+  // Application routing: Conditional rendering based on active state
   if (activeGameMode === 'Speak & Score') return <SpeechTherapy onComplete={handleCompleteExercise} onAbort={() => { setActiveExercise(null); setActiveGameMode(null); }} darkMode={darkMode} mode="speak-score" />;
   if (activeExercise === TherapyType.BODY) return <BodyTherapy onComplete={handleCompleteExercise} darkMode={darkMode} />;
   if (activeExercise === TherapyType.SPEECH) return <SpeechTherapy onComplete={handleCompleteExercise} onAbort={() => { setActiveExercise(null); setActiveGameMode(null); }} darkMode={darkMode} mode="articulation" />;
@@ -401,8 +401,8 @@ const App: React.FC = () => {
       {role && (
         <Navigation role={role!} currentView={currentView} setView={setView} onLogout={handleLogout} darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} />
       )}
-      <main className={`${currentView === 'therapy' ? 'w-full' : 'max-w-[100vw] md:max-w-[1500px] mx-auto'} min-h-screen pb-12`}>
-        <div className={currentView === 'therapy' ? 'w-full' : 'p-4 sm:p-6 md:p-8 lg:p-10 xl:p-14'}>
+      <main className={`${currentView === 'therapy' ? 'w-full' : 'max-w-full lg:max-w-[1500px] mx-auto'} min-h-screen pb-12`}>
+        <div className={currentView === 'therapy' ? 'w-full' : 'p-3 sm:p-5 md:p-8 lg:p-10'}>
           {renderView()}
         </div>
       </main>

@@ -15,15 +15,15 @@ const HandAccuracyCard: React.FC<HandAccuracyCardProps> = ({ history }) => {
   const currentScore = bodyHistory.length > 0 ? bodyHistory[bodyHistory.length - 1].y : 0;
 
   return (
-    <div className="dashboard-card">
+    <div className="dashboard-card card-amber">
       <div className="dashboard-card-header">
-        <Hand className="w-4 h-4 text-chart-cyan" />
+        <Hand className="w-4 h-4" />
         <span>Hand Accuracy</span>
       </div>
 
       <div className="space-y-4">
         <div className="flex items-center justify-between px-2">
-          <span className="text-[10px] font-black uppercase tracking-widest text-[#48c1cf]">Latest Bio-Metric</span>
+          <span className="text-[10px] font-black uppercase tracking-widest text-[#f59e0b]">Latest Bio-Metric</span>
           <span className="text-lg font-black">{currentScore}%</span>
         </div>
 
@@ -34,9 +34,9 @@ const HandAccuracyCard: React.FC<HandAccuracyCardProps> = ({ history }) => {
               <Line
                 type="monotone"
                 dataKey="y"
-                stroke="hsl(199 89% 48%)"
+                stroke="#f59e0b"
                 strokeWidth={2}
-                dot={{ fill: 'hsl(199 89% 48%)', r: 3 }}
+                dot={{ fill: '#f59e0b', r: 3 }}
                 isAnimationActive={true}
               />
             </LineChart>

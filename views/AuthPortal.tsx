@@ -31,9 +31,9 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
 
     return (
         <div className={`min-h-screen relative overflow-hidden flex flex-col items-center justify-center p-6 ${darkMode ? 'dark bg-[#000000]' : 'bg-slate-50'}`}>
-            {/* Immersive Panoramic Background Strategy */}
+            {/* Background pattern and effects */}
             <div className="fixed inset-0 pointer-events-none">
-                {/* Dynamic Gradient Orbs */}
+                {/* Decorative orbs */}
                 <div className={`absolute top-[-10%] left-[-10%] w-[50%] h-[50%] blur-[150px] rounded-full transition-all duration-1000 animate-pulse ${isDoctor ? 'bg-emerald-500/10' : 'bg-blue-600/10'}`}></div>
                 <div className={`absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] blur-[120px] rounded-full transition-all duration-1000 ${isDoctor ? 'bg-amber-500/10' : 'bg-cyan-500/10'}`}></div>
 
@@ -54,8 +54,8 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
             {/* Main Portal Container: Responsive stacking for mobile/desktop */}
             <div className={`relative z-10 w-full max-w-[1200px] flex flex-col lg:flex-row items-center gap-10 md:gap-16 lg:gap-24 animate-in fade-in slide-in-from-bottom-8 duration-1000 ease-out`}>
 
-                {/* Left Side: Brand & Identity (Immersive Block) */}
-                <div className="flex-1 text-center lg:text-left px-4 sm:px-0 mb-10 lg:mb-0">
+                {/* Brand Identity / Welcome Text */}
+                <div className="flex-1 text-center lg:text-left px-2 sm:px-0 mb-8 lg:mb-0">
                     <div className="inline-flex items-center gap-3 sm:gap-4 mb-6 sm:mb-8 px-4 py-2 rounded-full bg-slate-100/50 dark:bg-white/5 border-2 border-blue-900/20 dark:border-2 dark:border-white/10 backdrop-blur-sm">
                         <div className={`w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full shadow-lg ${isDoctor ? 'bg-emerald-500 shadow-emerald-500/30' : 'bg-blue-600 shadow-blue-500/30'}`}></div>
                         <span className="text-[10px] sm:text-xs font-black uppercase tracking-[0.3em] sm:tracking-[0.4em] text-slate-500 dark:text-slate-400">{isDoctor ? 'DOCTOR PORTAL' : 'PATIENT PORTAL'}</span>
@@ -70,14 +70,14 @@ const AuthPortal: React.FC<AuthPortalProps> = ({
 
                     <p className="hidden sm:block text-lg font-medium text-slate-500 dark:text-slate-400 max-w-xl leading-relaxed lg:mx-0 mx-auto">
                         Precision healthcare powered by <span className="font-black text-slate-900 dark:text-white tracking-tighter">NeuroSense AI</span>.
-                        {isDoctor ? ' Access clinical telemetry and patient analytics.' : ' Start your personalized neurological recovery journey.'}
+                        {isDoctor ? ' Access clinical telemetry and patient dashboard.' : ' Start your personalized neurological recovery journey.'}
                     </p>
                 </div>
 
-                {/* Authentication Card: Glassmorphic form with theme-specific aesthetics */}
-                <div className={`w-full max-w-[480px] p-6 sm:p-10 lg:p-12 rounded-[2rem] sm:rounded-[3.5rem] lg:rounded-[4rem] backdrop-blur-[60px] shadow-2xl transition-all duration-700 ${darkMode
-                    ? 'bg-white/5 border-2 border-white/10 shadow-[0_40px_80px_-15px_rgba(0,0,0,0.6)]'
-                    : 'bg-slate-50 border-2 border-slate-950/20 shadow-[0_40px_80px_-20px_rgba(30,58,138,0.12)]'
+                {/* Authentication form container */}
+                <div className={`w-full max-w-[480px] p-6 s:p-8 sm:p-10 lg:p-12 rounded-[2.5rem] sm:rounded-[4rem] backdrop-blur-[60px] transition-all duration-700 ${darkMode
+                    ? 'bg-white/5 border-2 border-white/10 shadow-2xl'
+                    : 'bg-white border-2 border-slate-200 shadow-xl'
                     }`}>
 
                     <div className="mb-6 sm:mb-8 flex flex-col items-center text-center">

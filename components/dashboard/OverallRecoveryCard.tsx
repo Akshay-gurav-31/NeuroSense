@@ -20,9 +20,9 @@ const OverallRecoveryCard: React.FC<OverallRecoveryCardProps> = ({ history }) =>
   const status = getStatus(score);
 
   return (
-    <div className="dashboard-card">
+    <div className="dashboard-card card-cyan">
       <div className="dashboard-card-header">
-        <Activity className="w-4 h-4 text-chart-cyan" />
+        <Activity className="w-4 h-4" />
         <span>Overall Recovery</span>
       </div>
 

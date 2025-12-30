@@ -15,9 +15,9 @@ const WeeklyProgressCard: React.FC<WeeklyProgressCardProps> = ({ history }) => {
     }));
 
   return (
-    <div className="dashboard-card col-span-2">
+    <div className="dashboard-card col-span-2 card-blue">
       <div className="dashboard-card-header">
-        <TrendingUp className="w-4 h-4 text-chart-cyan" />
+        <TrendingUp className="w-4 h-4" />
         <span>Weekly Progress</span>
       </div>
 
@@ -26,8 +26,8 @@ const WeeklyProgressCard: React.FC<WeeklyProgressCardProps> = ({ history }) => {
           <AreaChart data={chartData} margin={{ top: 5, right: 5, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="progressGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(199 89% 48%)" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="hsl(199 89% 48%)" stopOpacity={0} />
+                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
+                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis
@@ -40,7 +40,7 @@ const WeeklyProgressCard: React.FC<WeeklyProgressCardProps> = ({ history }) => {
             <Area
               type="monotone"
               dataKey="value"
-              stroke="hsl(199 89% 48%)"
+              stroke="#3b82f6"
               strokeWidth={2}
               fill="url(#progressGradient)"
             />

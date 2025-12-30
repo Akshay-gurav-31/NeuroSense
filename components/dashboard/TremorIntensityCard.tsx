@@ -15,9 +15,9 @@ const TremorIntensityCard: React.FC<TremorIntensityCardProps> = ({ history }) =>
   const currentIntensity = tremorHistory.length > 0 ? tremorHistory[tremorHistory.length - 1].y : 0;
 
   return (
-    <div className="dashboard-card">
+    <div className="dashboard-card card-emerald">
       <div className="dashboard-card-header">
-        <Activity className="w-4 h-4 text-chart-orange" />
+        <Activity className="w-4 h-4" />
         <span>Tremor Intensity</span>
       </div>
 
@@ -26,15 +26,15 @@ const TremorIntensityCard: React.FC<TremorIntensityCardProps> = ({ history }) =>
           <AreaChart data={tremorHistory.length > 0 ? tremorHistory : [{ x: 0, y: 0 }]} margin={{ top: 5, right: 5, left: 5, bottom: 0 }}>
             <defs>
               <linearGradient id="tremorGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(38 92% 50%)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="hsl(38 92% 50%)" stopOpacity={0} />
+                <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#10b981" stopOpacity={0} />
               </linearGradient>
             </defs>
             <YAxis hide domain={[0, 100]} />
             <Area
               type="monotone"
               dataKey="y"
-              stroke="hsl(38 92% 50%)"
+              stroke="#10b981"
               strokeWidth={2}
               fill="url(#tremorGradient)"
             />

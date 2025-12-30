@@ -20,9 +20,9 @@ const RiskStatusCard: React.FC<RiskStatusCardProps> = ({ history }) => {
   const status = getRiskStatus();
 
   return (
-    <div className="dashboard-card">
+    <div className="dashboard-card card-purple">
       <div className="dashboard-card-header">
-        <Shield className="w-4 h-4 text-chart-cyan" />
+        <Shield className="w-4 h-4" />
         <span>Risk Status</span>
       </div>
 

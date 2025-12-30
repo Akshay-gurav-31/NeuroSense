@@ -15,9 +15,9 @@ const SpeechClarityCard: React.FC<SpeechClarityCardProps> = ({ history }) => {
   const currentClarity = speechHistory.length > 0 ? speechHistory[speechHistory.length - 1].y : 0;
 
   return (
-    <div className="dashboard-card">
+    <div className="dashboard-card card-indigo">
       <div className="dashboard-card-header">
-        <Mic className="w-4 h-4 text-chart-purple" />
+        <Mic className="w-4 h-4" />
         <span>Speech Clarity</span>
       </div>
 
@@ -26,15 +26,15 @@ const SpeechClarityCard: React.FC<SpeechClarityCardProps> = ({ history }) => {
           <AreaChart data={speechHistory.length > 0 ? speechHistory : [{ x: 0, y: 0 }]} margin={{ top: 5, right: 5, left: 5, bottom: 0 }}>
             <defs>
               <linearGradient id="speechGradient" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="hsl(271 81% 56%)" stopOpacity={0.4} />
-                <stop offset="95%" stopColor="hsl(271 81% 56%)" stopOpacity={0} />
+                <stop offset="5%" stopColor="#6366f1" stopOpacity={0.4} />
+                <stop offset="95%" stopColor="#6366f1" stopOpacity={0} />
               </linearGradient>
             </defs>
             <YAxis hide domain={[0, 100]} />
             <Area
               type="monotone"
               dataKey="y"
-              stroke="hsl(271 81% 56%)"
+              stroke="#6366f1"
               strokeWidth={2}
               fill="url(#speechGradient)"
             />

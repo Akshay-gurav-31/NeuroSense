@@ -23,14 +23,14 @@ const RecoveryPredictionCard: React.FC<RecoveryPredictionCardProps> = ({ history
   const isPositiveTrend = latestHistory.length > 1 && latestHistory[latestHistory.length - 1].value >= latestHistory[0].value;
 
   return (
-    <div className="dashboard-card h-full flex flex-col">
+    <div className="dashboard-card h-full flex flex-col card-jade">
       <div className="flex items-center justify-between mb-3 shrink-0">
         <div className="dashboard-card-header mb-0">
-          <TrendingUp className="w-4 h-4 text-chart-cyan" />
+          <TrendingUp className="w-4 h-4" />
           <span>Recovery Prediction</span>
         </div>
         {history.length > 1 && (
-          <div className={`flex items-center gap-1 text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded border ${isPositiveTrend ? 'bg-emerald-500/10 text-emerald-500 border-emerald-500/20' : 'bg-status-warning/10 text-status-warning border-status-warning/20'}`}>
+          <div className={`flex items-center gap-1 text-[8px] font-black uppercase tracking-widest px-2 py-1 rounded border ${isPositiveTrend ? 'bg-jade-500/10 text-[#00d97e] border-[#00d97e]/20' : 'bg-status-warning/10 text-status-warning border-status-warning/20'}`}>
             {isPositiveTrend ? <CheckCircle className="w-2.5 h-2.5" /> : <AlertTriangle className="w-2.5 h-2.5" />}
             <span>{isPositiveTrend ? 'Optimal Path' : 'Slow Growth'}</span>
           </div>
@@ -42,8 +42,8 @@ const RecoveryPredictionCard: React.FC<RecoveryPredictionCardProps> = ({ history
           <LineChart data={chartData} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
             <defs>
               <linearGradient id="recoveryGradient" x1="0" y1="0" x2="1" y2="0">
-                <stop offset="0%" stopColor="#06b6d4" />
-                <stop offset="100%" stopColor="#3b82f6" />
+                <stop offset="0%" stopColor="#00d97e" />
+                <stop offset="100%" stopColor="#10b981" />
               </linearGradient>
             </defs>
             <XAxis
@@ -61,9 +61,9 @@ const RecoveryPredictionCard: React.FC<RecoveryPredictionCardProps> = ({ history
               dot={(props) => {
                 const { cx, cy, payload } = props;
                 if (payload.isPredicted) {
-                  return <circle cx={cx} cy={cy} r={5} fill="#06b6d4" stroke="white" strokeWidth={2} className="animate-pulse" />;
+                  return <circle cx={cx} cy={cy} r={5} fill="#00d97e" stroke="white" strokeWidth={2} className="animate-pulse" />;
                 }
-                return <circle cx={cx} cy={cy} r={3} fill="#0f172a" stroke="#06b6d4" strokeWidth={2} />;
+                return <circle cx={cx} cy={cy} r={3} fill="#0f172a" stroke="#00d97e" strokeWidth={2} />;
               }}
               animationDuration={2000}
             />

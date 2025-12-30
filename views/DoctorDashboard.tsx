@@ -10,17 +10,11 @@ import {
 
 import OverallRecoveryCard from '../components/dashboard/OverallRecoveryCard';
 import WeeklyProgressCard from '../components/dashboard/WeeklyProgressCard';
-import ExerciseCompletionCard from '../components/dashboard/ExerciseCompletionCard';
 import RiskStatusCard from '../components/dashboard/RiskStatusCard';
 import HandAccuracyCard from '../components/dashboard/HandAccuracyCard';
 import TremorIntensityCard from '../components/dashboard/TremorIntensityCard';
 import SpeechClarityCard from '../components/dashboard/SpeechClarityCard';
-import MemoryScoreCard from '../components/dashboard/MemoryScoreCard';
-import BalanceStabilityCard from '../components/dashboard/BalanceStabilityCard';
-import MoodTrendCard from '../components/dashboard/MoodTrendCard';
-import SessionComplianceCard from '../components/dashboard/SessionComplianceCard';
 import RecoveryPredictionCard from '../components/dashboard/RecoveryPredictionCard';
-import AIRecommendationsCard from '../components/dashboard/AIRecommendationsCard';
 import ChatSystem from '../components/ChatSystem';
 
 
@@ -58,38 +52,38 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
   return (
     <div className="fixed inset-0 z-[200] flex flex-col transition-colors duration-300 bg-[#f4f7f9] text-[#1a365d] dark:bg-black dark:text-white">
 
-      {/* Clinical Hub Header: Navigation and Telemetry Persistence */}
-      <div className="flex-none z-50 p-6 pb-0">
-        <header className="flex items-center justify-between bio-gradient-header py-4 px-8 rounded-full shadow-2xl text-white relative overflow-hidden">
+      {/* Medical Telemetry Header */}
+      <div className="flex-none z-50">
+        <header className="flex items-center justify-between bio-gradient-header py-5 px-10 border-b border-slate-200 dark:border-white/10 shadow-sm relative overflow-hidden">
           {/* Left: Return Button */}
           <div className="flex items-center gap-6 relative z-10">
-            <button onClick={onBack} className="flex items-center gap-2 px-6 py-2 rounded-full bg-black/40 hover:bg-black/60 transition-all text-[10px] font-bold uppercase tracking-widest border border-white/20 shadow-lg group text-white">
-              <Logout size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform text-white" />
+            <button onClick={onBack} className="flex items-center gap-2 px-6 py-2 rounded-full bg-slate-100 hover:bg-slate-200 dark:bg-black/40 dark:hover:bg-black/60 transition-all text-[10px] font-bold uppercase tracking-widest border border-slate-200 dark:border-white/20 shadow-lg group text-slate-900 dark:text-white">
+              <Logout size={14} className="rotate-180 group-hover:-translate-x-0.5 transition-transform" />
               <span>Return</span>
             </button>
-            <div className="h-8 w-[1px] bg-white/10 mx-2"></div>
+            <div className="h-8 w-[1px] bg-slate-900/10 dark:bg-white/10 mx-2"></div>
             <div>
-              <h2 className="text-3xl font-black tracking-tighter uppercase leading-none text-white drop-shadow-md">{patient.name}</h2>
-              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.3em] mt-1 text-blue-200 opacity-80">PATIENT BIO-TELEMETRY PORTAL v4.0</p>
+              <h2 className="text-3xl font-black tracking-tighter uppercase leading-none text-slate-900 dark:text-white">{patient.name}</h2>
+              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.3em] mt-1 text-emerald-600 dark:text-blue-200 opacity-80">Real-time Recovery Monitoring</p>
             </div>
           </div>
 
           {/* Right: Status & Session Pool */}
           <div className="hidden md:flex items-center gap-12 relative z-10">
             <div className="flex flex-col items-center">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-blue-300 mb-1">Status</span>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-blue-300 mb-1">Status</span>
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(52,211,153,0.8)]"></div>
-                <span className="text-xs font-bold font-mono tracking-wider uppercase text-white text-shadow-sm">Connected</span>
+                <span className="text-xs font-bold font-mono tracking-wider uppercase text-slate-900 dark:text-white">Connected</span>
               </div>
             </div>
             <div className="flex flex-col items-end">
-              <span className="text-[9px] font-bold uppercase tracking-widest text-blue-300 mb-1">Session Pool</span>
-              <span className="text-2xl font-black tabular-nums tracking-tighter text-white drop-shadow-md">{history.length} <span className="text-sm font-bold text-blue-300">Units</span></span>
+              <span className="text-[9px] font-bold uppercase tracking-widest text-slate-500 dark:text-blue-300 mb-1">Session Pool</span>
+              <span className="text-2xl font-black tabular-nums tracking-tighter text-slate-900 dark:text-white">{history.length} <span className="text-sm font-bold text-emerald-600 dark:text-blue-300">Units</span></span>
             </div>
           </div>
 
-          {/* Subtle overlay gradient for depth */}
+          {/* Header depth effect */}
           <div className="absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>
         </header>
       </div>
@@ -98,39 +92,23 @@ const PatientMonitor: React.FC<{ patient: UserAccount, history: SessionResult[],
       <div className="flex-grow overflow-y-auto p-4 lg:p-6 pt-6">
         <div className="max-w-[1800px] mx-auto space-y-8 h-full">
 
-          {/* Clinical Telemetry Grid: Comparative Recovery Analytics */}
+          {/* Patient metrics grid */}
           <div className="flex flex-col gap-8 pb-20">
-            <div className="flex-grow grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 grid-flow-dense auto-rows-auto">
-              {/* Primary Analytics Cluster */}
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 auto-rows-fr">
+              {/* Core analytics cards */}
+              <RiskStatusCard history={patientHistory} />
               <OverallRecoveryCard history={patientHistory} />
+              <TremorIntensityCard history={patientHistory} />
+
               <div className="md:col-span-2">
                 <WeeklyProgressCard history={patientHistory} />
               </div>
-              <ExerciseCompletionCard history={patientHistory} />
-              <RiskStatusCard history={patientHistory} />
-
-              {/* Peripheral Recovery Vectors */}
               <HandAccuracyCard history={patientHistory} />
-              <TremorIntensityCard history={patientHistory} />
               <SpeechClarityCard history={patientHistory} />
-              <MemoryScoreCard history={patientHistory} />
 
-              <div className="row-span-3">
+              <div className="lg:col-span-2">
                 <RecoveryPredictionCard history={patientHistory} />
               </div>
-
-              {/* Clinical Stability & Predictive Models */}
-              <div className="row-span-2">
-                <BalanceStabilityCard history={patientHistory} />
-              </div>
-
-              <AIRecommendationsCard history={patientHistory} />
-
-              <div className="md:col-span-2 row-span-2">
-                <SessionComplianceCard history={patientHistory} />
-              </div>
-
-              <MoodTrendCard history={patientHistory} />
             </div>
           </div>
         </div>
@@ -160,8 +138,8 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
   }
 
   const renderRequestsView = () => (
-    <div className="space-y-8 animate-in fade-in duration-300">
-      <h2 className="text-xs font-black uppercase tracking-[0.4em] mb-8 text-emerald-600 dark:text-[#48c1cf]">Inbound Telemetry Requests</h2>
+    <div className="space-y-6 animate-in fade-in duration-300">
+      <h2 className="text-xs font-black uppercase tracking-[0.4em] mb-8 text-emerald-600 dark:text-[#48c1cf]">Pending Link Requests</h2>
       {pendingRequests.length === 0 ? (
         <div className="py-20 text-center rounded-[3rem] bg-slate-50 border border-slate-200 dark:bg-white/5 dark:border-white/10">
           <p className="text-slate-400 dark:text-white font-bold uppercase tracking-widest text-xs">No pending handshakes found.</p>
@@ -263,13 +241,13 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
   );
 
   return (
-    <div className="fixed top-0 bottom-0 right-0 left-0 z-[100] flex flex-col transition-colors duration-300 overflow-hidden bg-white text-slate-900 dark:bg-[#0B1121] dark:text-slate-100 dark:bg-[radial-gradient(circle_at_center,_#151e32_0%,_#0B1121_100%)]">
-      {/* Ambient Atmospheric Visuals */}
+    <div className="fixed inset-0 z-[100] flex flex-col transition-colors duration-300 overflow-hidden bg-white text-slate-900 dark:bg-[#0B1121] dark:text-slate-100 dark:bg-[radial-gradient(circle_at_center,_#151e32_0%,_#0B1121_100%)]">
+      {/* Background visual accents */}
       <div className="hidden dark:block ambient-blue-glow top-[-20%] left-[20%] opacity-60"></div>
       <div className="hidden dark:block ambient-blue-glow bottom-[-20%] right-[10%] opacity-40"></div>
 
-      <div className="flex-none z-10 p-6 pb-0">
-        <header className="flex items-center justify-between py-3 px-8 pr-20 rounded-full shadow-2xl relative overflow-hidden transition-all duration-300 pill-header">
+      <div className="flex-none z-10">
+        <header className="flex items-center justify-between py-5 px-10 pr-24 border-b border-slate-200 dark:border-white/10 shadow-sm relative overflow-hidden transition-all duration-300 pill-header">
           {/* Left: Branding */}
           <div className="flex items-center gap-6 relative z-10">
             <div className="w-10 h-10 rounded-full flex items-center justify-center border shadow-lg bg-emerald-50 border-emerald-100 dark:bg-emerald-500/10 dark:border-emerald-400/20">
@@ -277,7 +255,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
             </div>
             <div>
               <h1 className="text-3xl tracking-tighter uppercase leading-none drop-shadow-md font-[900] text-slate-800 dark:font-[800] dark:text-white">Clinical Command</h1>
-              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.3em] mt-1 opacity-80 text-slate-500 dark:text-emerald-200">CENTRAL TELEMETRY UNIT v4.0</p>
+              <p className="font-mono text-[9px] font-bold uppercase tracking-[0.3em] mt-1 opacity-80 text-slate-500 dark:text-emerald-200">Physician's Insight & Analytics</p>
             </div>
           </div>
 
@@ -296,7 +274,7 @@ const DoctorDashboard: React.FC<DoctorProps> = ({ activeTab, history, connection
             </div>
           </div>
 
-          {/* Subtle overlay gradient - Only in Dark Mode */}
+          {/* Visual gradient overlay */}
           <div className="hidden dark:block absolute inset-0 bg-gradient-to-b from-white/5 to-transparent pointer-events-none"></div>
         </header>
       </div>
