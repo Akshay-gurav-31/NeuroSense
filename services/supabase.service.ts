@@ -410,14 +410,22 @@ export const dataService = {
             .order('timestamp', { ascending: true });
 
         if (error) throw error;
-        return (data || []).map(m => ({
-            id: m.id,
-            senderId: m.sender_id,
-            receiverId: m.receiver_id,
-            content: m.content,
-            timestamp: m.timestamp,
-            isRead: m.is_read
-        }));
+        return (data || [])
+            .filter(m => {
+                // Soft Delete Filtering: Only show if NOT deleted for the viewer (userId1)
+                if (m.sender_id === userId1 && m.deleted_for_sender) return false;
+                if (m.receiver_id === userId1 && m.deleted_for_receiver) return false;
+                return true;
+            })
+            .map(m => ({
+                id: m.id,
+                senderId: m.sender_id,
+                receiverId: m.receiver_id,
+                content: m.content,
+                timestamp: m.timestamp,
+                isRead: m.is_read,
+                isEdited: m.is_edited
+            }));
     },
 
     async markAsRead(messageId: string): Promise<void> {
@@ -464,18 +472,26 @@ export const dataService = {
         };
     },
 
-    async deleteMessage(messageId: string): Promise<void> {
-        const { error } = await supabase
+    async deleteMessage(messageId: string, userId: string): Promise<void> {
+        // Soft deletion logic: Update the appropriate flag based on user role
+        // We attempt both; only the matching row will update.
+        const { error: sErr } = await supabase
             .from('messages')
-            .delete()
-            .eq('id', messageId);
-        if (error) throw error;
+            .update({ deleted_for_sender: true })
+            .match({ id: messageId, sender_id: userId });
+
+        const { error: rErr } = await supabase
+            .from('messages')
+            .update({ deleted_for_receiver: true })
+            .match({ id: messageId, receiver_id: userId });
+
+        if (sErr || rErr) throw (sErr || rErr);
     },
 
     async editMessage(messageId: string, newContent: string): Promise<ChatMessage> {
         const { data, error } = await supabase
             .from('messages')
-            .update({ content: newContent })
+            .update({ content: newContent, is_edited: true })
             .eq('id', messageId)
             .select()
             .single();
@@ -491,7 +507,41 @@ export const dataService = {
             receiverId: data.receiver_id,
             content: data.content,
             timestamp: data.timestamp,
-            isRead: data.is_read
+            isRead: data.is_read,
+            isEdited: data.is_edited
         };
+    },
+
+    async logCall(callData: {
+        caller_id: string;
+        receiver_id: string;
+        status: string;
+        type?: string;
+        started_at?: string;
+        ended_at?: string;
+    }) {
+        const { error } = await supabase
+            .from('calls')
+            .insert({
+                ...callData,
+                type: callData.type || 'VIDEO',
+                started_at: callData.started_at || new Date().toISOString()
+            });
+
+        if (error) console.error('Error logging call:', error);
+
+        // Insert system message for call history in chat
+        let msg = '';
+        if (callData.status === 'MISSED') msg = '🎥 Missed Video Call';
+        else if (callData.status === 'REJECTED') msg = '🎥 Call Declined';
+        else if (callData.status === 'COMPLETED') msg = '🎥 Video Call';
+
+        if (msg) {
+            await this.sendMessage(
+                callData.caller_id,
+                callData.receiver_id,
+                msg
+            );
+        }
     }
 };

@@ -39,6 +39,14 @@ export const Mic: React.FC<IconProps> = ({ size = 22, className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" /><path d="M19 10v2a7 7 0 0 1-14 0v-2" /><line x1="12" x2="12" y1="19" y2="22" /></svg>
 );
 
+export const MicOff: React.FC<IconProps> = ({ size = 22, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><line x1="1" x2="23" y1="1" y2="23" /><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" /><path d="M17 16.95A7 7 0 0 1 5 12v-2" /><line x1="12" x2="12" y1="19" y2="22" /></svg>
+);
+
+export const Check: React.FC<IconProps> = ({ size = 20, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><polyline points="20 6 9 17 4 12" /></svg>
+);
+
 export const Logout: React.FC<IconProps> = ({ size = 22, className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" x2="9" y1="12" y2="12" /></svg>
 );
@@ -111,6 +119,14 @@ export const EyeOff: React.FC<IconProps> = ({ size = 20, className = "" }) => (
   <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M9.88 9.88 12 12s.12.12.12.12L15 15" /><path d="M2 12s3-7 10-7a9.45 9.45 0 0 1 5.3 1.62" /><path d="M21.88 17.58A13.41 13.41 0 0 1 12 19c-7 0-10-7-10-7a9.75 9.75 0 0 1 1.43-2.5" /><path d="m2 2 20 20" /></svg>
 );
 
+export const Video: React.FC<IconProps> = ({ size = 20, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="m22 8-6 4 6 4V8Z" /><rect width="14" height="12" x="2" y="6" rx="2" ry="2" /></svg>
+);
+
+export const VideoOff: React.FC<IconProps> = ({ size = 20, className = "" }) => (
+  <svg xmlns="http://www.w3.org/2000/svg" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}><path d="M10.66 5H14a2 2 0 0 1 2 2v2.34l1 1L22 7v10" /><path d="M16 16a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h2l10 10Z" /><line x1="2" x2="22" y1="2" y2="22" /></svg>
+);
+
 export const Icons = {
-  Logo, Home, Therapy, Stats, User, Activity, Mic, Logout, Sun, Moon, Mail, Lock, Verified, Body, Brain, Phone, Camera, Edit, Back, ShieldCheck, Google, Eye, EyeOff
+  Logo, Home, Therapy, Stats, User, Activity, Mic, MicOff, Check, Logout, Sun, Moon, Mail, Lock, Verified, Body, Brain, Phone, Camera, Edit, Back, ShieldCheck, Google, Eye, EyeOff, Video, VideoOff
 };

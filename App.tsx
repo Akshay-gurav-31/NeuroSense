@@ -21,6 +21,7 @@ import DoctorChatView from './views/DoctorChatView';
 
 import { dataService } from './services/supabase.service';
 import { supabase } from './lib/supabase';
+import { CallProvider } from './components/CallContext';
 
 const App: React.FC = () => {
   const [role, setRole] = useState<UserRole | null>(() => {
@@ -396,16 +397,20 @@ const App: React.FC = () => {
     }
   };
 
+  // ... 
+
   return (
     <div className={`min-h-screen bg-white dark:bg-[#000000] transition-all duration-300 ${role === UserRole.DOCTOR ? 'theme-doctor' : 'theme-patient'}`}>
-      {role && (
-        <Navigation role={role!} currentView={currentView} setView={setView} onLogout={handleLogout} darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} />
-      )}
-      <main className={`${currentView === 'therapy' ? 'w-full' : 'max-w-full lg:max-w-[1500px] mx-auto'} min-h-screen pb-12`}>
-        <div className={currentView === 'therapy' ? 'w-full' : 'p-3 sm:p-5 md:p-8 lg:p-10'}>
-          {renderView()}
-        </div>
-      </main>
+      <CallProvider currentUser={user}>
+        {role && (
+          <Navigation role={role!} currentView={currentView} setView={setView} onLogout={handleLogout} darkMode={darkMode} toggleTheme={() => setDarkMode(!darkMode)} />
+        )}
+        <main className={`${currentView === 'therapy' ? 'w-full' : 'max-w-full lg:max-w-[1500px] mx-auto'} min-h-screen pb-12`}>
+          <div className={currentView === 'therapy' ? 'w-full' : 'p-3 sm:p-5 md:p-8 lg:p-10'}>
+            {renderView()}
+          </div>
+        </main>
+      </CallProvider>
     </div>
   );
 };

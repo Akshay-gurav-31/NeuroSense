@@ -135,4 +135,17 @@ export interface ChatMessage {
   content: string;
   timestamp: string;
   isRead: boolean;
+  isEdited?: boolean;
+}
+
+export type CallStatus = 'MISSED' | 'COMPLETED' | 'REJECTED' | 'BUSY';
+
+export interface Call {
+  id: string;
+  callerId: string;
+  receiverId: string;
+  startedAt: string;
+  endedAt?: string;
+  status: CallStatus;
+  type: 'VIDEO' | 'AUDIO';
 }

@@ -186,14 +186,17 @@ END $$;
 
 -- 7.3 MIGRATION: Create messages table with update tracking
 CREATE TABLE IF NOT EXISTS messages (
-    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    sender_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    receiver_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    content TEXT NOT NULL,
-    timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    is_read BOOLEAN DEFAULT FALSE,
-    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
-    updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  sender_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  receiver_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+  content TEXT NOT NULL,
+  is_read BOOLEAN DEFAULT FALSE,
+  is_edited BOOLEAN DEFAULT FALSE,
+  deleted_for_sender BOOLEAN DEFAULT FALSE,
+  deleted_for_receiver BOOLEAN DEFAULT FALSE,
+  timestamp TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
+  created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
 );
 
 -- Trigger Function for auto-updating updated_at
@@ -268,3 +271,20 @@ SELECT id, TRUE
 FROM users
 WHERE role = 'DOCTOR'
 ON CONFLICT (user_id) DO UPDATE SET is_verified = TRUE;
+
+-- 8. CALLS (Video/Audio Call Logs)
+CREATE TABLE IF NOT EXISTS calls (
+    id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+    caller_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    receiver_id TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+    started_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    ended_at TIMESTAMPTZ,
+    status TEXT NOT NULL CHECK (status IN ('MISSED', 'COMPLETED', 'REJECTED', 'BUSY')),
+    type TEXT DEFAULT 'VIDEO' CHECK (type IN ('VIDEO', 'AUDIO')),
+    created_at TIMESTAMPTZ DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Index for call history
+CREATE INDEX IF NOT EXISTS idx_calls_caller ON calls (caller_id);
+CREATE INDEX IF NOT EXISTS idx_calls_receiver ON calls (receiver_id);
+CREATE INDEX IF NOT EXISTS idx_calls_timestamp ON calls (started_at DESC);

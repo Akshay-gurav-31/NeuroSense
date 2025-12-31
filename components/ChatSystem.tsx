@@ -1,8 +1,9 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { ChatMessage, UserAccount, UserRole } from '../types';
 import { dataService } from '../services/supabase.service';
+import { supabase } from '../lib/supabase';
 import { Icons } from './Icons';
+import { useCall } from './CallContext';
 
 interface ChatSystemProps {
     currentUser: UserAccount;
@@ -12,10 +13,13 @@ interface ChatSystemProps {
 }
 
 const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose, darkMode }) => {
+    const { startCall, callState } = useCall();
     const [messages, setMessages] = useState<ChatMessage[]>([]);
     const [newMessage, setNewMessage] = useState('');
     const [loading, setLoading] = useState(true);
     const [editingId, setEditingId] = useState<string | null>(null);
+    const [isOnline, setIsOnline] = useState(false);
+
     const scrollRef = useRef<HTMLDivElement>(null);
     const blockPollRef = useRef<boolean>(false);
     const blockTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -32,16 +36,13 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
             }
 
             // State Reconciliation: Sync local "sticky" edits with server confirmation.
-            // This prevents UI flickering during high-latency polling intervals.
             const syncedData = data.map(m => {
                 const stickyContent = stickyEditsRef.current[m.id];
                 if (stickyContent) {
                     if (m.content === stickyContent) {
-                        // Server has caught up!
                         delete stickyEditsRef.current[m.id];
                         return m;
                     } else {
-                        // Server is still stale, keep local edit visible
                         return { ...m, content: stickyContent };
                     }
                 }
@@ -60,8 +61,42 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
     useEffect(() => {
         fetchMessages();
-        const interval = setInterval(fetchMessages, 3000); // Standard polling for secure data retrieval
-        return () => clearInterval(interval);
+        const interval = setInterval(fetchMessages, 3000);
+
+        // --- Real-time Presence Implementation ---
+        const channel = supabase.channel('presence-chat', {
+            config: {
+                presence: {
+                    key: currentUser.id,
+                },
+            }
+        });
+
+        channel
+            .on('presence', { event: 'sync' }, () => {
+                const state = channel.presenceState();
+                const online = Object.keys(state).includes(otherUser.id);
+                setIsOnline(online);
+            })
+            .on('presence', { event: 'join' }, ({ key }) => {
+                if (key === otherUser.id) setIsOnline(true);
+            })
+            .on('presence', { event: 'leave' }, ({ key }) => {
+                if (key === otherUser.id) setIsOnline(false);
+            })
+            .subscribe(async (status) => {
+                if (status === 'SUBSCRIBED') {
+                    await channel.track({
+                        online_at: new Date().toISOString(),
+                        user_id: currentUser.id
+                    });
+                }
+            });
+
+        return () => {
+            clearInterval(interval);
+            channel.unsubscribe();
+        };
     }, [currentUser.id, otherUser.id]);
 
     useEffect(() => {
@@ -79,32 +114,25 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
         try {
             if (editingId) {
-                // Suspend polling to maintain input focus and prevent race conditions
                 blockPollRef.current = true;
                 if (blockTimeoutRef.current) clearTimeout(blockTimeoutRef.current);
                 blockTimeoutRef.current = setTimeout(() => { blockPollRef.current = false; }, 5000);
 
-                // Optimistic Update
                 const oldMessages = [...messages];
                 setMessages(prev => prev.map(m => m.id === editingId ? { ...m, content } : m));
                 setEditingId(null);
 
                 try {
-                    // Start sticky immediately
                     stickyEditsRef.current[editingId] = content;
-
                     const updatedMsg = await dataService.editMessage(editingId, content);
-
-                    // Update state with confirmed message
                     setMessages(prev => prev.map(m => m.id === editingId ? updatedMsg : m));
 
-                    // If server confirmation matches exactly, clear sticky
                     if (updatedMsg.content === content) {
                         delete stickyEditsRef.current[editingId];
                     }
                 } catch (err: any) {
-                    delete stickyEditsRef.current[editingId]; // Remove sticky on failure
-                    setMessages(oldMessages); // Rollback
+                    delete stickyEditsRef.current[editingId];
+                    setMessages(oldMessages);
                     console.error('Edit failed:', err);
                     alert('Failed to save edit. Please try again or check your connection.');
                 }
@@ -119,12 +147,11 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
 
     const handleDelete = async (messageId: string) => {
         try {
-            // Suspend polling to ensure UI reflects deletion immediately
             blockPollRef.current = true;
             if (blockTimeoutRef.current) clearTimeout(blockTimeoutRef.current);
             blockTimeoutRef.current = setTimeout(() => { blockPollRef.current = false; }, 5000);
 
-            await dataService.deleteMessage(messageId);
+            await dataService.deleteMessage(messageId, currentUser.id);
             setMessages(prev => prev.filter(m => m.id !== messageId));
         } catch (err) {
             console.error('Failed to delete message:', err);
@@ -144,12 +171,42 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
     const isDoctor = currentUser.role === UserRole.DOCTOR;
     const accentColor = isDoctor ? '#10b981' : '#48c1cf';
 
+    const renderMessageContent = (msg: ChatMessage) => {
+        if (msg.content.startsWith('🎥')) {
+            const isMissed = msg.content.includes('Missed') || msg.content.includes('Declined') || msg.content.includes('Busy');
+            const displayText = msg.content.replace('🎥', '').trim();
+
+            return (
+                <div className="flex items-center gap-3 py-1 px-1">
+                    <div className={`p-2.5 rounded-full flex items-center justify-center ${isMissed ? 'bg-rose-500/10 text-rose-500' : 'bg-emerald-500/10 text-emerald-500'
+                        }`}>
+                        {isMissed ? <Icons.VideoOff size={18} /> : <Icons.Video size={18} />}
+                    </div>
+                    <div className="flex flex-col">
+                        <span className={`font-bold text-sm ${isMissed ? 'text-rose-500' : 'text-slate-700 dark:text-slate-200'}`}>
+                            {displayText}
+                        </span>
+                        {!isMissed && (
+                            <span className="text-[10px] font-medium text-slate-500 dark:text-slate-400 uppercase tracking-wider">
+                                Click to call back
+                            </span>
+                        )}
+                    </div>
+                </div>
+            );
+        }
+        return (
+            <span>
+                {msg.content}
+                {msg.isEdited && <span className="text-[9px] opacity-60 ml-1 font-normal italic">(edited)</span>}
+            </span>
+        );
+    };
+
     return (
-        <div className={`flex flex-col h-full rounded-[2.5rem] border-2 shadow-2xl overflow-hidden transition-all duration-300 ${darkMode ? 'bg-[#050505] border-white/10' : 'bg-white border-slate-100'
-            }`}>
+        <div className={`flex flex-col h-full rounded-[2.5rem] border-2 shadow-2xl overflow-hidden transition-all duration-300 ${darkMode ? 'bg-[#050505] border-white/10' : 'bg-white border-slate-100'}`}>
             {/* Chat Header */}
-            <div className={`p-6 border-b flex items-center justify-between ${darkMode ? 'border-white/5 bg-white/5' : 'border-slate-50 bg-slate-50'
-                }`}>
+            <div className={`p-6 border-b flex items-center justify-between ${darkMode ? 'border-white/5 bg-white/5' : 'border-slate-50 bg-slate-50'}`}>
                 <div className="flex items-center gap-4">
                     <div className="w-12 h-12 rounded-2xl flex items-center justify-center text-white font-black text-xl shadow-lg relative overflow-hidden"
                         style={{ backgroundColor: isDoctor ? '#48c1cf' : '#10b981' }}>
@@ -158,7 +215,9 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         ) : (
                             otherUser.name.charAt(0)
                         )}
-                        <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-[#050505] rounded-full"></div>
+                        {isOnline && (
+                            <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-500 border-2 border-white dark:border-[#050505] rounded-full"></div>
+                        )}
                     </div>
                     <div>
                         <h3 className="font-black text-lg tracking-tight leading-none text-[#1a365d] dark:text-white">{otherUser.name}</h3>
@@ -166,6 +225,16 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                             {otherUser.role === UserRole.DOCTOR ? 'Verified Physician' : 'Clinical Patient'}
                         </p>
                     </div>
+                    {/* Video Call Button - Uses Global Context */}
+                    {callState === 'IDLE' && (
+                        <button
+                            onClick={() => startCall(otherUser)}
+                            className="p-3 rounded-xl transition-all active:scale-95 hover:bg-emerald-500/10 text-emerald-500 ml-2"
+                            title="Start Video Call"
+                        >
+                            <Icons.Video size={20} />
+                        </button>
+                    )}
                 </div>
                 <div className="flex items-center gap-2">
                     <button
@@ -173,11 +242,11 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         className={`p-3 rounded-xl transition-all active:scale-95 ${loading ? 'animate-spin text-[#48c1cf]' : 'text-slate-400 hover:bg-black/5 dark:hover:bg-white/5'}`}
                         title="Sync Messages"
                     >
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M23 4v6h-6M1 20v-6h6M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" /></svg>
+                        <Icons.Stats size={18} />
                     </button>
                     {onClose && (
                         <button onClick={onClose} className="p-3 hover:bg-black/5 dark:hover:bg-white/5 rounded-xl transition-colors text-slate-400">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M18 6 6 18M6 6l12 12" /></svg>
+                            <Icons.Back size={20} />
                         </button>
                     )}
                 </div>
@@ -203,8 +272,9 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         const isMe = m.senderId === currentUser.id;
                         const timeDiff = new Date().getTime() - new Date(m.timestamp).getTime();
                         const canModify = isMe && timeDiff < 5 * 60 * 1000;
+                        const isCallLog = m.content.startsWith('🎥');
 
-                        // Chronological UI: Group messages by session dates
+                        // Chronological Dates
                         const mDate = new Date(m.timestamp);
                         const prevM = idx > 0 ? messages[idx - 1] : null;
                         const showDateSeparator = !prevM ||
@@ -223,7 +293,7 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         return (
                             <React.Fragment key={m.id}>
                                 {showDateSeparator && (
-                                    <div className="flex justify-center my-6 sticky top-0 z-10">
+                                    <div className="flex justify-center my-6 relative z-0"> {/* Removed sticky */}
                                         <span className={`px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] shadow-sm border ${darkMode
                                             ? 'bg-white/5 border-white/10 text-slate-400'
                                             : 'bg-slate-100 border-slate-200 text-slate-500 shadow-inner'
@@ -237,9 +307,11 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                                         <div className={`p-4 rounded-3xl text-sm font-medium shadow-md relative ${isMe
                                             ? `bg-[${accentColor}] text-white rounded-br-none shadow-[${accentColor}]/20`
                                             : `${darkMode ? 'bg-white/10 text-white' : 'bg-slate-100 text-[#1a365d]'} rounded-bl-none`
-                                            }`}
-                                            style={isMe ? { backgroundColor: accentColor } : {}}>
-                                            {m.content}
+                                            } ${isCallLog ? 'w-full max-w-xs' : ''}`}
+                                            style={isMe && !isCallLog ? { backgroundColor: accentColor } : {}}>
+
+                                            {renderMessageContent(m)}
+
                                             <div className="flex items-center justify-end gap-1 mt-1">
                                                 <span className={`text-[8px] font-bold uppercase tracking-tighter opacity-50 ${isMe ? 'text-white' : 'text-slate-400'}`}>
                                                     {new Date(m.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
@@ -247,26 +319,22 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                                                 {isMe && (
                                                     <div className="flex items-center">
                                                         {m.isRead ? (
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#2563eb" strokeWidth="3" className="drop-shadow-sm">
-                                                                <path d="M2 12l5 5L22 4M7 12l5 5L22 7" strokeLinecap="round" strokeLinejoin="round" />
-                                                            </svg>
+                                                            <Icons.Verified size={12} className="text-white" />
                                                         ) : (
-                                                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" className="opacity-50">
-                                                                <path d="M20 6L9 17l-5-5" strokeLinecap="round" strokeLinejoin="round" />
-                                                            </svg>
+                                                            <Icons.Check size={12} className="opacity-50" /> // Assuming Check icon exists or fallback
                                                         )}
                                                     </div>
                                                 )}
                                             </div>
                                         </div>
 
-                                        {canModify && !editingId && (
+                                        {canModify && !editingId && !isCallLog && (
                                             <div className="flex flex-col gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                                                 <button onClick={() => startEdit(m)} className="p-1.5 rounded-lg bg-white/10 hover:bg-white/20 text-slate-400 dark:text-white transition-colors" title="Edit">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7" /><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z" /></svg>
+                                                    <Icons.Edit size={12} />
                                                 </button>
                                                 <button onClick={() => handleDelete(m.id)} className="p-1.5 rounded-lg bg-rose-500/10 hover:bg-rose-500/20 text-rose-500 transition-colors" title="Delete">
-                                                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3"><path d="M3 6h18m-2 0v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" /></svg>
+                                                    <Icons.VideoOff size={12} /> {/* Reusing icon or Delete if available */}
                                                 </button>
                                             </div>
                                         )}
@@ -303,9 +371,9 @@ const ChatSystem: React.FC<ChatSystemProps> = ({ currentUser, otherUser, onClose
                         style={{ backgroundColor: accentColor }}
                     >
                         {editingId ? (
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="4"><path d="M20 6L9 17l-5-5" /></svg>
+                            <Icons.Edit size={20} />
                         ) : (
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" className="rotate-45 -translate-x-0.5 translate-y-0.5"><path d="m22 2-7 20-4-9-9-4 20-7z" /><path d="M22 2 11 13" /></svg>
+                            <Icons.Activity size={24} className="rotate-45" />
                         )}
                     </button>
                 </form>
