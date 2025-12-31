@@ -288,3 +288,13 @@ CREATE TABLE IF NOT EXISTS calls (
 CREATE INDEX IF NOT EXISTS idx_calls_caller ON calls (caller_id);
 CREATE INDEX IF NOT EXISTS idx_calls_receiver ON calls (receiver_id);
 CREATE INDEX IF NOT EXISTS idx_calls_timestamp ON calls (started_at DESC);
+
+-- 9. MIGRATION: Update messages table for Soft Delete & Editing
+DO $$
+BEGIN
+    ALTER TABLE messages ADD COLUMN IF NOT EXISTS is_edited BOOLEAN DEFAULT FALSE;
+    ALTER TABLE messages ADD COLUMN IF NOT EXISTS deleted_for_sender BOOLEAN DEFAULT FALSE;
+    ALTER TABLE messages ADD COLUMN IF NOT EXISTS deleted_for_receiver BOOLEAN DEFAULT FALSE;
+EXCEPTION
+    WHEN duplicate_column THEN RAISE NOTICE 'Column already exists in messages.';
+END $$;

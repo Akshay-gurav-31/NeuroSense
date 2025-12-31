@@ -83,6 +83,7 @@ export const CallProvider: React.FC<{ children: React.ReactNode; currentUser: Us
             .on('broadcast', { event: 'answer' }, async ({ payload }) => {
                 if (peerConnectionRef.current) {
                     await webrtcService.setRemoteDescription(peerConnectionRef.current, payload.answer);
+                    setCallState('ACTIVE'); // Ensure caller transitions to ACTIVE
                 }
             })
             .on('broadcast', { event: 'ice-candidate' }, async ({ payload }) => {
